@@ -1,0 +1,11 @@
+{
+  "name": "rubikscube",
+  "version": "1.0.0",
+  "description": "an interactive rubiks cube visualization to help students understand the basics of algorithmic design, react vr and promises",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Nicholas Rogers",
+  "license": "MIT"
+}
