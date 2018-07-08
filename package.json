@@ -1,0 +1,25 @@
+{
+  "name": "rubikscube",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rogersanick/rubikscubesolver.git"
+  },
+  "author": "Nick Rogers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rogersanick/rubikscubesolver/issues"
+  },
+  "homepage": "https://github.com/rogersanick/rubikscubesolver#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "webpack": "^4.15.1"
+  }
+}
