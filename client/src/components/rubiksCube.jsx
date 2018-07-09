@@ -1,6 +1,6 @@
 import React from 'react';
 import * as THREE from 'three';
-import stateMapping from '../cube-side-mapping'
+import stateToCubesMapping from '../cube-side-mapping'
 
 class RubiksCube extends React.PureComponent {
 
@@ -9,9 +9,9 @@ class RubiksCube extends React.PureComponent {
     
     // BUILD AN ARRAY OF CUBE POSITIONS IN 3D SPACE
     let cubePositions = [];
-    for (let x = 1; x >= -1; x--) {
+    for (let z = 1; z >= -1; z--) {
       for (let y = -1; y <= 1; y ++) {
-        for (let z = 1; z >= -1; z --) {
+        for (let x = 1; x >= -1; x --) {
           cubePositions.push([x, y, z]);
         }
       }
@@ -35,7 +35,6 @@ class RubiksCube extends React.PureComponent {
       camZ: 0,
       camW: 0,
       // COLOR SHORT NAME AND HEX CODES FOR EACH COLOR ON A RUBIKS CUBE
-      colors: ['R', 'G', 'Y', 'W', 'B', 'O'],
       colorCodes: {
         R: '0xFF0000',
         G: '0x008000',
@@ -81,7 +80,6 @@ class RubiksCube extends React.PureComponent {
 
     // DEFINE CONSTRUCTOR MATERIAL FOR INDIVIDUAL CUBES
     const renderer = new THREE.WebGLRenderer({ antialias: true })
-    const geometry = new THREE.BoxGeometry(0.98, 0.98, 0.98)
     const material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors, overdraw: 0.5 })
 
     const groupCubes = new THREE.Group();
@@ -120,15 +118,27 @@ class RubiksCube extends React.PureComponent {
 
     const cubes = {};
 
+    const cubeGeometries = {};
+
     // CONSTRUCT ALL CUBES, STORE REFERENCES IN MEMORY
     for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
-      
-      for ( let i = 0; i < geometry.faces.length; i += 2) {
-        var hex = this.state.colorCodes[this.state.colors[]];
-        geometry.faces[i].color.setHex( hex );
-        geometry.faces[ i + 1 ].color.setHex( hex );
+      let aCubeMap = stateToCubesMapping[cubeNum];
+      cubeGeometries[cubeNum] = new THREE.BoxGeometry(0.95, 0.95, 0.95);
+      for ( let i = 0, c = 0; i < cubeGeometries[cubeNum].faces.length; i += 2, c++ ) {
+        let hex;
+        if (!!aCubeMap[c]) {
+          let colorCode = this.state.rubiksArray[aCubeMap[c][0]][aCubeMap[c][1]];
+          hex = this.state.colorCodes[colorCode];
+          console.log(cubeNum,' ',c,' ',colorCode,' ',hex);
+        } else {
+          hex = '0x000000';
+        }
+
+        cubeGeometries[cubeNum].faces[i].color.setHex( hex );
+        cubeGeometries[cubeNum].faces[ i + 1 ].color.setHex( hex );
       }
-      cubes[cubeNum] = new THREE.Mesh(geometry, material);
+
+      cubes[cubeNum] = new THREE.Mesh(cubeGeometries[cubeNum], material);
 
       if (cubeNum < 9) {
         this.allSubVerticals.groupVertical1.add(cubes[cubeNum]);
@@ -163,6 +173,7 @@ class RubiksCube extends React.PureComponent {
     this.renderer = renderer;
     this.material = material;
     this.cubes = cubes;
+    this.count = 0;
 
     this.mount.appendChild(this.renderer.domElement)
     this.start()
@@ -193,14 +204,31 @@ class RubiksCube extends React.PureComponent {
   }
 
   animate() {
-    // ROTATE EACH INDIVIDUAL CUBE
-    // for (let cubeNum in this.cubes) {
-    //   this.cubes[cubeNum].rotation.y += 0.005;
+    // // SHAKE CUBES
+    // if (this.count < 50) {
+    //   for (let cubeNum in this.cubes) {
+    //     this.cubes[cubeNum].rotation.y += 0.005;
+    //   }
+    //   this.renderScene()
+    //   this.frameId = window.requestAnimationFrame(this.animate);
+    //   this.count += 1
+    // } else if (this.count >= 50 && this.count < 150) {
+    //   for (let cubeNum in this.cubes) {
+    //     this.cubes[cubeNum].rotation.y -= 0.005;
+    //   }
+    //   this.renderScene()
+    //   this.frameId = window.requestAnimationFrame(this.animate);
+    //   this.count += 1
+    // } else {
+    //   this.count = 0;
+    //   this.frameId = window.requestAnimationFrame(this.animate);
     // }
-    // this.groupCubes.rotation.y += 0.01;
-    this.groupCubes.rotation.y += 0.01;
+
     this.renderScene()
-    this.frameId = window.requestAnimationFrame(this.animate)
+    // this.groupCubes.rotation.y -= 0.02;
+    this.groupCubes.rotation.x -= 0.01;
+    // this.groupCubes.rotation.y -= 0.01;
+    this.frameId = window.requestAnimationFrame(this.animate);
   }
 
   renderScene() {
