@@ -237,10 +237,10 @@ class RubiksCube extends React.PureComponent {
 
   render() {
     return (
-      this.state.rerender ? <div></div> : <div
+      this.state.rerender ? <div></div> :
+        <div
         style={{width: this.state.width*0.8, height: this.state.height}}
-        ref={(mount) => { this.mount = mount }}
-      />
+        ref={(mount) => { this.mount = mount }}/>
     )
   }
 
