@@ -117,7 +117,6 @@ class RubiksCube extends React.PureComponent {
     this.allSubVerticals = allSubVerticals;
 
     const cubes = {};
-
     const cubeGeometries = {};
 
     // CONSTRUCT ALL CUBES, STORE REFERENCES IN MEMORY
@@ -173,6 +172,7 @@ class RubiksCube extends React.PureComponent {
     this.renderer = renderer;
     this.material = material;
     this.cubes = cubes;
+    this.cubeGeometries = cubeGeometries;
     this.count = 0;
 
     this.mount.appendChild(this.renderer.domElement)
@@ -204,14 +204,47 @@ class RubiksCube extends React.PureComponent {
   }
 
   animate() {
-    // // SHAKE CUBES
+    this.cubeGeometries[0].faces[1].color.setHex('0xffffff');
+    this.cubeGeometries[0].faces[2].color.setHex('0xffffff');
+    this.cubeGeometries[0].faces[3].color.setHex('0xffffff');
+    this.cubeGeometries[0].faces[4].color.setHex('0xffffff');
+    this.cubeGeometries[0].faces[5].color.setHex('0xffffff');
+    this.cubeGeometries[0].faces[6].color.setHex('0xffffff');
+    this.cubeGeometries[0].faces[7].color.setHex('0xffffff');
+    this.cubeGeometries[0].faces[8].color.setHex('0xffffff');
+    this.cubeGeometries[0].faces[9].color.setHex('0xffffff');
+    this.cubeGeometries[0].faces[10].color.setHex('0xffffff');
+    this.cubeGeometries[0].faces[11].color.setHex('0xffffff');
+    
+
+    // SHAKE RUBIKS CUBE
+    if (this.count < 50) {
+      for (let cubeNum in this.cubes) {
+        this.groupCubes.rotation.y += 0.0005;
+      }
+      this.renderScene()
+      this.frameId = window.requestAnimationFrame(this.animate);
+      this.count += 1;
+    } else if (this.count >= 50 && this.count < 150) {
+      for (let cubeNum in this.cubes) {
+        this.groupCubes.rotation.y -= 0.0005;
+      }
+      this.renderScene()
+      this.frameId = window.requestAnimationFrame(this.animate);
+      this.count += 1
+    } else {
+      this.count = 0;
+      this.frameId = window.requestAnimationFrame(this.animate);
+    }
+
+    // SHAKE CUBES
     // if (this.count < 50) {
     //   for (let cubeNum in this.cubes) {
     //     this.cubes[cubeNum].rotation.y += 0.005;
     //   }
     //   this.renderScene()
     //   this.frameId = window.requestAnimationFrame(this.animate);
-    //   this.count += 1
+    //   this.count += 1;
     // } else if (this.count >= 50 && this.count < 150) {
     //   for (let cubeNum in this.cubes) {
     //     this.cubes[cubeNum].rotation.y -= 0.005;
@@ -224,11 +257,11 @@ class RubiksCube extends React.PureComponent {
     //   this.frameId = window.requestAnimationFrame(this.animate);
     // }
 
-    this.renderScene()
+    // this.renderScene()
     // this.groupCubes.rotation.y -= 0.02;
-    this.groupCubes.rotation.x -= 0.01;
+    // this.groupCubes.rotation.x -= 0.01;
     // this.groupCubes.rotation.y -= 0.01;
-    this.frameId = window.requestAnimationFrame(this.animate);
+    // this.frameId = window.requestAnimationFrame(this.animate);
   }
 
   renderScene() {
