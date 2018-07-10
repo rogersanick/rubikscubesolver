@@ -23,7 +23,7 @@ class App extends React.Component {
       width: window.innerWidth,
       height: window.innerHeight,
       rubiksArray: [
-                    Array(9).fill('O'), 
+                    ['W', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O'], 
                     Array(9).fill('B'), 
                     Array(9).fill('W'), 
                     Array(9).fill('R'), 
@@ -198,8 +198,6 @@ class App extends React.Component {
     this.count = 0;
     this.mount.appendChild(this.renderer.domElement)
     this.start()
-    console.log(this.groupCubes);
-
   }
 
   handleMakeItBlue() {
@@ -244,11 +242,9 @@ class App extends React.Component {
         } else {
           hex = '0x000000';
         }
-        console.log('before', this.cubeGeometries[cubeNum].faces[ i ].color);
         this.cubeGeometries[cubeNum].faces[ i ].color.setHex( hex );
         this.cubeGeometries[cubeNum].faces[ i + 1 ].color.setHex( hex );
         this.cubes[cubeNum].geometry.colorsNeedUpdate = true;
-        console.log('after', this.cubeGeometries[cubeNum].faces[ i ].color);
       }
     }
     this.renderScene();
