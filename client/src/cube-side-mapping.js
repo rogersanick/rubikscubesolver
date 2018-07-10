@@ -1,3 +1,6 @@
+import App from './app.jsx';
+console.log(App);
+
 var stateMapping = { 
   0: {
     4: [0, 0],
@@ -216,5 +219,7 @@ var stateMapping = {
     3: null,
   }
 }
+
+console.log(stateMapping);
 
 export default stateMapping;
