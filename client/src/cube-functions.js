@@ -192,24 +192,6 @@ rubiks.handleRotateEdgesDownClockwise = (rubiksArray) => {
   let temp1 = rubiksArray[0][2];
   let temp2 = rubiksArray[0][1];
   let temp3 = rubiksArray[0][0];
-  rubiksArray[0][2] = rubiksArray[2][2];
-  rubiksArray[0][1] = rubiksArray[2][1];
-  rubiksArray[0][0] = rubiksArray[2][0];
-  rubiksArray[2][2] = rubiksArray[3][2];
-  rubiksArray[2][1] = rubiksArray[3][1];
-  rubiksArray[2][0] = rubiksArray[3][0];
-  rubiksArray[3][2] = rubiksArray[4][2];
-  rubiksArray[3][1] = rubiksArray[4][1];
-  rubiksArray[3][0] = rubiksArray[4][0];
-  rubiksArray[4][2] = temp1; 
-  rubiksArray[4][1] = temp2; 
-  rubiksArray[4][0] = temp3; 
-}
-
-rubiks.handleRotateEdgesDownCounterClockwise = (rubiksArray) => {
-  let temp1 = rubiksArray[0][2];
-  let temp2 = rubiksArray[0][1];
-  let temp3 = rubiksArray[0][0];
   rubiksArray[0][2] = rubiksArray[4][2];
   rubiksArray[0][1] = rubiksArray[4][1];
   rubiksArray[0][0] = rubiksArray[4][0];
@@ -222,6 +204,25 @@ rubiks.handleRotateEdgesDownCounterClockwise = (rubiksArray) => {
   rubiksArray[2][2] = temp1;
   rubiksArray[2][1] = temp2;
   rubiksArray[2][0] = temp3;
+}
+
+
+rubiks.handleRotateEdgesDownCounterClockwise = (rubiksArray) => {
+  let temp1 = rubiksArray[0][2];
+  let temp2 = rubiksArray[0][1];
+  let temp3 = rubiksArray[0][0];
+  rubiksArray[0][2] = rubiksArray[2][2];
+  rubiksArray[0][1] = rubiksArray[2][1];
+  rubiksArray[0][0] = rubiksArray[2][0];
+  rubiksArray[2][2] = rubiksArray[3][2];
+  rubiksArray[2][1] = rubiksArray[3][1];
+  rubiksArray[2][0] = rubiksArray[3][0];
+  rubiksArray[3][2] = rubiksArray[4][2];
+  rubiksArray[3][1] = rubiksArray[4][1];
+  rubiksArray[3][0] = rubiksArray[4][0];
+  rubiksArray[4][2] = temp1; 
+  rubiksArray[4][1] = temp2; 
+  rubiksArray[4][0] = temp3; 
 }
 
 // ROTATE ALL OF THE FRONT FACE OF ANY CUBE

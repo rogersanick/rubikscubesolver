@@ -11,7 +11,6 @@ class RubiksControllerMenu extends React.Component {
     const possibleMoves = ['F', 'B', 'L', 'R', 'D', 'U', 'Fi', 'Bi', 'Li', 'Ri', 'Di', 'Ui']
     for (let x = 0; x < 20; x++) {
       let newMove = possibleMoves[Math.floor(Math.random()*possibleMoves.length)];
-      console.log(newMove);
       this.props.handleRenderMove(this.makeMove(newMove, newRubiksArray))
     }
   }
@@ -42,19 +41,19 @@ class RubiksControllerMenu extends React.Component {
       rubiks.handleRotateCubeFaceCounterClockwise(4, rubiksArray);
     } else if (magicString === 'R') {
       rubiks.handleRotateEdgesRightClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(2, rubiksArray);
+      rubiks.handleRotateCubeFaceClockwise(2, rubiksArray);
     } else if (magicString === 'Ri') {
       rubiks.handleRotateEdgesRightCounterClockwise(rubiksArray);
       rubiks.handleRotateCubeFaceCounterClockwise(2, rubiksArray);
     } else if (magicString === 'U') {
       rubiks.handleRotateEdgesUpClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(1, rubiksArray);
+      rubiks.handleRotateCubeFaceClockwise(1, rubiksArray);
     } else if (magicString === 'Ui') {
       rubiks.handleRotateEdgesUpCounterClockwise(rubiksArray);
       rubiks.handleRotateCubeFaceCounterClockwise(1, rubiksArray);
     } else if (magicString === 'D') {
       rubiks.handleRotateEdgesDownClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(5, rubiksArray);
+      rubiks.handleRotateCubeFaceClockwise(5, rubiksArray);
     } else if (magicString === 'Di') {
       rubiks.handleRotateEdgesDownCounterClockwise(rubiksArray);
       rubiks.handleRotateCubeFaceCounterClockwise(5, rubiksArray);
