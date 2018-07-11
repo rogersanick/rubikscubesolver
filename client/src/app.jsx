@@ -284,9 +284,6 @@ class App extends React.Component {
   handleRenderCubeColorPositions() {
     for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
       let aCubeMap = stateToCubesMapping[cubeNum];
-      if (cubeNum === 9 || cubeNum === 18) {
-        console.log('cubeNum:', cubeNum, 'map', stateToCubesMapping[cubeNum]);
-      }
       for ( let i = 0, c = 0; i < this.cubeGeometries[cubeNum].faces.length; i += 2, c++ ) {
         let hex;
         if (!!aCubeMap[c]) {

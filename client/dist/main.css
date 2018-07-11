@@ -16,3 +16,84 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.button-category {
+  margin: 10px;
+}
+
+button, .answer, .answer-selected {
+  background: none;
+  border: 0;
+  box-sizing: border-box;
+  padding: 0.5em 1em;
+  box-shadow: inset 0 0 0 2px #6477b9;
+  color: #6477b9;
+  font-size: 1em;
+  font-weight: 700;
+  position: relative;
+  vertical-align: middle;
+}
+button::before, button::after, .answer::before, .answer::after, .answer-selected::before, .answer-selected::after {
+  box-sizing: inherit;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+button.draw, .answer.draw {
+  margin: 0.5em;
+}
+
+.draw {
+  transition: color 0.25s;
+}
+.draw::before, .draw::after {
+  border: 2px solid transparent;
+  width: 0;
+  height: 0;
+}
+.draw::before {
+  top: 0;
+  left: 0;
+}
+.draw::after {
+  bottom: 0;
+  right: 0;
+}
+.draw:hover {
+  color: #60daaa;
+}
+.draw:hover::before, .draw:hover::after {
+  width: 100%;
+  height: 100%;
+}
+.draw:hover::before {
+  border-top-color: #60daaa;
+  border-right-color: #60daaa;
+  transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
+}
+.draw:hover::after {
+  border-bottom-color: #60daaa;
+  border-left-color: #60daaa;
+  transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s, height 0.25s ease-out 0.75s;
+}
+
+.meet:hover {
+  color: #C20114;
+}
+.meet::after {
+  top: 0;
+  left: 0;
+}
+.meet:hover::before {
+  border-top-color: #C20114;
+  border-right-color: #C20114;
+}
+.meet:hover::after {
+  border-bottom-color: #C20114;
+  border-left-color: #C20114;
+  transition: height 0.25s ease-out, width 0.25s ease-out 0.25s;
+}
+
+/*# sourceMappingURL=main.css.map */

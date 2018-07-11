@@ -6,66 +6,97 @@ class RubiksControllerMenu extends React.Component {
     super(props);
   }
 
+  shuffle(rubiksArray) {
+    let newRubiksArray = rubiksArray.slice();
+    const possibleMoves = ['F', 'B', 'L', 'R', 'D', 'U', 'Fi', 'Bi', 'Li', 'Ri', 'Di', 'Ui']
+    for (let x = 0; x < 20; x++) {
+      let newMove = possibleMoves[Math.floor(Math.random()*possibleMoves.length)];
+      console.log(newMove);
+      this.props.handleRenderMove(this.makeMove(newMove, newRubiksArray))
+    }
+  }
+
   handleMove(magicString, rubiksArray) {
     let newRubiksArray = rubiksArray.slice();
+    this.props.handleRenderMove(this.makeMove(magicString, newRubiksArray));
+  }
+
+  makeMove(magicString, rubiksArray) {
     if (magicString === 'F') {
-      rubiks.handleRotateEdgesFrontClockwise(newRubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(0, newRubiksArray);
+      rubiks.handleRotateEdgesFrontClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceClockwise(0, rubiksArray);
     } else if (magicString === 'Fi') {
-      rubiks.handleRotateEdgesFrontCounterClockwise(newRubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(0, newRubiksArray);
+      rubiks.handleRotateEdgesFrontCounterClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(0, rubiksArray);
     } else if (magicString === 'B') {
-      rubiks.handleRotateEdgesBackClockwise(newRubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(3, newRubiksArray);
+      rubiks.handleRotateEdgesBackClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceClockwise(3, rubiksArray);
     } else if (magicString === 'Bi') {
-      rubiks.handleRotateEdgesBackCounterClockwise(newRubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(3, newRubiksArray);
+      rubiks.handleRotateEdgesBackCounterClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(3, rubiksArray);
     } else if (magicString === 'L') {
-      rubiks.handleRotateEdgesLeftClockwise(newRubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(4, newRubiksArray);
+      rubiks.handleRotateEdgesLeftClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceClockwise(4, rubiksArray);
     } else if (magicString === 'Li') {
-      rubiks.handleRotateEdgesLeftCounterClockwise(newRubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(4, newRubiksArray);
+      rubiks.handleRotateEdgesLeftCounterClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(4, rubiksArray);
     } else if (magicString === 'R') {
-      rubiks.handleRotateEdgesRightClockwise(newRubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(2, newRubiksArray);
+      rubiks.handleRotateEdgesRightClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(2, rubiksArray);
     } else if (magicString === 'Ri') {
-      rubiks.handleRotateEdgesRightCounterClockwise(newRubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(2, newRubiksArray);
+      rubiks.handleRotateEdgesRightCounterClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(2, rubiksArray);
     } else if (magicString === 'U') {
-      rubiks.handleRotateEdgesUpClockwise(newRubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(1, newRubiksArray);
+      rubiks.handleRotateEdgesUpClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(1, rubiksArray);
     } else if (magicString === 'Ui') {
-      rubiks.handleRotateEdgesUpCounterClockwise(newRubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(1, newRubiksArray);
+      rubiks.handleRotateEdgesUpCounterClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(1, rubiksArray);
     } else if (magicString === 'D') {
-      rubiks.handleRotateEdgesDownClockwise(newRubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(5, newRubiksArray);
+      rubiks.handleRotateEdgesDownClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(5, rubiksArray);
     } else if (magicString === 'Di') {
-      rubiks.handleRotateEdgesDownCounterClockwise(newRubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(5, newRubiksArray);
+      rubiks.handleRotateEdgesDownCounterClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(5, rubiksArray);
     };
-    this.props.handleRenderMove(newRubiksArray);
+    return rubiksArray;
   }
 
   render() {
     return (
     <div className = "rubiks-controller-menu">
-      <button onClick = {() => this.props.handleReset()}>Reset</button>
-      <button onClick = {() => this.props.handleMakeItPink()}>Pink</button>
-      <button onClick = {() => this.props.handleMakeItBlue()}>Blue</button>
-      <button onClick = {() => this.handleMove('F', this.props.rubiksArray)}>Front</button>
-      <button onClick = {() => this.handleMove('Fi', this.props.rubiksArray)}>Front Inverse</button>
-      <button onClick = {() => this.handleMove('B', this.props.rubiksArray)}>Back</button>
-      <button onClick = {() => this.handleMove('Bi', this.props.rubiksArray)}>Back Inverse</button>
-      <button onClick = {() => this.handleMove('L', this.props.rubiksArray)}>Left</button>
-      <button onClick = {() => this.handleMove('Li', this.props.rubiksArray)}>Left Inverse</button>
-      <button onClick = {() => this.handleMove('R', this.props.rubiksArray)}>Right</button>
-      <button onClick = {() => this.handleMove('Ri', this.props.rubiksArray)}>Right Inverse</button>
-      <button onClick = {() => this.handleMove('U', this.props.rubiksArray)}>Up</button>
-      <button onClick = {() => this.handleMove('Ui', this.props.rubiksArray)}>Up Inverse</button>
-      <button onClick = {() => this.handleMove('D', this.props.rubiksArray)}>Down</button>
-      <button onClick = {() => this.handleMove('Di', this.props.rubiksArray)}>Down Inverse</button>
+      <div className = "button-category"> 
+        <button className = "draw meet" onClick = {() => this.props.handleReset()}>Reset</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMakeItPink()}>Pink</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMakeItBlue()}>Blue</button>
+      </div>
+      <div className = "button-category">
+        <button className = "draw meet" onClick = {() => this.handleMove('F', this.props.rubiksArray)}>Front</button>
+        <button className = "draw meet" onClick = {() => this.handleMove('Fi', this.props.rubiksArray)}>Front Inverse</button>
+      </div>
+      <div className = "button-category">
+        <button className = "draw meet" onClick = {() => this.handleMove('B', this.props.rubiksArray)}>Back</button>
+        <button className = "draw meet" onClick = {() => this.handleMove('Bi', this.props.rubiksArray)}>Back Inverse</button>
+      </div>
+      <div className = "button-category">
+        <button className = "draw meet" onClick = {() => this.handleMove('L', this.props.rubiksArray)}>Left</button>
+        <button className = "draw meet" onClick = {() => this.handleMove('Li', this.props.rubiksArray)}>Left Inverse</button>
+      </div>
+      <div className = "button-category">
+        <button className = "draw meet" onClick = {() => this.handleMove('R', this.props.rubiksArray)}>Right</button>
+        <button className = "draw meet" onClick = {() => this.handleMove('Ri', this.props.rubiksArray)}>Right Inverse</button>
+      </div>
+      <div className = "button-category">
+        <button className = "draw meet" onClick = {() => this.handleMove('U', this.props.rubiksArray)}>Up</button>
+        <button className = "draw meet" onClick = {() => this.handleMove('Ui', this.props.rubiksArray)}>Up Inverse</button>
+      </div>
+      <div className = "button-category">
+        <button className = "draw meet" onClick = {() => this.handleMove('D', this.props.rubiksArray)}>Down</button>
+        <button className = "draw meet" onClick = {() => this.handleMove('Di', this.props.rubiksArray)}>Down Inverse</button>
+      </div>
+      <div className = "button-category">
+        <button className = "draw meet" onClick = {() => this.shuffle(this.props.rubiksArray)}>Shuffle</button>
+      </div>
     </div>
     );
   }
