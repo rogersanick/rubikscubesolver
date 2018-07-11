@@ -18,12 +18,58 @@ class App extends React.Component {
       }
     }
 
+    // SET UP A KEY LISTENER TO MOVE CUBE
+
+    document.onkeydown = (evt) => {
+      evt = evt || window.event;
+      if (evt.keyCode == 37) {
+        this.setState({
+          spinLeft: true
+        })
+      } else if (evt.keyCode == 38) {
+        this.setState({
+          spinUp: true
+        })
+      } else if (evt.keyCode == 39) {
+        this.setState({
+          spinRight: true
+        })
+      } else if (evt.keyCode == 40) {
+        this.setState({
+          spinDown: true
+        })
+      } else if (evt.keyCode == 82) {
+        this.handleReset();
+      }
+    };
+
+    document.onkeyup = (evt) => {
+      evt = evt || window.event;
+      if (evt.keyCode == 37) {
+        this.setState({
+          spinLeft: false
+        })
+      } else if (evt.keyCode == 38) {
+        this.setState({
+          spinUp: false
+        })
+      } else if (evt.keyCode == 39) {
+        this.setState({
+          spinRight: false
+        })
+      } else if (evt.keyCode == 40) {
+        this.setState({
+          spinDown: false
+        })
+      }
+    };
+
     // BUILD AN ARRAY OF ARRAYS CORRESPONDING TO CUBE POSITIONS
     this.state = {
       width: window.innerWidth,
       height: window.innerHeight,
       rubiksArray: [
-                    ['W', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O'], 
+                    Array(9).fill('O'), 
                     Array(9).fill('B'), 
                     Array(9).fill('W'), 
                     Array(9).fill('R'), 
@@ -51,7 +97,10 @@ class App extends React.Component {
       },
       rerender: false,
       // IF TRUE, WILL RENDER ANIMATION IN ANIMATION LOOP
-      spin: false,
+      spinLeft: false,
+      spinUp: false,
+      spinRight: false,
+      spinDown: false
     };
 
     // FUNCTION BINDINGS
@@ -59,7 +108,6 @@ class App extends React.Component {
     this.start = this.start.bind(this)
     this.stop = this.stop.bind(this)
     this.animate = this.animate.bind(this)
-    this.handleSpin = this.handleSpin.bind(this);
     this.handleMakeItBlue = this.handleMakeItBlue.bind(this);
     this.handleMakeItPink = this.handleMakeItPink.bind(this);
     this.handleReset = this.handleReset.bind(this);
@@ -213,14 +261,16 @@ class App extends React.Component {
   }
 
   handleReset() {
+    this.groupCubes.rotation.x = 0.25;
+    this.groupCubes.rotation.y = 0.75;
     this.setState({
       rubiksArray: [
-        Array(9).fill('R'), 
-        Array(9).fill('G'), 
-        Array(9).fill('Y'), 
         Array(9).fill('O'), 
-        Array(9).fill('B'),
-        Array(9).fill('W'),
+        Array(9).fill('B'), 
+        Array(9).fill('W'), 
+        Array(9).fill('R'), 
+        Array(9).fill('Y'),
+        Array(9).fill('G'),
       ]
     }, this.handleRenderCubeColorPositions);
   }
@@ -234,6 +284,9 @@ class App extends React.Component {
   handleRenderCubeColorPositions() {
     for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
       let aCubeMap = stateToCubesMapping[cubeNum];
+      if (cubeNum === 9 || cubeNum === 18) {
+        console.log('cubeNum:', cubeNum, 'map', stateToCubesMapping[cubeNum]);
+      }
       for ( let i = 0, c = 0; i < this.cubeGeometries[cubeNum].faces.length; i += 2, c++ ) {
         let hex;
         if (!!aCubeMap[c]) {
@@ -264,13 +317,6 @@ class App extends React.Component {
     });
   }
 
-  handleSpin() {
-    console.log('clicked');
-    this.setState({
-      spin: !this.state.spin
-    })
-  }
-
   start() {
     if (!this.frameId) {
       this.frameId = requestAnimationFrame(this.animate)
@@ -287,29 +333,22 @@ class App extends React.Component {
     this.frameId = window.requestAnimationFrame(this.animate);
 
     // SIMPLE ROTATE FUNCTION
-    if (this.state.spin) {
-      this.groupCubes.rotation.y -= 0.005;
+    if (this.state.spinLeft) {
+      this.groupCubes.rotation.y -= 0.01;
+    }
+
+    if (this.state.spinUp) {
+      this.groupCubes.rotation.x -= 0.01;
+    }
+
+    if (this.state.spinRight) {
+      this.groupCubes.rotation.y += 0.01;
+    }
+
+    if (this.state.spinDown) {
+      this.groupCubes.rotation.x += 0.01;
     }
     
-    // SHAKE RUBIKS CUBE
-    // if (this.count < 50) {
-    //   for (let cubeNum in this.cubes) {
-    //     this.groupCubes.rotation.y += 0.0005;
-    //   }
-    //   this.renderScene()
-    //   this.frameId = window.requestAnimationFrame(this.animate);
-    //   this.count += 1;
-    // } else if (this.count >= 50 && this.count < 150) {
-    //   for (let cubeNum in this.cubes) {
-    //     this.groupCubes.rotation.y -= 0.0005;
-    //   }
-    //   this.renderScene()
-    //   this.frameId = window.requestAnimationFrame(this.animate);
-    //   this.count += 1
-    // } else {
-    //   this.count = 0;
-    //   this.frameId = window.requestAnimationFrame(this.animate);
-    // }
   }
 
   renderScene() {
@@ -322,7 +361,7 @@ class App extends React.Component {
         <div className = "canvas" ref={(mount) => { this.mount = mount }}>
           <RubiksCube width = {this.state.width * 0.7} height = {this.state.height} rerender = {this.state.rerender}/>
         </div>
-        <RubiksControllerMenu rubiksArray = {this.state.rubiksArray} handleSpin = {this.handleSpin} handleMakeItPink = {this.handleMakeItPink} handleMakeItBlue = {this.handleMakeItBlue} handleReset = {this.handleReset} handleRenderMove = {this.handleRenderMove}/>
+        <RubiksControllerMenu rubiksArray = {this.state.rubiksArray} handleSpinY = {this.handleSpinY} handleSpinX = {this.handleSpinX} handleMakeItPink = {this.handleMakeItPink} handleMakeItBlue = {this.handleMakeItBlue} handleReset = {this.handleReset} handleRenderMove = {this.handleRenderMove}/>
       </div>
     );
   }
