@@ -1,14 +1,21 @@
 import rubiks from './cube-functions.js';
 // const {rubiks} = require('./cube-functions.js');
 
-const testData = [["O","O","O","O","O","O","W","W","W"],["B","B","B","B","B","B","B","B","B"],["W","W","W","W","W","W","R","R","R"],["R","R","R","R","R","R","Y","Y","Y"],["Y","Y","Y","Y","Y","Y","O","O","O"],["G","G","G","G","G","G","G","G","G"]];
+const testData = [["W","O","W","B","O","G","Y","O","Y"],["R","W","O","R","B","O","R","Y","O"],["G","G","G","W","W","W","B","B","B"],["Y","R","Y","B","R","G","W","R","W"],["G","G","G","Y","Y","Y","B","B","B"],["O","W","R","O","G","R","O","Y","R"]];
 
 const moves = ['F', 'Fi', 'B', 'Bi', 'L', 'Li', 'R', 'Ri', 'U', 'Ui', 'D', 'Di'];
 
 let globalBestPath = [];
 
 // CURR BUG ==> making infinite front moves as that gives the best score everytime
+// Transformation ==> Fi, Bi, Li, Ri yields Fi, Fi, L, R, F, B (LRFB is correct solution);
+// Only recursing with best path and new cube --> results will be invalid
 const miniMax = (rubiksArray, bestScore = 0, depth = 0, path = []) => {
+
+  if (solved) {
+    return globalBestPath;
+  }
+  
   let currBestPath = [];
   for (let moveID = 0; moveID < moves.length; moveID++) {
     // Make a move
@@ -27,12 +34,8 @@ const miniMax = (rubiksArray, bestScore = 0, depth = 0, path = []) => {
       return globalBestPath;
     }
 
-    if (solved) {
-      return globalBestPath;
-    }
-
     // Recurse with first move IF NOT DEEPER THAN 4 BRANCHES
-    if (depth < 4) {
+    if (depth < 5) {
       miniMax(rubiksArray, bestScore, depth+1, path);
     }
     
@@ -46,12 +49,7 @@ const miniMax = (rubiksArray, bestScore = 0, depth = 0, path = []) => {
   }
 
   if (depth === 0) {
-    iterationCount += 1;
-    if (iterationCount === 50) {
-      iterationCount = 0;
-      console.log('another 50 iterations');
-      console.log(globalBestPath);
-    }
+    console.log(globalBestPath);
     // recurse with best solution;
     globalBestPath = globalBestPath.concat(currBestPath);
     miniMax(rubiksArray);
