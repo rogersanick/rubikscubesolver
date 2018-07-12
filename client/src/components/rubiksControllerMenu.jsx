@@ -96,6 +96,12 @@ class RubiksControllerMenu extends React.Component {
       <div className = "button-category">
         <button className = "draw meet" onClick = {() => this.shuffle(this.props.rubiksArray)}>Shuffle</button>
       </div>
+      <div className = "button-category">
+        <button className = "draw meet" onClick = {() => this.props.handleGetScore(this.props.rubiksArray)}>Get Score</button>
+      </div>
+      <div className = "button-category">
+        <button className = "draw meet" onClick = {() => this.props.handlePrintState(this.props.rubiksArray)}>Print State</button>
+      </div>
     </div>
     );
   }

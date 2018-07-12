@@ -258,4 +258,5 @@ rubiks.handleRotateCubeFaceCounterClockwise = (faceNum, rubiksArray) => {
   newRubiksArray[faceNum][2] = tempDiagonal;
 }
 
-exports.rubiks = rubiks;
+// exports.rubiks = rubiks;
+export default rubiks;

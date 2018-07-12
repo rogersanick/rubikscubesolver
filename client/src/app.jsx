@@ -3,6 +3,7 @@ import RubiksCube from './components/rubiksCube.jsx';
 import RubiksControllerMenu from './components/rubiksControllerMenu.jsx';
 import * as THREE from 'three';
 import stateToCubesMapping from './cube-side-mapping';
+import util from './minimaxSolver.js';
 
 class App extends React.Component {
 
@@ -70,7 +71,7 @@ class App extends React.Component {
       height: window.innerHeight,
       rubiksArray: [
                     Array(9).fill('O'), 
-                    ['B', 'B', 'B', 'B', 'B','B', 'B', 'B', 'B'], 
+                    Array(9).fill('B'), 
                     Array(9).fill('W'),
                     Array(9).fill('R'), 
                     Array(9).fill('Y'),
@@ -115,6 +116,8 @@ class App extends React.Component {
     this.handleReset = this.handleReset.bind(this);
     this.handleRenderCubeColorPositions = this.handleRenderCubeColorPositions.bind(this);
     this.handleRenderMove = this.handleRenderMove.bind(this);
+    this.handleGetScore = this.handleGetScore.bind(this);
+    this.handlePrintState = this.handlePrintState.bind(this);
   }
 
   componentDidMount() {
@@ -350,6 +353,15 @@ class App extends React.Component {
     
   }
 
+  handlePrintState() {
+    console.log(JSON.stringify(this.state.rubiksArray));
+  }
+
+  handleGetScore() {
+    let score = util.getScore(this.state.rubiksArray);
+    console.log(score)
+  }
+
   renderScene() {
     this.renderer.render(this.scene, this.camera)
   }
@@ -360,7 +372,17 @@ class App extends React.Component {
         <div className = "canvas" ref={(mount) => { this.mount = mount }}>
           <RubiksCube width = {this.state.width * 0.7} height = {this.state.height} rerender = {this.state.rerender}/>
         </div>
-        <RubiksControllerMenu rubiksArray = {this.state.rubiksArray} handleSpinY = {this.handleSpinY} handleSpinX = {this.handleSpinX} handleMakeItPink = {this.handleMakeItPink} handleMakeItBlue = {this.handleMakeItBlue} handleReset = {this.handleReset} handleRenderMove = {this.handleRenderMove}/>
+        <RubiksControllerMenu 
+          rubiksArray = {this.state.rubiksArray} 
+          handleSpinY = {this.handleSpinY} 
+          handleSpinX = {this.handleSpinX} 
+          handleMakeItPink = {this.handleMakeItPink} 
+          handleMakeItBlue = {this.handleMakeItBlue} 
+          handleReset = {this.handleReset} 
+          handleRenderMove = {this.handleRenderMove} 
+          handleGetScore = {this.handleGetScore}
+          handlePrintState = {this.handlePrintState}
+        />
       </div>
     );
   }
