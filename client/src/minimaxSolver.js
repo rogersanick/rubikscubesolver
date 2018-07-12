@@ -6,6 +6,9 @@ const testData = [["W","O","W","B","O","G","Y","O","Y"],["R","W","O","R","B","O"
 const moves = ['F', 'Fi', 'B', 'Bi', 'L', 'Li', 'R', 'Ri', 'U', 'Ui', 'D', 'Di'];
 
 let globalBestPath = [];
+let solved = false;
+const bestScore = {score: 0};
+let currBestPath = [];
 
 // CURR BUG ==> making infinite front moves as that gives the best score everytime
 // Transformation ==> Fi, Bi, Li, Ri yields Fi, Fi, L, R, F, B (LRFB is correct solution);
@@ -15,8 +18,7 @@ const miniMax = (rubiksArray, depth = 0, path = []) => {
   if (solved) {
     return globalBestPath;
   }
-  
-  let currBestPath = [];
+
   for (let moveID = 0; moveID < moves.length; moveID++) {
     // Make a move
     makeMove(moves[moveID], rubiksArray);
@@ -25,9 +27,7 @@ const miniMax = (rubiksArray, depth = 0, path = []) => {
     
     if (newScore1 > bestScore.score) {
       bestScore.score = newScore1;
-      console.log(bestScore);
       currBestPath = path.slice();
-      console.log(currBestPath);
     } 
 
     if (newScore1 === 100) {
@@ -49,6 +49,7 @@ const miniMax = (rubiksArray, depth = 0, path = []) => {
     } else {
       makeMove(moves[moveID] - 1, rubiksArray)
     }
+    
     path.pop();
   }
 
@@ -56,6 +57,7 @@ const miniMax = (rubiksArray, depth = 0, path = []) => {
     console.log(globalBestPath);
     // recurse with best solution;
     globalBestPath = globalBestPath.concat(currBestPath);
+    bestScore.score = 0;
     miniMax(rubiksArray);
   }
 }
