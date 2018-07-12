@@ -70,8 +70,8 @@ class App extends React.Component {
       height: window.innerHeight,
       rubiksArray: [
                     Array(9).fill('O'), 
-                    Array(9).fill('B'), 
-                    Array(9).fill('W'), 
+                    ['B', 'B', 'B', 'B', 'B','B', 'B', 'B', 'B'], 
+                    Array(9).fill('W'),
                     Array(9).fill('R'), 
                     Array(9).fill('Y'),
                     Array(9).fill('G'),
@@ -93,6 +93,8 @@ class App extends React.Component {
         B: 0x0000FF,
         W: 0xffffff,
         P: 0xFFC0CB,
+        Pu: 0x9400D3,
+        Ru: 0xA55D35,
         inside: 0xFFFFFF
       },
       rerender: false,
@@ -331,19 +333,19 @@ class App extends React.Component {
 
     // SIMPLE ROTATE FUNCTION
     if (this.state.spinLeft) {
-      this.groupCubes.rotation.y -= 0.01;
+      this.groupCubes.rotation.y -= 0.05;
     }
 
     if (this.state.spinUp) {
-      this.groupCubes.rotation.x -= 0.01;
+      this.groupCubes.rotation.x -= 0.05;
     }
 
     if (this.state.spinRight) {
-      this.groupCubes.rotation.y += 0.01;
+      this.groupCubes.rotation.y += 0.05;
     }
 
     if (this.state.spinDown) {
-      this.groupCubes.rotation.x += 0.01;
+      this.groupCubes.rotation.x += 0.05;
     }
     
   }

@@ -77,36 +77,36 @@ rubiks.handleRotateEdgesBackCounterClockwise = (rubiksArray) => {
 
 // ROTATE LEFT FACE EDGES
 rubiks.handleRotateEdgesLeftClockwise = (rubiksArray) => {
-  let temp1 = rubiksArray[1][8];
+  let temp1 = rubiksArray[1][2];
   let temp2 = rubiksArray[1][5];
-  let temp3 = rubiksArray[1][2];
-  rubiksArray[1][8] = rubiksArray[3][6];
+  let temp3 = rubiksArray[1][8];
+  rubiksArray[1][2] = rubiksArray[3][6];
   rubiksArray[1][5] = rubiksArray[3][3];
-  rubiksArray[1][2] = rubiksArray[3][0];
-  rubiksArray[3][6] = rubiksArray[5][8];
+  rubiksArray[1][8] = rubiksArray[3][0];
+  rubiksArray[3][6] = rubiksArray[5][2];
   rubiksArray[3][3] = rubiksArray[5][5];
-  rubiksArray[3][0] = rubiksArray[5][2];
-  rubiksArray[5][8] = rubiksArray[0][2];
+  rubiksArray[3][0] = rubiksArray[5][8];
+  rubiksArray[5][2] = rubiksArray[0][2];
   rubiksArray[5][5] = rubiksArray[0][5];
-  rubiksArray[5][2] = rubiksArray[0][8];
+  rubiksArray[5][8] = rubiksArray[0][8];
   rubiksArray[0][2] = temp1; 
   rubiksArray[0][5] = temp2; 
   rubiksArray[0][8] = temp3; 
 }
 
 rubiks.handleRotateEdgesLeftCounterClockwise = (rubiksArray) => {
-  let temp1 = rubiksArray[1][8];
+  let temp1 = rubiksArray[1][2];
   let temp2 = rubiksArray[1][5];
-  let temp3 = rubiksArray[1][2];
-  rubiksArray[1][8] = rubiksArray[0][2];
+  let temp3 = rubiksArray[1][8];
+  rubiksArray[1][2] = rubiksArray[0][2];
   rubiksArray[1][5] = rubiksArray[0][5];
-  rubiksArray[1][2] = rubiksArray[0][8];
-  rubiksArray[0][2] = rubiksArray[5][8];
+  rubiksArray[1][8] = rubiksArray[0][8];
+  rubiksArray[0][2] = rubiksArray[5][2];
   rubiksArray[0][5] = rubiksArray[5][5];
-  rubiksArray[0][8] = rubiksArray[5][2];
-  rubiksArray[5][8] = rubiksArray[3][6];
+  rubiksArray[0][8] = rubiksArray[5][8];
+  rubiksArray[5][2] = rubiksArray[3][6];
   rubiksArray[5][5] = rubiksArray[3][3];
-  rubiksArray[5][2] = rubiksArray[3][0];
+  rubiksArray[5][8] = rubiksArray[3][0];
   rubiksArray[3][6] = temp1;
   rubiksArray[3][3] = temp2;
   rubiksArray[3][0] = temp3;
@@ -258,4 +258,4 @@ rubiks.handleRotateCubeFaceCounterClockwise = (faceNum, rubiksArray) => {
   newRubiksArray[faceNum][2] = tempDiagonal;
 }
 
-export default rubiks;
+exports.rubiks = rubiks;
