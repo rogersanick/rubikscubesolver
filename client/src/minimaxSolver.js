@@ -10,7 +10,7 @@ let globalBestPath = [];
 // CURR BUG ==> making infinite front moves as that gives the best score everytime
 // Transformation ==> Fi, Bi, Li, Ri yields Fi, Fi, L, R, F, B (LRFB is correct solution);
 // Only recursing with best path and new cube --> results will be invalid
-const miniMax = (rubiksArray, bestScore = 0, depth = 0, path = []) => {
+const miniMax = (rubiksArray, depth = 0, path = []) => {
 
   if (solved) {
     return globalBestPath;
@@ -23,20 +23,24 @@ const miniMax = (rubiksArray, bestScore = 0, depth = 0, path = []) => {
     path.push(moves[moveID]);
     let newScore1 = getScore(rubiksArray);
     
-    if (newScore1 > bestScore) {
-      bestScore = newScore1;
+    if (newScore1 > bestScore.score) {
+      bestScore.score = newScore1;
+      console.log(bestScore);
       currBestPath = path.slice();
+      console.log(currBestPath);
     } 
 
     if (newScore1 === 100) {
       solved = true;
-      globalBestPath = globalBestPath.concat(currBestPath);
-      return globalBestPath;
+      return currBestPath;
     }
 
     // Recurse with first move IF NOT DEEPER THAN 4 BRANCHES
     if (depth < 5) {
-      miniMax(rubiksArray, bestScore, depth+1, path);
+      let resultPath = miniMax(rubiksArray, depth+1, path);
+      if (resultPath) {
+        return resultPath;
+      };
     }
     
     // Backtrack
