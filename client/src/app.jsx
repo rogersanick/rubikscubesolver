@@ -3,7 +3,9 @@ import RubiksCube from './components/rubiksCube.jsx';
 import RubiksControllerMenu from './components/rubiksControllerMenu.jsx';
 import * as THREE from 'three';
 import stateToCubesMapping from './cube-side-mapping';
-import util from './minimaxSolver.js';
+import {miniMaxSolver, getScore} from './minimaxSolver.js';
+
+console.log(miniMaxSolver, getScore);
 
 class App extends React.Component {
 
@@ -118,6 +120,7 @@ class App extends React.Component {
     this.handleRenderMove = this.handleRenderMove.bind(this);
     this.handleGetScore = this.handleGetScore.bind(this);
     this.handlePrintState = this.handlePrintState.bind(this);
+    this.handleSolver = this.handleSolver.bind(this);
   }
 
   componentDidMount() {
@@ -353,12 +356,19 @@ class App extends React.Component {
     
   }
 
+  handleSolver() {
+    miniMaxSolver(this.state.rubiksArray.slice(), (solutionState, bestPath) => {
+      console.log(bestPath.slice(-10));
+      this.handleRenderMove(solutionState);
+    });
+  }
+
   handlePrintState() {
     console.log(JSON.stringify(this.state.rubiksArray));
   }
 
   handleGetScore() {
-    let score = util.getScore(this.state.rubiksArray);
+    let score = getScore(this.state.rubiksArray);
     console.log(score)
   }
 
@@ -382,6 +392,7 @@ class App extends React.Component {
           handleRenderMove = {this.handleRenderMove} 
           handleGetScore = {this.handleGetScore}
           handlePrintState = {this.handlePrintState}
+          handleSolver = {this.handleSolver}
         />
       </div>
     );

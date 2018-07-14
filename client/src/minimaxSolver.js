@@ -1,7 +1,4 @@
 import rubiks from './cube-functions.js';
-// const {rubiks} = require('./cube-functions.js');
-
-const testData = [["W","O","W","B","O","G","Y","O","Y"],["R","W","O","R","B","O","R","Y","O"],["G","G","G","W","W","W","B","B","B"],["Y","R","Y","B","R","G","W","R","W"],["G","G","G","Y","Y","Y","B","B","B"],["O","W","R","O","G","R","O","Y","R"]];
 
 const moves = ['F', 'Fi', 'B', 'Bi', 'L', 'Li', 'R', 'Ri', 'U', 'Ui', 'D', 'Di'];
 
@@ -10,16 +7,25 @@ let solved = false;
 const bestScore = {score: 0};
 let currBestPath = [];
 
-// CURR BUG ==> making infinite front moves as that gives the best score everytime
-// Transformation ==> Fi, Bi, Li, Ri yields Fi, Fi, L, R, F, B (LRFB is correct solution);
-// Only recursing with best path and new cube --> results will be invalid
-const miniMax = (rubiksArray, depth = 0, path = []) => {
+export const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
 
   if (solved) {
     return globalBestPath;
   }
 
   for (let moveID = 0; moveID < moves.length; moveID++) {
+    
+    // Prevent redundant moves
+    if (moveID % 2 === 0) {
+      if (path[path.length-1] === moves[moveID+1]) {
+        continue;
+      }
+    } else {
+      if (path[path.length-1] === moves[moveID-1]) {
+        continue;
+      }
+    }
+
     // Make a move
     makeMove(moves[moveID], rubiksArray);
     path.push(moves[moveID]);
@@ -32,12 +38,14 @@ const miniMax = (rubiksArray, depth = 0, path = []) => {
 
     if (newScore1 === 100) {
       solved = true;
-      return currBestPath;
+      globalBestPath = globalBestPath.concat(currBestPath);
+      cb(rubiksArray, globalBestPath);
+      return globalBestPath;
     }
 
     // Recurse with first move IF NOT DEEPER THAN 4 BRANCHES
-    if (depth < 5) {
-      let resultPath = miniMax(rubiksArray, depth+1, path);
+    if (depth < 4) {
+      let resultPath = miniMaxSolver(rubiksArray, cb, depth+1, path);
       if (resultPath) {
         return resultPath;
       };
@@ -45,24 +53,23 @@ const miniMax = (rubiksArray, depth = 0, path = []) => {
     
     // Backtrack
     if (moveID % 2 === 0) {
-      makeMove(moves[moveID] + 1, rubiksArray);
+      makeMove(moves[moveID + 1], rubiksArray);
     } else {
-      makeMove(moves[moveID] - 1, rubiksArray)
+      makeMove(moves[moveID - 1], rubiksArray)
     }
     
     path.pop();
   }
 
   if (depth === 0) {
-    console.log(globalBestPath);
-    // recurse with best solution;
     globalBestPath = globalBestPath.concat(currBestPath);
-    bestScore.score = 0;
-    miniMax(rubiksArray);
+    cb(rubiksArray, globalBestPath);
+    miniMaxSolver(rubiksArray, cb);
   }
 }
 
-const getScore = (rubiksArray) => {
+
+export const getScore = (rubiksArray) => {
   let correctScore = 0;
   let maxScore = 54;
   let solution = [
@@ -123,6 +130,3 @@ const makeMove = (magicString, rubiksArray) => {
   };
   return rubiksArray;
 }
-
-export default {miniMax, getScore};
-// console.log(miniMax(testData));
