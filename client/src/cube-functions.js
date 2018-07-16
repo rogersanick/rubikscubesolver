@@ -227,35 +227,33 @@ rubiks.handleRotateEdgesDownCounterClockwise = (rubiksArray) => {
 
 // ROTATE ALL OF THE FRONT FACE OF ANY CUBE
 rubiks.handleRotateCubeFaceClockwise = (faceNum, rubiksArray) => {
-  var newRubiksArray = [].concat(rubiksArray);
   // ROTATE CROSS
-  var tempCross = newRubiksArray[faceNum][1];
-  newRubiksArray[faceNum][1] = newRubiksArray[faceNum][3];
-  newRubiksArray[faceNum][3] = newRubiksArray[faceNum][7];
-  newRubiksArray[faceNum][7] = newRubiksArray[faceNum][5];
-  newRubiksArray[faceNum][5] = tempCross;
+  var tempCross = rubiksArray[faceNum][1];
+  rubiksArray[faceNum][1] = rubiksArray[faceNum][3];
+  rubiksArray[faceNum][3] = rubiksArray[faceNum][7];
+  rubiksArray[faceNum][7] = rubiksArray[faceNum][5];
+  rubiksArray[faceNum][5] = tempCross;
   // ROTATE DIAGONALS
-  var tempDiagonal = newRubiksArray[faceNum][0];
-  newRubiksArray[faceNum][0] = newRubiksArray[faceNum][6];
-  newRubiksArray[faceNum][6] = newRubiksArray[faceNum][8];
-  newRubiksArray[faceNum][8] = newRubiksArray[faceNum][2];
-  newRubiksArray[faceNum][2] = tempDiagonal;
+  var tempDiagonal = rubiksArray[faceNum][0];
+  rubiksArray[faceNum][0] = rubiksArray[faceNum][6];
+  rubiksArray[faceNum][6] = rubiksArray[faceNum][8];
+  rubiksArray[faceNum][8] = rubiksArray[faceNum][2];
+  rubiksArray[faceNum][2] = tempDiagonal;
 }
 
 rubiks.handleRotateCubeFaceCounterClockwise = (faceNum, rubiksArray) => {
-  var newRubiksArray = [].concat(rubiksArray);
   // ROTATE CROSS
-  var tempCross = newRubiksArray[faceNum][3];
-  newRubiksArray[faceNum][3] = newRubiksArray[faceNum][1];
-  newRubiksArray[faceNum][1] = newRubiksArray[faceNum][5];
-  newRubiksArray[faceNum][5] = newRubiksArray[faceNum][7];
-  newRubiksArray[faceNum][7] = tempCross;
+  var tempCross = rubiksArray[faceNum][3];
+  rubiksArray[faceNum][3] = rubiksArray[faceNum][1];
+  rubiksArray[faceNum][1] = rubiksArray[faceNum][5];
+  rubiksArray[faceNum][5] = rubiksArray[faceNum][7];
+  rubiksArray[faceNum][7] = tempCross;
   // ROTATE DIAGONALS
-  var tempDiagonal = newRubiksArray[faceNum][8];
-  newRubiksArray[faceNum][8] = newRubiksArray[faceNum][6];
-  newRubiksArray[faceNum][6] = newRubiksArray[faceNum][0];
-  newRubiksArray[faceNum][0] = newRubiksArray[faceNum][2];
-  newRubiksArray[faceNum][2] = tempDiagonal;
+  var tempDiagonal = rubiksArray[faceNum][8];
+  rubiksArray[faceNum][8] = rubiksArray[faceNum][6];
+  rubiksArray[faceNum][6] = rubiksArray[faceNum][0];
+  rubiksArray[faceNum][0] = rubiksArray[faceNum][2];
+  rubiksArray[faceNum][2] = tempDiagonal;
 }
 
 // exports.rubiks = rubiks;

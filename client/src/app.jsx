@@ -4,9 +4,6 @@ import RubiksControllerMenu from './components/rubiksControllerMenu.jsx';
 import * as THREE from 'three';
 import stateToCubesMapping from './cube-side-mapping';
 import {miniMaxSolver, getScore} from './minimaxSolver.js';
-
-console.log(miniMaxSolver, getScore);
-
 class App extends React.Component {
 
   constructor(props) {
@@ -22,7 +19,6 @@ class App extends React.Component {
     }
 
     // SET UP A KEY LISTENER TO MOVE CUBE
-
     document.onkeydown = (evt) => {
       evt = evt || window.event;
       if (evt.keyCode == 37) {
@@ -66,6 +62,13 @@ class App extends React.Component {
         })
       }
     };
+
+    document.addEventListener("keydown", function(e) {
+      // space and arrow keys
+      if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+          e.preventDefault();
+      }
+    }, false);
 
     // BUILD AN ARRAY OF ARRAYS CORRESPONDING TO CUBE POSITIONS
     this.state = {
@@ -286,7 +289,10 @@ class App extends React.Component {
   handleRenderMove(newRubiksArray) {
     this.setState({ 
       rubiksArray: newRubiksArray
-    }, this.handleRenderCubeColorPositions());
+    }, () => {
+      console.log('state changed');
+      this.handleRenderCubeColorPositions()
+    });
   }
 
   handleRenderCubeColorPositions() {
@@ -316,7 +322,6 @@ class App extends React.Component {
 
   updateWindowDimensions() {
     this.setState({ width: window.innerWidth, height: window.innerHeight, rerender: true }, () => {
-      console.log('lol crashing now');
       setTimeout((() => {this.setState({rerender: false})}), 800);
       setTimeout((() => {this.setState({rerender: true})}), 800);
     });
@@ -357,9 +362,19 @@ class App extends React.Component {
   }
 
   handleSolver() {
-    miniMaxSolver(this.state.rubiksArray.slice(), (solutionState, bestPath) => {
-      console.log(bestPath.slice(-10));
-      this.handleRenderMove(solutionState);
+    let newCurrBestRubiksArray = [];
+    for (let face of this.state.rubiksArray) {
+      newCurrBestRubiksArray.push(face.slice());
+    }
+
+    miniMaxSolver(newCurrBestRubiksArray, (solutionState) => {
+      return new Promise ((resolve, reject) => {
+        let newSolutionState = [];
+        for (let face of solutionState) {
+          newSolutionState.push(face.slice());
+        }
+        resolve(this.handleRenderMove(newSolutionState));
+      });
     });
   }
 
