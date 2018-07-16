@@ -1,5 +1,4 @@
 import React from 'react';
-import rubiks from '../cube-functions.js'
 
 class RubiksControllerMenu extends React.Component {
   constructor(props) {
@@ -8,57 +7,11 @@ class RubiksControllerMenu extends React.Component {
 
   shuffle(rubiksArray) {
     let newRubiksArray = rubiksArray.slice();
-    const possibleMoves = ['F', 'B', 'L', 'R', 'D', 'U', 'Fi', 'Bi', 'Li', 'Ri', 'Di', 'Ui']
+    const possibleMoves = ['F', 'B', 'L', 'R', 'D', 'U', 'Fi', 'Bi', 'Li', 'Ri', 'Di', 'Ui'];
     for (let x = 0; x < 20; x++) {
       let newMove = possibleMoves[Math.floor(Math.random()*possibleMoves.length)];
-      this.props.handleRenderMove(this.makeMove(newMove, newRubiksArray))
+      this.props.handleRenderMove(this.props.makeMove(newMove, newRubiksArray))
     }
-  }
-
-  handleMove(magicString, rubiksArray) {
-    let newRubiksArray = rubiksArray.slice();
-    this.props.handleRenderMove(this.makeMove(magicString, newRubiksArray));
-  }
-
-  makeMove(magicString, rubiksArray) {
-    if (magicString === 'F') {
-      rubiks.handleRotateEdgesFrontClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(0, rubiksArray);
-    } else if (magicString === 'Fi') {
-      rubiks.handleRotateEdgesFrontCounterClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(0, rubiksArray);
-    } else if (magicString === 'B') {
-      rubiks.handleRotateEdgesBackClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(3, rubiksArray);
-    } else if (magicString === 'Bi') {
-      rubiks.handleRotateEdgesBackCounterClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(3, rubiksArray);
-    } else if (magicString === 'L') {
-      rubiks.handleRotateEdgesLeftClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(4, rubiksArray);
-    } else if (magicString === 'Li') {
-      rubiks.handleRotateEdgesLeftCounterClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(4, rubiksArray);
-    } else if (magicString === 'R') {
-      rubiks.handleRotateEdgesRightClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(2, rubiksArray);
-    } else if (magicString === 'Ri') {
-      rubiks.handleRotateEdgesRightCounterClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(2, rubiksArray);
-    } else if (magicString === 'U') {
-      rubiks.handleRotateEdgesUpClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(1, rubiksArray);
-    } else if (magicString === 'Ui') {
-      rubiks.handleRotateEdgesUpCounterClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(1, rubiksArray);
-    } else if (magicString === 'D') {
-      rubiks.handleRotateEdgesDownClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(5, rubiksArray);
-    } else if (magicString === 'Di') {
-      rubiks.handleRotateEdgesDownCounterClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(5, rubiksArray);
-    };
-    return rubiksArray;
   }
 
   render() {
@@ -70,28 +23,28 @@ class RubiksControllerMenu extends React.Component {
         <button className = "draw meet" onClick = {() => this.props.handleMakeItBlue()}>Blue</button>
       </div>
       <div className = "button-category">
-        <button className = "draw meet" onClick = {() => this.handleMove('F', this.props.rubiksArray)}>Front</button>
-        <button className = "draw meet" onClick = {() => this.handleMove('Fi', this.props.rubiksArray)}>Front Inverse</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMove('F', this.props.rubiksArray)}>Front</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMove('Fi', this.props.rubiksArray)}>Front Inverse</button>
       </div>
       <div className = "button-category">
-        <button className = "draw meet" onClick = {() => this.handleMove('B', this.props.rubiksArray)}>Back</button>
-        <button className = "draw meet" onClick = {() => this.handleMove('Bi', this.props.rubiksArray)}>Back Inverse</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMove('B', this.props.rubiksArray)}>Back</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMove('Bi', this.props.rubiksArray)}>Back Inverse</button>
       </div>
       <div className = "button-category">
-        <button className = "draw meet" onClick = {() => this.handleMove('L', this.props.rubiksArray)}>Left</button>
-        <button className = "draw meet" onClick = {() => this.handleMove('Li', this.props.rubiksArray)}>Left Inverse</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMove('L', this.props.rubiksArray)}>Left</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMove('Li', this.props.rubiksArray)}>Left Inverse</button>
       </div>
       <div className = "button-category">
-        <button className = "draw meet" onClick = {() => this.handleMove('R', this.props.rubiksArray)}>Right</button>
-        <button className = "draw meet" onClick = {() => this.handleMove('Ri', this.props.rubiksArray)}>Right Inverse</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMove('R', this.props.rubiksArray)}>Right</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMove('Ri', this.props.rubiksArray)}>Right Inverse</button>
       </div>
       <div className = "button-category">
-        <button className = "draw meet" onClick = {() => this.handleMove('U', this.props.rubiksArray)}>Up</button>
-        <button className = "draw meet" onClick = {() => this.handleMove('Ui', this.props.rubiksArray)}>Up Inverse</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMove('U', this.props.rubiksArray)}>Up</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMove('Ui', this.props.rubiksArray)}>Up Inverse</button>
       </div>
       <div className = "button-category">
-        <button className = "draw meet" onClick = {() => this.handleMove('D', this.props.rubiksArray)}>Down</button>
-        <button className = "draw meet" onClick = {() => this.handleMove('Di', this.props.rubiksArray)}>Down Inverse</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMove('D', this.props.rubiksArray)}>Down</button>
+        <button className = "draw meet" onClick = {() => this.props.handleMove('Di', this.props.rubiksArray)}>Down Inverse</button>
       </div>
       <div className = "button-category">
         <button className = "draw meet" onClick = {() => this.shuffle(this.props.rubiksArray)}>Shuffle</button>

@@ -4,6 +4,7 @@ import RubiksControllerMenu from './components/rubiksControllerMenu.jsx';
 import * as THREE from 'three';
 import stateToCubesMapping from './cube-side-mapping';
 import {miniMaxSolver, getScore} from './minimaxSolver.js';
+import rubiks from './cube-functions.js'
 class App extends React.Component {
 
   constructor(props) {
@@ -21,6 +22,7 @@ class App extends React.Component {
     // SET UP A KEY LISTENER TO MOVE CUBE
     document.onkeydown = (evt) => {
       evt = evt || window.event;
+      let keyNum = parseInt(evt.keyCode);
       if (evt.keyCode == 37) {
         this.setState({
           spinLeft: true
@@ -37,8 +39,14 @@ class App extends React.Component {
         this.setState({
           spinDown: true
         })
-      } else if (evt.keyCode == 82) {
+      } else if (evt.keyCode == 85) {
         this.handleReset();
+      } else if (evt.keyCode == 16) {
+        this.handleResetPosition();
+      } else if ([81, 87, 69, 82, 65, 83, 68, 70, 90, 88, 67, 86].indexOf(keyNum) !== -1) {
+        let moveIndex = [81, 87, 69, 82, 65, 83, 68, 70, 90, 88, 67, 86].indexOf(keyNum);
+        let move = ['U', 'Ui', 'D', 'Di', 'L', 'Li', 'R', 'Ri', 'F', 'Fi', 'B', 'Bi'][moveIndex];
+        this.handleMove(move, this.state.rubiksArray);
       }
     };
 
@@ -108,7 +116,8 @@ class App extends React.Component {
       spinLeft: false,
       spinUp: false,
       spinRight: false,
-      spinDown: false
+      spinDown: false,
+      currMove: '',
     };
 
     // FUNCTION BINDINGS
@@ -119,11 +128,14 @@ class App extends React.Component {
     this.handleMakeItBlue = this.handleMakeItBlue.bind(this);
     this.handleMakeItPink = this.handleMakeItPink.bind(this);
     this.handleReset = this.handleReset.bind(this);
+    this.handleReset = this.handleResetPosition.bind(this);
     this.handleRenderCubeColorPositions = this.handleRenderCubeColorPositions.bind(this);
     this.handleRenderMove = this.handleRenderMove.bind(this);
+    this.handleMove = this.handleMove.bind(this);
     this.handleGetScore = this.handleGetScore.bind(this);
     this.handlePrintState = this.handlePrintState.bind(this);
     this.handleSolver = this.handleSolver.bind(this);
+    this.makeMove = this.makeMove.bind(this);
   }
 
   componentDidMount() {
@@ -286,13 +298,74 @@ class App extends React.Component {
     }, this.handleRenderCubeColorPositions);
   }
 
+  handleResetPosition() {
+    this.groupCubes.rotation.x = 0.25;
+    this.groupCubes.rotation.y = 0.75;
+  }
+
+  handleMove(magicString, rubiksArray) {
+    let newRubiksArray = rubiksArray.slice();
+    this.handleRenderMove(this.makeMove(magicString, newRubiksArray));
+  }
+
+  makeMove(magicString, rubiksArray) {
+    if (magicString === 'F') {
+      rubiks.handleRotateEdgesFrontClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceClockwise(0, rubiksArray);
+    } else if (magicString === 'Fi') {
+      rubiks.handleRotateEdgesFrontCounterClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(0, rubiksArray);
+    } else if (magicString === 'B') {
+      rubiks.handleRotateEdgesBackClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceClockwise(3, rubiksArray);
+    } else if (magicString === 'Bi') {
+      rubiks.handleRotateEdgesBackCounterClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(3, rubiksArray);
+    } else if (magicString === 'L') {
+      rubiks.handleRotateEdgesLeftClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceClockwise(4, rubiksArray);
+    } else if (magicString === 'Li') {
+      rubiks.handleRotateEdgesLeftCounterClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(4, rubiksArray);
+    } else if (magicString === 'R') {
+      rubiks.handleRotateEdgesRightClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceClockwise(2, rubiksArray);
+    } else if (magicString === 'Ri') {
+      rubiks.handleRotateEdgesRightCounterClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(2, rubiksArray);
+    } else if (magicString === 'U') {
+      rubiks.handleRotateEdgesUpClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceClockwise(1, rubiksArray);
+    } else if (magicString === 'Ui') {
+      rubiks.handleRotateEdgesUpCounterClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(1, rubiksArray);
+    } else if (magicString === 'D') {
+      rubiks.handleRotateEdgesDownClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceClockwise(5, rubiksArray);
+    } else if (magicString === 'Di') {
+      rubiks.handleRotateEdgesDownCounterClockwise(rubiksArray);
+      rubiks.handleRotateCubeFaceCounterClockwise(5, rubiksArray);
+    };
+    return rubiksArray;
+  }
+
   handleRenderMove(newRubiksArray) {
     this.setState({ 
       rubiksArray: newRubiksArray
     }, () => {
-      console.log('state changed');
       this.handleRenderCubeColorPositions()
     });
+  }
+
+  handleRenderMovePromise(newRubiksArray) {
+    return new Promise ((resolve, reject) => {
+      this.setState({ 
+        rubiksArray: newRubiksArray
+      }, () => {
+        this.handleRenderCubeColorPositions()
+        resolve();
+      });
+    })
   }
 
   handleRenderCubeColorPositions() {
@@ -373,7 +446,9 @@ class App extends React.Component {
         for (let face of solutionState) {
           newSolutionState.push(face.slice());
         }
-        resolve(this.handleRenderMove(newSolutionState));
+        this.handleRenderMovePromise(newSolutionState).then(() => {
+          resolve(newSolutionState);
+        });
       });
     });
   }
@@ -404,10 +479,12 @@ class App extends React.Component {
           handleMakeItPink = {this.handleMakeItPink} 
           handleMakeItBlue = {this.handleMakeItBlue} 
           handleReset = {this.handleReset} 
-          handleRenderMove = {this.handleRenderMove} 
+          handleMove = {this.handleMove} 
           handleGetScore = {this.handleGetScore}
           handlePrintState = {this.handlePrintState}
           handleSolver = {this.handleSolver}
+          handleRenderMove = {this.handleRenderMove}
+          makeMove = {this.makeMove}
         />
       </div>
     );
