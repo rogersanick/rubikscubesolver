@@ -37,6 +37,7 @@
     "babel-loader": "^7.1.5",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
+    "nodemon": "^1.18.2",
     "path": "^0.12.7",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
