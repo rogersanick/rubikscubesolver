@@ -83,8 +83,7 @@ export const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
     for (let face of currBestRubiksArray) {
       copyArray.push(face.slice());
     }
-    console.log(copyArray);
-    cb(copyArray, globalBestPath.slice()).then(() => {miniMaxSolver(copyArray, cb)});
+    cb(copyArray, globalBestPath.slice()).then((newSolutionState) => {miniMaxSolver(newSolutionState, cb)});
   }
 }
 

@@ -447,7 +447,7 @@ class App extends React.Component {
           newSolutionState.push(face.slice());
         }
         this.handleRenderMovePromise(newSolutionState).then(() => {
-          resolve(newSolutionState);
+          resolve(solutionState);
         });
       });
     });
