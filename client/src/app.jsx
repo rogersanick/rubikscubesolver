@@ -40,6 +40,7 @@ class App extends React.Component {
           spinDown: true
         })
       } else if (evt.keyCode == 85) {
+        console.log(this.handleReset);
         this.handleReset();
       } else if (evt.keyCode == 16) {
         this.handleResetPosition();
@@ -82,14 +83,14 @@ class App extends React.Component {
     this.state = {
       width: window.innerWidth,
       height: window.innerHeight,
-      rubiksArray: [
+      rubiksArray: JSON.stringify([
                     Array(9).fill('O'), 
                     Array(9).fill('B'), 
                     Array(9).fill('W'),
                     Array(9).fill('R'), 
                     Array(9).fill('Y'),
                     Array(9).fill('G'),
-                  ],
+                  ]),
       cubePositions: cubePositions,
 
       // SET CAMERA POSITION
@@ -128,7 +129,7 @@ class App extends React.Component {
     this.handleMakeItBlue = this.handleMakeItBlue.bind(this);
     this.handleMakeItPink = this.handleMakeItPink.bind(this);
     this.handleReset = this.handleReset.bind(this);
-    this.handleReset = this.handleResetPosition.bind(this);
+    this.handleResetPosition = this.handleResetPosition.bind(this);
     this.handleRenderCubeColorPositions = this.handleRenderCubeColorPositions.bind(this);
     this.handleRenderMove = this.handleRenderMove.bind(this);
     this.handleMove = this.handleMove.bind(this);
@@ -215,13 +216,14 @@ class App extends React.Component {
     this.cubeGeometries = cubeGeometries;
 
     // CONSTRUCT ALL CUBES, STORE REFERENCES IN MEMORY
+    let rubiksArray = JSON.parse(this.state.rubiksArray);
     for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
       let aCubeMap = stateToCubesMapping[cubeNum];
       cubeGeometries[cubeNum] = new THREE.BoxGeometry(0.95, 0.95, 0.95);
       for ( let i = 0, c = 0; i < cubeGeometries[cubeNum].faces.length; i += 2, c++ ) {
         let hex;
         if (!!aCubeMap[c]) {
-          let colorCode = this.state.rubiksArray[aCubeMap[c][0]][aCubeMap[c][1]];
+          let colorCode = rubiksArray[aCubeMap[c][0]][aCubeMap[c][1]];
           hex = this.state.colorCodes[colorCode];
         } else {
           hex = '0x000000';
@@ -273,13 +275,13 @@ class App extends React.Component {
 
   handleMakeItBlue() {
     this.setState({
-      rubiksArray: Array(6).fill(Array(9).fill('B')), 
+      rubiksArray: JSON.stringify(Array(6).fill(Array(9).fill('B'))), 
     }, this.handleRenderCubeColorPositions);
   }
 
   handleMakeItPink() {
     this.setState({
-      rubiksArray: Array(6).fill(Array(9).fill('P')), 
+      rubiksArray: JSON.stringify(Array(6).fill(Array(9).fill('P'))), 
     }, this.handleRenderCubeColorPositions);
   }
 
@@ -287,14 +289,14 @@ class App extends React.Component {
     this.groupCubes.rotation.x = 0.25;
     this.groupCubes.rotation.y = 0.75;
     this.setState({
-      rubiksArray: [
+      rubiksArray: JSON.stringify([
         Array(9).fill('O'), 
         Array(9).fill('B'), 
         Array(9).fill('W'), 
         Array(9).fill('R'), 
         Array(9).fill('Y'),
         Array(9).fill('G'),
-      ]
+      ])
     }, this.handleRenderCubeColorPositions);
   }
 
@@ -304,7 +306,7 @@ class App extends React.Component {
   }
 
   handleMove(magicString, rubiksArray) {
-    let newRubiksArray = rubiksArray.slice();
+    let newRubiksArray = JSON.parse(rubiksArray);
     this.handleRenderMove(this.makeMove(magicString, newRubiksArray));
   }
 
@@ -350,31 +352,34 @@ class App extends React.Component {
   }
 
   handleRenderMove(newRubiksArray) {
+    let newRubiksArrayForState = JSON.stringify(newRubiksArray);
     this.setState({ 
-      rubiksArray: newRubiksArray
+      rubiksArray: newRubiksArrayForState
     }, () => {
       this.handleRenderCubeColorPositions()
     });
   }
 
   handleRenderMovePromise(newRubiksArray) {
+    let newRubiksArrayForState = JSON.stringify(newRubiksArray);
+    console.log(newRubiksArrayForState);
     return new Promise ((resolve, reject) => {
       this.setState({ 
-        rubiksArray: newRubiksArray
+        rubiksArray: newRubiksArrayForState,
       }, () => {
-        this.handleRenderCubeColorPositions()
-        resolve();
+        this.handleRenderCubeColorPositions(() => { resolve() });
       });
     })
   }
 
-  handleRenderCubeColorPositions() {
+  handleRenderCubeColorPositions(cb) {
+    let rubiksArray = JSON.parse(this.state.rubiksArray);
     for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
       let aCubeMap = stateToCubesMapping[cubeNum];
       for ( let i = 0, c = 0; i < this.cubeGeometries[cubeNum].faces.length; i += 2, c++ ) {
         let hex;
         if (!!aCubeMap[c]) {
-          let colorCode = this.state.rubiksArray[aCubeMap[c][0]][aCubeMap[c][1]];
+          let colorCode = rubiksArray[aCubeMap[c][0]][aCubeMap[c][1]];
           hex = this.state.colorCodes[colorCode];
         } else {
           hex = '0x000000';
@@ -385,6 +390,9 @@ class App extends React.Component {
       }
     }
     this.renderScene();
+    if (cb) {
+      cb();
+    }
   }
 
   componentWillUnmount() {
@@ -435,30 +443,23 @@ class App extends React.Component {
   }
 
   handleSolver() {
-    let newCurrBestRubiksArray = [];
-    for (let face of this.state.rubiksArray) {
-      newCurrBestRubiksArray.push(face.slice());
-    }
+    let newCurrBestRubiksArray = JSON.parse(this.state.rubiksArray);
 
     miniMaxSolver(newCurrBestRubiksArray, (solutionState) => {
       return new Promise ((resolve, reject) => {
-        let newSolutionState = [];
-        for (let face of solutionState) {
-          newSolutionState.push(face.slice());
-        }
-        this.handleRenderMovePromise(newSolutionState).then(() => {
-          resolve(solutionState);
+        this.handleRenderMovePromise(solutionState).then(() => {
+          resolve(JSON.parse(solutionState));
         });
       });
     });
   }
 
   handlePrintState() {
-    console.log(JSON.stringify(this.state.rubiksArray));
+    console.log(this.state.rubiksArray);
   }
 
   handleGetScore() {
-    let score = getScore(this.state.rubiksArray);
+    let score = getScore(JSON.parse(this.state.rubiksArray));
     console.log(score)
   }
 

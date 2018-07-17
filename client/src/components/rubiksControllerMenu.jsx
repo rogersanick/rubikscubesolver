@@ -6,7 +6,7 @@ class RubiksControllerMenu extends React.Component {
   }
 
   shuffle(rubiksArray) {
-    let newRubiksArray = rubiksArray.slice();
+    let newRubiksArray = JSON.parse(rubiksArray);
     const possibleMoves = ['F', 'B', 'L', 'R', 'D', 'U', 'Fi', 'Bi', 'Li', 'Ri', 'Di', 'Ui'];
     for (let x = 0; x < 20; x++) {
       let newMove = possibleMoves[Math.floor(Math.random()*possibleMoves.length)];

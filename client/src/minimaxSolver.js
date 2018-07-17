@@ -6,7 +6,7 @@ let globalBestPath = [];
 let solved = false;
 const bestScore = {score: 0};
 let currBestPath = [];
-let currBestRubiksArray
+let currBestRubiksArray;
 
 export const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
 
@@ -83,7 +83,7 @@ export const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
     for (let face of currBestRubiksArray) {
       copyArray.push(face.slice());
     }
-    cb(copyArray, globalBestPath.slice()).then((newSolutionState) => {miniMaxSolver(newSolutionState, cb)});
+    cb(JSON.stringify(copyArray), globalBestPath.slice()).then((newSolutionState) => {miniMaxSolver(newSolutionState, cb)});
   }
 }
 
