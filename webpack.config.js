@@ -1,16 +1,14 @@
 var path = require('path');
 var SRC_DIR = path.join(__dirname, '/client/src');
 var DIST_DIR = path.join(__dirname, '/client/dist');
-var babelPolyfill = require('babel-polyfill');
-
-var options = { };
 
 module.exports = {
   entry: {
-    app: `${SRC_DIR}/index.jsx`
+    app: `${SRC_DIR}/index.jsx`,
+    minimaxSolver: `${SRC_DIR}/minimaxSolver.js`
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: DIST_DIR
   }, 
   module : {

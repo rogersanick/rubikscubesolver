@@ -8,7 +8,7 @@ const bestScore = {score: 0};
 let currBestPath = [];
 let currBestRubiksArray
 
-export const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
+const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
 
   if (solved) {
     return globalBestPath;
@@ -49,7 +49,7 @@ export const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
     if (newScore1 === 100) {
       solved = true;
       globalBestPath = globalBestPath.concat(currBestPath);
-      cb(rubiksArray, globalBestPath);
+      cb(rubiksArray, globalBestPath, solved);
       globalBestPath = [];
       solved = false;
       bestScore.score = 0;
@@ -83,9 +83,26 @@ export const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
     for (let face of currBestRubiksArray) {
       copyArray.push(face.slice());
     }
-    cb(copyArray, globalBestPath.slice()).then((newSolutionState) => {miniMaxSolver(newSolutionState, cb)});
+    cb(copyArray, globalBestPath.slice(), solved).then((checkSolved) => { if (!checkSolved) miniMaxSolver(copyArray, cb)});
   }
 }
+
+self.addEventListener('message', function(e) {
+  if (!e.data.check) {
+    return;
+  }
+  miniMaxSolver(e.data, (copyArray, globalBestPath, solved) => {
+    return new Promise((resolve, reject) => {
+      let message = {
+        copyArray,
+        globalBestPath,
+        solved
+      }
+      self.postMessage(message);
+      resolve(solved);
+    });
+  })
+});
 
 
 export const getScore = (rubiksArray) => {

@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React from 'react'
 class RubiksCube extends React.PureComponent {
 
   constructor(props) {
