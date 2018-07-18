@@ -394,7 +394,7 @@ class App extends React.Component {
 
     miniMaxSolverWorker.addEventListener('message', (e) => {
       if (e.data.solved) {
-        console.log(solved);
+        console.log('solved');
       }
       this.setState({
         globalBestPath: e.data.globalBestPath,

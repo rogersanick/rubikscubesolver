@@ -2,7 +2,6 @@ import rubiks from './cube-functions.js';
 import cubeSideMapping from './cube-side-mapping.js';
 import solution from './solutionCube.js';
 
-
 const moves = ['F', 'Fi', 'B', 'Bi', 'L', 'Li', 'R', 'Ri', 'U', 'Ui', 'D', 'Di'];
 
 let globalBestPath = [];
@@ -107,36 +106,37 @@ self.addEventListener('message', function(e) {
   })
 });
 
+// export const getScore = (rubiksArray) => {
+
+//   let correctScore = 27;
+//   let maxScore = 27;
+
+//   let newStateMapping = JSON.parse(JSON.stringify(cubeSideMapping));
+
+//   for (let cube in newStateMapping) {
+//     for (let face in newStateMapping[cube]) {
+//       if (newStateMapping[cube][face]) {
+//         newStateMapping[cube][face] = rubiksArray[newStateMapping[cube][face][0]][newStateMapping[cube][face][1]];
+//       };
+//     }
+//   }
+
+//   for (let cube in solution) {
+//     for (let face in solution[cube]) {
+//       if (solution[cube][face]) {
+//         if (solution[cube][face] !== newStateMapping[cube][face]) {
+//           correctScore--;
+//           break;
+//         };
+//       }
+//     }
+//   }
+
+//   return correctScore / maxScore * 100;
+
+// }
+
 export const getScore = (rubiksArray) => {
-
-  let correctScore = 0;
-  let maxScore = 27;
-
-  let newStateMapping = JSON.parse(JSON.stringify(cubeSideMapping));
-
-  for (let cube in newStateMapping) {
-    for (let face in newStateMapping[cube]) {
-      if (newStateMapping[cube][face]) {
-        newStateMapping[cube][face] = rubiksArray[newStateMapping[cube][face][0]][newStateMapping[cube][face][1]];
-      };
-    }
-  }
-
-  for (let cube in solution) {
-    for (let face in solution[cube]) {
-      if (solution[cube][face]) {
-        if (solution[cube][face] === rubkis[cube][face]) {
-          correctScore++;
-        };
-      }
-    }
-  }
-
-  return correctScore / maxScore * 100;
-
-}
-
-export const getScoreOld = (rubiksArray) => {
   let correctScore = 0;
   let maxScore = 54;
   let solution = [
