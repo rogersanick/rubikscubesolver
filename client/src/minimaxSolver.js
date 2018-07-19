@@ -18,34 +18,40 @@ const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
 
   for (let moveID = 0; moveID < moves.length; moveID++) {
     
-    // Prevent redundant moves
+    // Prevent redundant moves | F, Fi
     if (moveID % 2 === 0) {
       if (path[path.length-1] === moves[moveID+1]) {
         continue;
       }
     } else {
+    // Prevent redundant moves | Fi, F
       if (path[path.length-1] === moves[moveID-1]) {
         continue;
       }
     }
 
+    // Prevent 3/4 turns
     if (moves[moveID] === path[path.length-1] && moves[moveID] === path[path.length-2]) {
       continue;
     }
 
-    // Make a move
     makeMove(moves[moveID], rubiksArray);
     path.push(moves[moveID]);
     let newScore1 = getScore(rubiksArray);
     
     if (newScore1 > bestScore.score) {
-      bestScore.score = newScore1;
-      currBestPath = path.slice();
+
+      if (JSON.stringify(currBestRubiksArray) === JSON.stringify(rubiksArray)) {
+        break;
+      }
+
       let newCurrBestRubiksArray = [];
       for (let face of rubiksArray) {
         newCurrBestRubiksArray.push(face.slice());
       }
       currBestRubiksArray = newCurrBestRubiksArray;
+      bestScore.score = newScore1;
+      currBestPath = path.slice();
     } 
 
     if (newScore1 === 100) {
