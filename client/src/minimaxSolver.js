@@ -35,6 +35,11 @@ const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
       continue;
     }
 
+    let revertRubiksArray = [];
+    for (let face of rubiksArray) {
+      revertRubiksArray.push(face.slice());
+    }
+
     makeMove(moves[moveID], rubiksArray);
     path.push(moves[moveID]);
     let newScore1 = getScore(rubiksArray);
@@ -66,7 +71,7 @@ const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
     }
 
     // Recurse with first move IF NOT DEEPER THAN 4 BRANCHES
-    if (depth < 5) {
+    if (depth < 6) {
       let resultPath = miniMaxSolver(rubiksArray, cb, depth+1, path);
       if (resultPath) {
         return resultPath;
@@ -74,11 +79,7 @@ const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
     }
     
     // Backtrack
-    if (moveID % 2 === 0) {
-      makeMove(moves[moveID + 1], rubiksArray);
-    } else {
-      makeMove(moves[moveID - 1], rubiksArray)
-    }
+    rubiksArray = revertRubiksArray;
 
     path.pop();
   }
