@@ -5,7 +5,7 @@ var DIST_DIR = path.join(__dirname, '/client/dist');
 module.exports = {
   entry: {
     app: `${SRC_DIR}/index.jsx`,
-    minimaxSolver: `${SRC_DIR}/minimaxSolver.js`
+    minimaxSolver: `${SRC_DIR}/rubiksHelpers/minimaxSolver.js`
   },
   output: {
     filename: '[name].bundle.js',
