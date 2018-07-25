@@ -1,0 +1,9 @@
+.photo-centered {
+  text-align: right;
+
+  &__photo {
+    width: 90%;  // width of images should always be percentages, so that it is scaling responsively
+    box-shadow: 0 1.5rem 4rem rgba($black, .4); // almost always the box shadow on x will be 0 and only y will be
+    border-radius: 2px;
+  }
+}

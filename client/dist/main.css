@@ -1,3 +1,730 @@
+/* PALETTE */
+/* HSL */
+/* RGB DEPRECATED*/
+/* APP COLORS */
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem);
+  }
+  80% {
+    transform: translateX(1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem);
+  }
+  80% {
+    transform: translateX(-1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+  40% {
+    transform: rotate(10deg);
+  }
+  80% {
+    transform: rotate(-10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+*,
+* ::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  /* forces each element to inherit box-sizing, which is not inherited by default */
+}
+
+html {
+  font-size: 62.5%;
+  /* Setting the root font size. Now we can use rem instead of px to relate to this and if we want to change font size, e.g. in media queries, we only need to change it at on place (10px is a great value because then 1rem equals 10px) */
+  /* we changed the 10px to 62.5% which equals 10px in default cases, but scales if user has set default browser settings */
+}
+
+body {
+  box-sizing: border-box;
+  /*!!! the borders and paddings are no longer added to the total height or width we specify for a box*/
+  margin: 1rem;
+}
+
+.body-wrapper {
+  background-image: linear-gradient(to right bottom, #d896ff, #660066);
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 1px;
+  margin: -3.1rem;
+  min-height: 100vh;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  /* font-size: 16px; */
+  line-height: 1.7;
+  /*means that its 1.7x bigger than the predefined line height*/
+  color: #777;
+  padding: 2rem;
+}
+
+.heading-primary {
+  color: #fff;
+  backface-visibility: hidden;
+  /* solves the issue if the animation shakes up a little bit. Happened to tutor, didnt happen to me */
+}
+.heading-primary--main {
+  display: block;
+  font-size: 6rem;
+  font-weight: 400;
+  /*thickness of the letters not all font-weights are loaded for the font*/
+  letter-spacing: 3.5rem;
+  margin-bottom: 1.5rem;
+  animation-name: moveInLeft;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  /* faster at the beginning, slower towards the end*/
+  /*animation-delay: 3s; // delays the animation
+   animation-iteration-count; 3 // repeats the animation 3 times
+   */
+}
+.heading-primary--sub {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1.75rem;
+  margin-bottom: 6rem;
+  width: 75vw;
+  animation: moveInRight 1s ease-out;
+  /* shorthand for animations, same as above */
+}
+
+.heading-secondary {
+  font-size: 3rem;
+  font-weight: 700;
+  display: inline-block;
+  background-image: linear-gradient(to right, #be29ec, #660066);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 0.2rem;
+  transition: all 0.2s;
+}
+
+.heading-tertiary {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.paragraph {
+  font-size: 1.6rem;
+}
+.paragraph:not(last-child) {
+  margin-bottom: 2rem;
+}
+
+.capital-letter {
+  font-size: 6rem;
+  font-weight: 700;
+  line-height: 200%;
+  display: block;
+  color: #777;
+  transition: color 0.5s ease;
+}
+
+.error-message {
+  text-align: center;
+  font-size: 1rem;
+  color: red;
+  margin: 1.5rem 0;
+}
+
+.u-center-text {
+  text-align: center;
+}
+
+.u-margin-bottom-big {
+  margin-bottom: 7rem;
+}
+
+.u-margin-bottom-small {
+  margin-bottom: 1.5rem;
+}
+
+.u-margin-bottom-medium {
+  margin-bottom: 4rem;
+}
+
+.u-margin-top-small {
+  margin-top: 1.5rem;
+}
+
+.u-margin-top-medium {
+  margin-top: 4rem;
+}
+
+.u-margin-top-big {
+  margin-top: 7rem;
+}
+
+.u-margin-top-huge {
+  margin-top: 10rem;
+}
+
+.u-horizontal-divider {
+  width: 90%;
+  border-bottom: 0.1rem solid #777;
+  margin-left: auto;
+  margin-right: auto;
+}
+.u-horizontal-divider--red {
+  width: 100%;
+  border-bottom-color: #800080;
+}
+
+.u-is-relative {
+  position: relative;
+}
+
+.u-is-absolute {
+  position: absolute;
+}
+
+.hr--dotted {
+  border: 1px dashed #adadad;
+  margin: 1rem 0;
+}
+
+.hr--solid--red {
+  border: 0.5px solid #800080;
+}
+
+.btn:link, .btn:visited {
+  text-decoration: none;
+  padding: 1.5rem 4rem;
+  display: inline-block;
+  /* gets centered because inline-block is treated as if text (inline) and can get centered by text-align center from parent  */
+  border-radius: 10rem;
+  transition: all 0.2s;
+  /* simpler way to do animation compared to @keyframes; in this case makes the change from normal to hover and hover to active smooth rather than jumpy*/
+  position: relative;
+  /* set so that btn::after has a reference*/
+  font-size: 1.6rem;
+  letter-spacing: 0.3rem;
+}
+.btn:hover {
+  transform: translateY(-0.3rem);
+  box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.2);
+  /* 1st value: shadow on x axis, 2nd value shadow on y-axis; 3rd value blur; 4th color*/
+}
+.btn:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  /* grows it to 1.5 its size */
+  opacity: 0;
+}
+.btn:active {
+  transform: translateY(-0.1rem);
+  box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.2);
+  /* decreasing the length and blur of the shadow makes it appear to get pushed back*/
+}
+.btn--white {
+  background-color: #fff;
+  color: #777;
+}
+.btn--white::after {
+  background-color: #fff;
+}
+.btn::after {
+  content: "";
+  /* have to specifiy both content and display for those elements*/
+  display: inline-block;
+  height: 100%;
+  /* 100% of button which is treated as parent element*/
+  width: 100%;
+  border-radius: 10rem;
+  position: absolute;
+  /* takes at reference the first parent with a relative position */
+  top: 0;
+  left: 0;
+  z-index: -1;
+  /* defines hierarchical position when elements are on top of each other higher; value means on top*/
+  transition: all 0.4s;
+}
+.btn--animated {
+  animation: moveInBottom 0.5s ease-out 0.4s;
+  /* .4s delays the animation */
+  animation-fill-mode: backwards;
+  /* applies the styles of the animation before the animation starts. Without the buttom would be visible before moving, test it out */
+}
+
+.btn-text:link, .btn-text:visited {
+  font-size: 1.6rem;
+  color: #800080;
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 0.1rem solid #800080;
+  padding: 0.3rem;
+  transition: all 0.2s;
+  border-radius: 0.2rem;
+}
+.btn-text:hover {
+  background-color: #800080;
+  color: #fff;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+.btn-text:active {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transform: translateY(0);
+}
+
+.btn--delete {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #800080;
+  margin-left: 3px;
+}
+
+.poll-form__button-box {
+  text-align: center;
+}
+
+.btn--standard {
+  cursor: pointer;
+  background-image: linear-gradient(to bottom right, #be29ec, #660066);
+  padding: 0.7rem 1.5rem;
+  display: inline-block;
+  /* gets centered because inline-block is treated as if text (inline) and can get centered by text-align center from parent  */
+  border-radius: 100px;
+  transition: all 0.2s;
+  /* simpler way to do animation compared to @keyframes; in this case makes the change from normal to hover and hover to active smooth rather than jumpy*/
+  position: relative;
+  /* set so that btn::after has a reference*/
+  font-size: 1.4rem;
+  color: #fff;
+  margin: 0 2.5rem;
+}
+.btn--standard:focus {
+  outline: 0;
+}
+.btn--standard:hover {
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+.btn--standard:active {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transform: translateY(0);
+}
+
+.btn--standard-filter {
+  cursor: pointer;
+  background-color: #adadad;
+  padding: 0.7rem 1.5rem;
+  display: inline-block;
+  /* gets centered because inline-block is treated as if text (inline) and can get centered by text-align center from parent  */
+  border-radius: 100px;
+  transition: all 0.2s;
+  /* simpler way to do animation compared to @keyframes; in this case makes the change from normal to hover and hover to active smooth rather than jumpy*/
+  position: relative;
+  /* set so that btn::after has a reference*/
+  font-size: 1.4rem;
+  color: #fff;
+  margin: 0 2.5rem;
+}
+.btn--standard-filter:focus {
+  outline: 0;
+}
+.btn--standard-filter:hover {
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+.btn--standard-filter:active {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transform: translateY(0);
+}
+
+.btn--small {
+  font-size: 1.3rem;
+  padding: 0.5rem 1rem;
+  margin: 0 0.3rem;
+}
+
+.btn--grey {
+  background-color: #f0eeee;
+  color: #800080;
+}
+
+.btn--standard-small-grey {
+  cursor: pointer;
+  display: inline-block;
+  /* gets centered because inline-block is treated as if text (inline) and can get centered by text-align center from parent  */
+  border-radius: 100px;
+  transition: all 0.2s;
+  /* simpler way to do animation compared to @keyframes; in this case makes the change from normal to hover and hover to active smooth rather than jumpy*/
+  font-size: 1.3rem;
+  padding: 0.5rem 1rem;
+  margin: 0 0.3rem;
+  background-color: #f0eeee;
+  color: #800080;
+}
+.btn--standard-small-grey:focus {
+  outline: 0;
+}
+.btn--standard-small-grey:hover {
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+.btn--standard-small-grey:active {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transform: translateY(0);
+}
+
+#selected {
+  background-image: linear-gradient(to bottom right, #be29ec, #660066);
+}
+
+.card {
+  perspective: 150rem;
+  -moz-perspective: 150rem;
+  position: relative;
+  height: 23rem;
+}
+.card__side {
+  height: 23rem;
+  transition: all 0.8s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  backface-visibility: hidden;
+  border-radius: 3px;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+}
+.card__side--front {
+  background-color: #fff;
+}
+.card__side--back {
+  transform: rotateY(180deg);
+  background-color: rgba(250, 249, 249, 0.95);
+  text-align: left;
+}
+.card:hover .card__side--front {
+  transform: rotateY(-180deg);
+}
+.card:hover .card__side--back {
+  transform: rotateY(0);
+}
+.card__picture {
+  background-size: cover;
+  height: 23rem;
+  background-blend-mode: color;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.card__picture-1 {
+  background-image: linear-gradient(to right bottom, #faf9f9, #777), url(../images/live-poll-1.jpg);
+}
+.card__picture-2 {
+  background-image: linear-gradient(to right bottom, #faf9f9, #777), url(../images/live-poll-2.jpg);
+}
+.card__picture-3 {
+  background-image: linear-gradient(to right bottom, #faf9f9, #777), url(../images/live-poll-3.jpg);
+}
+.card__heading {
+  font-size: 2.6rem;
+  font-weight: 300;
+  text-align: right;
+  color: #faf9f9;
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  width: 85%;
+}
+.card__heading-span {
+  padding: 0.5rem 0.5rem;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  background-image: linear-gradient(to right bottom, rgba(250, 249, 249, 0.85), rgba(119, 119, 119, 0.85));
+  border-radius: 3px;
+}
+.card__back-text {
+  font-size: 1.6rem;
+  color: #777;
+  padding: 0 3rem;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.photo-centered {
+  text-align: right;
+}
+.photo-centered__photo {
+  width: 90%;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+  border-radius: 2px;
+}
+
+.popup {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.navbar {
+  font-size: 1.6rem;
+  height: 6rem;
+  background-color: #fff;
+  border-bottom: 1px solid #f4f2f2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  margin-left: 2rem;
+  display: flex;
+  align-content: center;
+}
+.brand__logo {
+  height: 3rem;
+}
+.brand__name {
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+  margin-left: 1rem;
+  display: inline-block;
+  background-image: linear-gradient(to right, #be29ec, #660066);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.user-nav {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+}
+.user-nav > * {
+  padding: 0 2rem;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.user-nav > *:hover {
+  background-color: #f4f2f2;
+}
+.user-nav__button-box {
+  position: relative;
+}
+.user-nav__button-box:link, .user-nav__button-box:visited {
+  text-decoration: none;
+  color: #800080;
+}
+
+.container {
+  max-width: 120rem;
+  margin: 6rem auto;
+  background-color: #faf9f9;
+  box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.3);
+  min-height: 50rem;
+}
+
+.footer {
+  background-color: #333;
+  margin-top: -1rem;
+  padding: 8rem 0 7rem 0;
+  font-size: 1.4rem;
+  color: #faf9f9;
+}
+.footer__logo-box {
+  text-align: center;
+}
+.footer__logo {
+  width: 15rem;
+  height: auto;
+}
+.footer__name-box {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+.footer__name {
+  font-size: 3rem;
+  font-weight: 700;
+  display: inline-block;
+  background-image: linear-gradient(to right, #be29ec, #660066);
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: 0.2rem;
+}
+.footer__navigation {
+  border-top: 1px solid #777;
+  padding-top: 1rem;
+  display: inline-block;
+}
+.footer__list {
+  list-style: none;
+}
+.footer__item {
+  display: inline-block;
+}
+.footer__item:not(:last-child) {
+  margin-right: 1.5rem;
+}
+.footer__link:link, .footer__link:visited {
+  color: #faf9f9;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+}
+.footer__link:hover, .footer__link:active {
+  color: #be29ec;
+  text-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+.footer__copyright {
+  border-top: 1px solid #777;
+  padding-top: 1rem;
+  float: right;
+}
+
+.row {
+  max-width: 114rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.row [class^=col-] {
+  float: left;
+}
+.row [class^=col-]:not(:last-child) {
+  margin-right: 6rem;
+}
+.row-animated__letter:hover .capital-letter {
+  background-image: linear-gradient(to right, #be29ec, #660066);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.row-animated__letter:hover .btn-text {
+  transform: translateY(-0.5rem) scale(1.05);
+  text-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.2);
+}
+
+.col-1-of-2 {
+  width: calc((100% - 6rem) / 2);
+}
+
+.col-1-of-3 {
+  width: calc((100% - 2 * 6rem) / 3);
+}
+
+.col-2-of-3 {
+  width: calc(2 * ((100% - 2 * 6rem) / 3) + 6rem);
+}
+
+.col-1-of-4 {
+  width: calc((100% - 3 * 6rem) / 4);
+}
+
+.col-2-of-4 {
+  width: calc(2* ((100% - 3 * 6rem) / 4) + 6rem);
+}
+
+.col-3-of-4 {
+  width: calc(3* ((100% - 3 * 6rem) / 4) + 2* 6rem);
+}
+
+.header {
+  height: 85vh;
+  /*element should be 95% of the viewport height*/
+  background-image: linear-gradient(to right bottom, rgba(190, 41, 236, 0.7), rgba(128, 0, 128, 0.7)), url("/images/background-header.png");
+  /*first image is on top of second*/
+  background-size: cover;
+  /*whatever the viewport width it will try to fit the element in that*/
+  background-position: bottom;
+  /*ensures the top of the image always stays at the top of the conteiner*/
+  position: relative;
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 70vh, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 70vh, 0 100%);
+  /*Goes clockwise cornes and (x y) coordinates determine what part of the picture can still be seen check out bennettfeely.com/clippy */
+}
+.header__logo-box {
+  position: absolute;
+  top: 2rem;
+  /*counts from parents element that has position set to relative*/
+  left: 1.5rem;
+}
+.header__text-box {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* shifts the element by 50% of its own width to the left (-50% to the right) and 50% of its height to the top */
+  text-align: center;
+}
+.header__logo {
+  height: 7rem;
+  /*width will automatically be figured out by browser*/
+}
+
+.nav-button {
+  color: #d30015;
+}
+
+.section-about {
+  background-color: #faf9f9;
+  padding: 30rem 0;
+  margin-top: -40vh;
+}
+
+.section-UX {
+  margin-top: -25rem;
+  padding: 15rem 0 10rem 0;
+  background-image: linear-gradient(to right bottom, rgba(190, 41, 236, 0.7), rgba(128, 0, 128, 0.7)), url(../images/background-2.png);
+  /*first image is on top of second*/
+  background-size: cover;
+  background-position: bottom;
+  -webkit-clip-path: polygon(0 16vh, 100% 0, 100% 100%, 0 100%);
+  clip-path: polygon(0 16vh, 100% 0, 100% 100%, 0 100%);
+}
+
 body {
   margin: 0px;
 }

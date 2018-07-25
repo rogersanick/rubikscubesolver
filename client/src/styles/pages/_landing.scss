@@ -1,0 +1,20 @@
+.section-about {
+  background-color: $grey-light;
+  padding: 30rem 0; // moves down the content to not be behind the one above, since we are moving the about one up ;
+  margin-top: -40vh; // moves up the section as much to cover the white wedge
+}
+
+.section-UX {
+  margin-top: -25rem;
+  padding: 15rem 0 10rem 0;
+  background-image: linear-gradient(
+    to right bottom,  
+    rgba($primary-light, 0.7),
+    rgba($primary, 0.7)), 
+    url(../images/background-2.png); /*first image is on top of second*/
+  background-size: cover;
+  background-position: bottom;
+  
+  -webkit-clip-path: polygon(0 16vh, 100% 0, 100% 100% , 0 100%); 
+  clip-path: polygon(0 16vh, 100% 0, 100% 100% , 0 100%); 
+}

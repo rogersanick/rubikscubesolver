@@ -1,0 +1,36 @@
+.header {
+  height: 85vh; /*element should be 95% of the viewport height*/
+  background-image: linear-gradient(
+    to right bottom,  
+    rgba($primary-light, .7),
+    rgba($primary, .7)), 
+    url('/images/background-header.png'); /*first image is on top of second*/
+  background-size: cover; /*whatever the viewport width it will try to fit the element in that*/
+  background-position: bottom; /*ensures the top of the image always stays at the top of the conteiner*/
+  position: relative;
+
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 70vh , 0 100%); 
+  clip-path: polygon(0 0, 100% 0, 100% 70vh , 0 100%); /*Goes clockwise cornes and (x y) coordinates determine what part of the picture can still be seen check out bennettfeely.com/clippy */
+
+  &__logo-box {
+    position: absolute;
+    top: 2rem; /*counts from parents element that has position set to relative*/
+    left: 1.5rem;
+  }
+
+  &__text-box {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* shifts the element by 50% of its own width to the left (-50% to the right) and 50% of its height to the top */
+    text-align: center;
+  }
+  
+  &__logo {
+    height: 7rem; /*width will automatically be figured out by browser*/
+  }
+}
+
+.nav-button {
+  color: #d30015;
+}

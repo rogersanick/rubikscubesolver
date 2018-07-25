@@ -1,0 +1,192 @@
+.btn {
+  &:link, 
+  &:visited {
+    text-decoration: none;
+    padding: 1.5rem 4rem;
+    display: inline-block; /* gets centered because inline-block is treated as if text (inline) and can get centered by text-align center from parent  */
+    border-radius: 10rem;
+    transition: all .2s; /* simpler way to do animation compared to @keyframes; in this case makes the change from normal to hover and hover to active smooth rather than jumpy*/
+    position: relative; /* set so that btn::after has a reference*/
+    font-size: $default-font-size;
+    letter-spacing: .3rem;
+  }
+
+  &:hover {
+    transform: translateY(-.3rem);
+    box-shadow: 0 1rem 1.5rem rgba($black, .2); /* 1st value: shadow on x axis, 2nd value shadow on y-axis; 3rd value blur; 4th color*/
+  
+    &::after {
+      transform: scaleX(1.4) scaleY(1.6); /* grows it to 1.5 its size */
+      opacity: 0;
+    }
+  }
+
+  &:active {
+    transform: translateY(-.1rem);
+    box-shadow: 0 .5rem .5rem rgba($black, .2); /* decreasing the length and blur of the shadow makes it appear to get pushed back*/
+
+  }
+
+  &--white {
+    background-color: $white;
+    color: $grey-dark;
+    
+    &::after {
+      background-color: $white;
+    }
+  }
+
+  &::after {
+    content: ""; /* have to specifiy both content and display for those elements*/
+    display: inline-block;
+    height: 100%; /* 100% of button which is treated as parent element*/
+    width: 100%;
+    border-radius: 10rem;
+    position: absolute; /* takes at reference the first parent with a relative position */
+    top: 0; 
+    left: 0;
+    z-index: -1; /* defines hierarchical position when elements are on top of each other higher; value means on top*/
+    transition: all .4s;
+  }
+
+
+  &--animated {
+    animation: moveInBottom .5s ease-out .4s; /* .4s delays the animation */
+    animation-fill-mode: backwards; /* applies the styles of the animation before the animation starts. Without the buttom would be visible before moving, test it out */
+  }
+} 
+
+.btn-text {
+  &:link,
+  &:visited {
+    font-size: $default-font-size;
+    color: $primary;
+    display: inline-block;
+    text-decoration: none;
+    border-bottom: .1rem solid $primary; // border width, style & color 
+    padding: .3rem;
+    transition: all .2s;
+    border-radius: .2rem;
+  }
+
+  &:hover {
+    background-color: $primary;
+    color: $white;
+    box-shadow: 0 1rem 2rem rgba($black, .15);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    box-shadow: 0 .5rem 1rem rgba($black, .15);
+    transform: translateY(0);
+
+  }
+}
+
+.btn--delete {
+  font-weight: 700;
+  font-size: 1rem;
+  color: $primary;
+  margin-left: 3px;
+}
+
+.poll-form__button-box {
+  text-align: center;
+}
+
+.btn--standard {
+  cursor: pointer;
+  background-image: linear-gradient(to bottom right, $primary-light, $primary-dark);
+  padding: .7rem 1.5rem;
+  display: inline-block; /* gets centered because inline-block is treated as if text (inline) and can get centered by text-align center from parent  */
+  border-radius: 100px;
+  transition: all .2s; /* simpler way to do animation compared to @keyframes; in this case makes the change from normal to hover and hover to active smooth rather than jumpy*/
+  position: relative; /* set so that btn::after has a reference*/
+  font-size: 1.4rem;
+  color: #fff;
+  margin: 0 2.5rem;
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:hover {
+    box-shadow: 0 1rem 2rem rgba($black, .15);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    box-shadow: 0 .5rem 1rem rgba($black, .15);
+    transform: translateY(0);
+  }
+
+}
+
+.btn--standard-filter {
+  cursor: pointer;
+  background-color: $grey;
+  padding: .7rem 1.5rem;
+  display: inline-block; /* gets centered because inline-block is treated as if text (inline) and can get centered by text-align center from parent  */
+  border-radius: 100px;
+  transition: all .2s; /* simpler way to do animation compared to @keyframes; in this case makes the change from normal to hover and hover to active smooth rather than jumpy*/
+  position: relative; /* set so that btn::after has a reference*/
+  font-size: 1.4rem;
+  color: #fff;
+  margin: 0 2.5rem;
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:hover {
+    box-shadow: 0 1rem 2rem rgba($black, .15);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    box-shadow: 0 .5rem 1rem rgba($black, .15);
+    transform: translateY(0);
+  }
+
+}
+
+.btn--small {
+  font-size: 1.3rem;
+  padding: .5rem 1rem;
+  margin: 0 .3rem;
+}
+
+.btn--grey {
+  background-color: $grey-light-3;
+  color: $primary;
+}
+
+.btn--standard-small-grey {
+  cursor: pointer;
+  display: inline-block; /* gets centered because inline-block is treated as if text (inline) and can get centered by text-align center from parent  */
+  border-radius: 100px;
+  transition: all .2s; /* simpler way to do animation compared to @keyframes; in this case makes the change from normal to hover and hover to active smooth rather than jumpy*/
+  font-size: 1.3rem;
+  padding: .5rem 1rem;
+  margin: 0 .3rem;
+  background-color: $grey-light-3;
+  color: $primary;
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:hover {
+    box-shadow: 0 1rem 2rem rgba($black, .15);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    box-shadow: 0 .5rem 1rem rgba($black, .15);
+    transform: translateY(0);
+  }
+}
+
+#selected {
+  background-image: linear-gradient(to bottom right, $primary-light, $primary-dark); 
+}

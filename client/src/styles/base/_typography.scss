@@ -1,0 +1,86 @@
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  /* font-size: 16px; */
+  line-height: 1.7; /*means that its 1.7x bigger than the predefined line height*/
+  color: $grey-dark;
+  padding: 2rem;
+}
+
+.heading-primary {
+  color: $white;
+
+  backface-visibility: hidden; /* solves the issue if the animation shakes up a little bit. Happened to tutor, didnt happen to me */
+
+  &--main {
+    display: block;
+    font-size: 6rem;
+    font-weight: 400; /*thickness of the letters not all font-weights are loaded for the font*/
+    letter-spacing: 3.5rem;
+    margin-bottom: 1.5rem;
+  
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    animation-timing-function: ease-out; /* faster at the beginning, slower towards the end*/
+    /*animation-delay: 3s; // delays the animation
+     animation-iteration-count; 3 // repeats the animation 3 times
+     */
+  }
+  
+  &--sub {
+    display: block; 
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1.75rem;
+    margin-bottom: 6rem;
+    width: 75vw;
+  
+    animation: moveInRight 1s ease-out; /* shorthand for animations, same as above */
+  }
+}
+
+.heading-secondary {
+  font-size: 3rem;
+  font-weight: 700;
+  display: inline-block;
+  // THE BELOW 3 LINES CREATE THE EFFECT OF MAKING THE TEXT BE IN A GRADIENT COLOR
+  background-image: linear-gradient(to right, $primary-light, $primary-dark);
+  -webkit-background-clip: text; // will clip the background to exactly the places where the text sits
+  background-clip: text;
+  color: transparent;
+
+  letter-spacing: .2rem;
+  transition: all .2s;
+}
+
+.heading-tertiary {
+  font-size: $default-font-size;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.paragraph {
+  font-size: $default-font-size;
+
+  &:not(last-child) {
+    margin-bottom: 2rem;
+  }
+}
+
+.capital-letter {
+  font-size: 6rem;
+  font-weight: 700;
+  line-height: 200%;
+  display: block;
+  // THE BELOW 3 LINES CREATE THE EFFECT OF MAKING THE TEXT BE IN A GRADIENT COLOR
+  color: $grey-dark;
+  transition: color .5s ease;
+}
+
+.error-message {
+  text-align: center;
+  font-size: 1rem;
+  color: rgb(255, 0, 0);
+  margin: 1.5rem 0;
+}
+

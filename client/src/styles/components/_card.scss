@@ -1,0 +1,96 @@
+.card {
+  // FUNCTIONALITY 
+  perspective: 150rem; // makes the flip of the card look much nice (3D effect) - try it with a smaller value. Looks like its switching right in your face.
+  -moz-perspective: 150rem;
+  position: relative;
+  height: 23rem;
+
+
+  &__side {
+    height: 23rem;
+    transition: all .8s ease;
+    position: absolute; // we put both cards at the same position
+    top: 0; 
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    backface-visibility: hidden; // Hides the backpart of an element, so that when front turns its back, we won't see it and we see back when it turns to us
+    border-radius: 3px;
+    box-shadow: 0 1.5rem 4rem rgba($black, .15);
+
+    &--front {
+      background-color: $white;
+    }
+
+    &--back {
+      transform: rotateY(180deg);
+      background-color: rgba($grey-light, .95);
+      text-align: left;
+    }
+  }
+
+  &:hover &__side--front{
+    transform: rotateY(-180deg);
+  }
+
+  &:hover &__side--back{
+    transform: rotateY(0);
+  }
+  
+  // FRONT SIDE STYLING
+  &__picture {
+    background-size: cover;
+    height: 23rem;
+    background-blend-mode: color; //NEW - Doesn't work on IE or Edge 
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+
+    &-1 {
+      background-image: linear-gradient(to right bottom, $grey-light, $grey-dark), 
+      url(../images/live-poll-1.jpg);
+    }
+
+    &-2 {
+      background-image: linear-gradient(to right bottom, $grey-light, $grey-dark),
+      url(../images/live-poll-2.jpg);
+    }
+
+    &-3 {
+      background-image: linear-gradient(to right bottom, $grey-light, $grey-dark),
+      url(../images/live-poll-3.jpg);
+    }
+  }
+
+  &__heading {
+    font-size: 2.6rem;
+    font-weight: 300;
+    text-align: right;
+    color: $grey-light;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    width: 85%;
+  }
+
+  &__heading-span {
+    padding: .5rem .5rem; // Just takes away some space so that the text actually wraps to 2 lines
+    -webkit-box-decoration-break: clone; // treats the different lines of text as two distinct elements vs just one and applies the padding to the sides for both
+    box-decoration-break: clone;
+    background-image: linear-gradient(to right bottom, 
+    rgba($grey-light, .85), 
+    rgba($grey-dark, .85));
+    border-radius: 3px;
+  }
+
+  // BACK SIDE STYLING
+
+  &__back-text {
+    font-size: 1.6rem;
+   // font-weight: 300;
+    color: $grey-dark;
+    padding: 0 3rem;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+} 

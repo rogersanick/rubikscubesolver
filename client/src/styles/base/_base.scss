@@ -1,0 +1,27 @@
+*, 
+* ::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; /* forces each element to inherit box-sizing, which is not inherited by default */
+}
+
+html {
+  font-size: 62.5%; /* Setting the root font size. Now we can use rem instead of px to relate to this and if we want to change font size, e.g. in media queries, we only need to change it at on place (10px is a great value because then 1rem equals 10px) */
+  /* we changed the 10px to 62.5% which equals 10px in default cases, but scales if user has set default browser settings */
+}
+
+body {
+  box-sizing: border-box; /*!!! the borders and paddings are no longer added to the total height or width we specify for a box*/
+  margin: 1rem;
+}
+
+.body-wrapper {
+  background-image: linear-gradient(to right bottom, $primary-light-1, $primary-dark);
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 1px;
+  margin: -3.1rem;
+
+  min-height: 100vh;
+}

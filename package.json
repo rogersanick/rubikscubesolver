@@ -8,7 +8,7 @@
     "start": "npm run server-dev",
     "react-dev": "webpack -d --watch",
     "server-dev": "nodemon server/index.js",
-    "style-it": "sass --watch client/src/styles/main.scss client/dist/main.css"
+    "build-css": "sass --watch client/src/main.scss client/dist/main.css"
   },
   "repository": {
     "type": "git",
@@ -27,11 +27,12 @@
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-2": "^6.24.1",
-    "babel-polyfill": "^6.26.0"
+    "file-loader": "^1.1.11"
   },
   "dependencies": {
     "babel-loader": "^7.1.5",
