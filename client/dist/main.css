@@ -115,8 +115,8 @@ body {
 .heading-primary--sub {
   display: block;
   font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 1.75rem;
+  font-weight: 500;
+  letter-spacing: 1rem;
   margin-bottom: 6rem;
   width: 75vw;
   animation: moveInRight 1s ease-out;
@@ -224,6 +224,14 @@ body {
   border: 0.5px solid #800080;
 }
 
+.below {
+  margin-top: 2rem;
+}
+
+.btn {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
 .btn:link, .btn:visited {
   text-decoration: none;
   padding: 1.5rem 4rem;
@@ -687,9 +695,9 @@ body {
 }
 .header__logo-box {
   position: absolute;
-  top: 2rem;
+  top: 1rem;
   /*counts from parents element that has position set to relative*/
-  left: 1.5rem;
+  left: 0.5rem;
 }
 .header__text-box {
   position: absolute;

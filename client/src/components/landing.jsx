@@ -2,10 +2,15 @@ import React from 'react';
 import logo from'../images/Rubiks_Logo.png';
 import photo1 from'../images/Rubiks_Insert.png';
 import photo2 from'../images/grey_brain.png';
+import smoothScroll from 'smoothscroll'
 
 class RubiksLanding extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.learnMoreDestination = document.getElementById('learn-more');
   }
 
   render() {
@@ -18,18 +23,23 @@ class RubiksLanding extends React.Component {
           <div className="header__text-box">
             <h1 className="heading-primary">
               <span className="heading-primary--main">Ether Cube</span>
-              <span className="heading-primary--sub">Send ETH, but make em' work for it.</span>
+              <span className="heading-primary--sub">Send ETH and make em' work for it.</span>
             </h1>
-            <a href="/visualize" className="btn btn--white btn--animated">Get Started</a>
+            <a href="/visualize" className="btn btn--white btn--animated">Just Play</a>
+            <a href="/create" className="btn btn--white btn--animated">Load a Cube</a>
+            <div>
+              <a onClick = {() => {smoothScroll(this.learnMoreDestination)}} href="javascript:;" className="btn btn--white btn--animated below">Learn more</a>
+            </div>
+            
           </div>
         </header>
         <div className="u-margin-bottom-big"></div>
 
         <main>
           <section className="section-about">
-            <div className="u-center-text u-margin-bottom-big">
+            <div className="u-center-text u-margin-bottom-big" id = "learn-more">
               <h2 className="heading-secondary">
-                Why a Rubiks Cube?
+                What is an Ether Cube?
               </h2>
             </div>
 
@@ -44,12 +54,11 @@ class RubiksLanding extends React.Component {
 
                 <div className="col-3-of-4">
                   <h3 className="heading-tertiary u-margin-bottom-small">
-                    Incentivize friends or family to complete a challenging puzzle.
+                    A challenging puzzle with a compelling reward.
                   </h3>
                   <p className="paragraph">
-                    This year, instead of sending a giftcard, cash or other ambigious gift; send a digital Rubik's Cube with real value inside! If they can't figure it out, send them a solve code to unlock their prize. Or don't!               
+                    This year, instead of sending a giftcard, cash or other ambigious gift to your family and friends; send a digital Rubik's Cube with real value inside! Load up a small amount of ethereum and it will be stored in a Rubik's cube accessible at a unique link. If they can't figure it out, send them a solve code to unlock their prize. Or don't! Up to you man.               
                   </p>
-                  <a href="https://github.com/Team-Ravenclaw/LivePoll" className="btn-text"> Learn more on GitHub &rarr;</a>
                 </div>
               </div>
 
@@ -72,12 +81,12 @@ class RubiksLanding extends React.Component {
 
               <div className="col-3-of-4">
                 <h3 className="heading-tertiary u-margin-bottom-small">
-                  Learn a new skill on your own.
+                  An excellent learning opportunity.
                 </h3>
                 <p className="paragraph">
-                  Whether you're interested in learning how a Rubik's cube works or your a dedicated speed-cuber; learning to solve a cube in a digital setting will help train your critical thinking skills. Want to take a deeper dive? Consider checking out the solving algorithm on Github.
+                  Whether you're interested in learning how a Rubik's cube works or you're a dedicated speed-cuber; learning to solve a cube in a digital setting will help train your critical thinking skills. Want to take a deeper dive? Consider checking out the solving algorithm on Github.
                 </p>
-                {/*<a href="#" className="btn-text"> Learn more &rarr;</a>*/}
+                <a href="https://github.com/rogersanick/rubikscubesolver" className="btn-text"> Learn more on GitHub &rarr;</a>
               </div>
             </div>
                 
@@ -92,7 +101,8 @@ class RubiksLanding extends React.Component {
           <section className="section-UX">
             
             <div className="u-center-text u-margin-top-big">
-              <a href="/dashboard" className="btn btn--white">GET STARTED</a>
+              <a href="/visualize" className="btn btn--white">Just Play</a>
+              <a href="/create" className="btn btn--white">Load Up a Cube</a>
             </div>
 
           </section>
