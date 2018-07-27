@@ -5,6 +5,7 @@ import Async from 'react-code-splitting';
 
 const Rubiks = (props) => <Async load = {import('./components/rubiks.jsx')} componentProps = {props}/>
 const Landing = (props) => <Async load = {import('./components/landing.jsx')} componentProps = {props}/>
+const Login = (props) => <Async load = {import('./components/login.jsx')} componentProps = {props}/>
 
 class App extends React.Component {
 
@@ -18,6 +19,7 @@ class App extends React.Component {
       <div> 
         <Route exact path = "/" render = {props => <Landing {...props} history = {this.props.history}></Landing>}></Route>
         <Route exact path = "/visualize" render = {props => <Rubiks {...props}></Rubiks>}></Route>
+        <Route exact path = "/login" render = {props => <Login {...props}></Login>}></Route>
       </div> 
     );
   }

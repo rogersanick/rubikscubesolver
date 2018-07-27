@@ -3,11 +3,10 @@ $text: #4b507a;
 $cyan: #60daaa;
 $yellow: #fbca67;
 $orange: #ff8a30;
-$red: #C20114;
 $purple: #6477b9;
 $blue: #0eb7da;
-$grey: rgb(206, 206, 206);
-$lightGrey: #F5F5F5;
+$grey: rgb(161, 161, 161);
+$light-grey: #F5F5F5;
 $white: #ffffff;
 
 body {
@@ -18,9 +17,22 @@ body {
   width: 70vw;
 }
 
+.direction-image {
+  display: flex;
+  min-height: 15vh;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid $grey;
+  margin: 1rem;
+  margin-left: 1.5rem;
+  margin-top: 0;
+  background: $light-grey;
+}
+
 .rubiks-controller-menu {
   height: 100vh;
   width: 30vw;
+  margin-top: -0.5rem;
 }
 
 .flex-container {
@@ -33,6 +45,12 @@ body {
   margin: 10px;
 }
 
+.button-settings {
+  max-height: 3vh;
+  margin: 0.5rem;
+  align-self: right;
+}
+
 // Basic styles
 button, .answer, .answer-selected {
   background: none;
@@ -41,8 +59,8 @@ button, .answer, .answer-selected {
   padding: 0.5em 1em;
   
   // Using inset box-shadow instead of border for sizing simplicity
-  box-shadow: inset 0 0 0 2px $purple;
-  color: $purple;
+  box-shadow: inset 0 0 0 2px $grey;
+  color: $grey;
   font-size: 1em;
   font-weight: 700;
 
@@ -88,7 +106,7 @@ button.draw, .answer.draw {
   }
   
   &:hover {
-    color: $cyan;
+    color: $primary-light;
   }
 
   // Hover styles
@@ -99,16 +117,16 @@ button.draw, .answer.draw {
   }
 
   &:hover::before {
-    border-top-color: $cyan; // Make borders visible
-    border-right-color: $cyan;
+    border-top-color: $primary-light; // Make borders visible
+    border-right-color: $primary-light;
     transition:
       width 0.25s ease-out, // Width expands first
       height 0.25s ease-out 0.25s; // And then height
   }
 
   &:hover::after {
-    border-bottom-color: $cyan; // Make borders visible
-    border-left-color: $cyan;
+    border-bottom-color: $primary-light; // Make borders visible
+    border-left-color: $primary-light;
     transition:
       border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
       width 0.25s ease-out 0.5s, // And then exanding width
@@ -120,7 +138,7 @@ button.draw, .answer.draw {
 .meet {
   
   &:hover {
-    color: $red;
+    color: $primary;
   }
 
   // Start ::after in same position as ::before
@@ -131,13 +149,13 @@ button.draw, .answer.draw {
 
   // Change colors
   &:hover::before {
-    border-top-color: $red;
-    border-right-color: $red;
+    border-top-color: $primary;
+    border-right-color: $primary;
   }
 
   &:hover::after {
-    border-bottom-color: $red;
-    border-left-color: $red;
+    border-bottom-color: $primary;
+    border-left-color: $primary;
     transition: // Animate height first, then width
       height 0.25s ease-out,
       width 0.25s ease-out 0.25s;

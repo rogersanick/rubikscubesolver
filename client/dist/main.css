@@ -70,7 +70,6 @@ html {
 body {
   box-sizing: border-box;
   /*!!! the borders and paddings are no longer added to the total height or width we specify for a box*/
-  margin: 1rem;
 }
 
 .body-wrapper {
@@ -102,7 +101,7 @@ body {
   font-size: 6rem;
   font-weight: 400;
   /*thickness of the letters not all font-weights are loaded for the font*/
-  letter-spacing: 3.5rem;
+  letter-spacing: 2.5rem;
   margin-bottom: 1.5rem;
   animation-name: moveInLeft;
   animation-duration: 1s;
@@ -225,7 +224,7 @@ body {
 }
 
 .below {
-  margin-top: 2rem;
+  margin-top: 3rem;
 }
 
 .btn {
@@ -741,9 +740,22 @@ body {
   width: 70vw;
 }
 
+.direction-image {
+  display: flex;
+  min-height: 15vh;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #a1a1a1;
+  margin: 1rem;
+  margin-left: 1.5rem;
+  margin-top: 0;
+  background: #F5F5F5;
+}
+
 .rubiks-controller-menu {
   height: 100vh;
   width: 30vw;
+  margin-top: -0.5rem;
 }
 
 .flex-container {
@@ -756,13 +768,19 @@ body {
   margin: 10px;
 }
 
+.button-settings {
+  max-height: 3vh;
+  margin: 0.5rem;
+  align-self: right;
+}
+
 button, .answer, .answer-selected {
   background: none;
   border: 0;
   box-sizing: border-box;
   padding: 0.5em 1em;
-  box-shadow: inset 0 0 0 2px #6477b9;
-  color: #6477b9;
+  box-shadow: inset 0 0 0 2px #a1a1a1;
+  color: #a1a1a1;
   font-size: 1em;
   font-weight: 700;
   position: relative;
@@ -797,37 +815,37 @@ button.draw, .answer.draw {
   right: 0;
 }
 .draw:hover {
-  color: #60daaa;
+  color: #be29ec;
 }
 .draw:hover::before, .draw:hover::after {
   width: 100%;
   height: 100%;
 }
 .draw:hover::before {
-  border-top-color: #60daaa;
-  border-right-color: #60daaa;
+  border-top-color: #be29ec;
+  border-right-color: #be29ec;
   transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
 }
 .draw:hover::after {
-  border-bottom-color: #60daaa;
-  border-left-color: #60daaa;
+  border-bottom-color: #be29ec;
+  border-left-color: #be29ec;
   transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s, height 0.25s ease-out 0.75s;
 }
 
 .meet:hover {
-  color: #C20114;
+  color: #800080;
 }
 .meet::after {
   top: 0;
   left: 0;
 }
 .meet:hover::before {
-  border-top-color: #C20114;
-  border-right-color: #C20114;
+  border-top-color: #800080;
+  border-right-color: #800080;
 }
 .meet:hover::after {
-  border-bottom-color: #C20114;
-  border-left-color: #C20114;
+  border-bottom-color: #800080;
+  border-left-color: #800080;
   transition: height 0.25s ease-out, width 0.25s ease-out 0.25s;
 }
 

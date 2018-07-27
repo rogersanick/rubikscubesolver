@@ -12,7 +12,7 @@ class RubiksCube extends React.PureComponent {
         <div
         style={{width: this.props.width, height: this.props.height}}
         ref={(mount) => { this.mount = mount }}/>
-    )
+    );
   }
 
 }
