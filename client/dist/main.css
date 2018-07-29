@@ -734,6 +734,7 @@ body {
 
 body {
   margin: 0px;
+  padding: 0px;
 }
 
 .canvas {
@@ -748,7 +749,7 @@ body {
   border: 2px solid #a1a1a1;
   margin: 1rem;
   margin-left: 1.5rem;
-  margin-top: 0;
+  margin-top: 1rem;
   background: #F5F5F5;
 }
 
@@ -847,6 +848,19 @@ button.draw, .answer.draw {
   border-bottom-color: #800080;
   border-left-color: #800080;
   transition: height 0.25s ease-out, width 0.25s ease-out 0.25s;
+}
+
+.auth-container {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.center {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 /*# sourceMappingURL=main.css.map */
