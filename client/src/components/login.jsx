@@ -1,17 +1,6 @@
 import React from 'react';
-import * as firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
-
-var config = {
-  apiKey: "AIzaSyCv5PskVEXnR7FHNj0faz-wIOezT8OvW-I",
-  authDomain: "ether-cube.firebaseapp.com",
-  databaseURL: "https://ether-cube.firebaseio.com",
-  projectId: "ether-cube",
-  storageBucket: "ether-cube.appspot.com",
-  messagingSenderId: "688509177020"
-};
-
-firebase.initializeApp(config);
+import firebase from '../firebaseConfig.js';
 
 var uiConfig = {
   signInSuccessUrl: '/dashboard',
@@ -23,7 +12,6 @@ var uiConfig = {
 };
 
 var ui = new firebaseui.auth.AuthUI(firebase.auth());
-
 class Login extends React.Component {
   constructor(props) {
     super(props);
