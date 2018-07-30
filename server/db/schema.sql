@@ -6,7 +6,7 @@ USE ethercubes;
 
 CREATE TABLE CUBES (
   id int NOT null AUTO_INCREMENT,
-  userid int not null,
+  userid VARCHAR(200) NOT null,
   pass VARCHAR(200) NOT null,
   solution VARCHAR(200) NOT null,
   cube_state VARCHAR(200) NOT NULL,

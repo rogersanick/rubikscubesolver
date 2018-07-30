@@ -7,9 +7,9 @@ const etherCubeController = {
     });
   },
   post: (req, res) => {
-    etherCubeModels.post(req.body.userId, req.body.solution, req.body.cubeState, req.body.etherContractId, (data) => {
+    etherCubeModels.post(req.body.userId, req.body.pass, req.body.solution, req.body.cubeState, req.body.etherContractId, (data) => {
       res.status(200).send(data);
-    })
+    });
   }
 }
 

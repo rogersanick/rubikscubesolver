@@ -6,18 +6,32 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       userId: '',
+      addCubeForm: false,
       cubes: []
     }
   }
 
-  componentDidMount() {
+  addCube() {
+    Axios.post('/cubes', {
+      userId: this.state.userId, 
+      pass: 'testpass',
+      solution: 'Li L Li L', 
+      cubeState: 'Random State', 
+      etherContractId: 'W.H.O.K.N.O.W.S'
+    }).then((data) => console.log(data));
+  }
 
-    Axios.get('/cubes?userId=1').then((response) => {
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
       this.setState({
-        cubes: response.data
+        userId: user.uid
+      });
+      Axios.get(`/cubes?userId=${user.uid}`).then((response) => {
+        this.setState({
+          cubes: response.data
+        });
       });
     });
-
   }
 
   render() {
@@ -25,12 +39,18 @@ class Dashboard extends React.Component {
       <div>
         <h1>Ether Cube Dashboard</h1>
         <div>Your Cubes</div>
-        <button onClick = {() => {console.log('making a new one')}}>New Cube</button>
         <ul> 
           {this.state.cubes.map((cube) => {
-            return(<li key = {cube.id}>{cube.userid}</li>);
+            return(<li key = {cube.id}>{cube.id}</li>);
           })}
         </ul>
+        <button onClick = {() => {this.setState({addCubeForm: !this.state.addCubeForm})}}>Add Cube</button>
+        {this.state.addCubeForm ? 
+        <div> 
+          <div>let's add a cube</div>
+          <button onClick = {() => {this.addCube()}}>Submit</button>
+        </div> 
+        : ''}
       </div>
     );
   }
