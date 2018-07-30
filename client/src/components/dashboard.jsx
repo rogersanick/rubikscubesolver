@@ -49,8 +49,16 @@ class Dashboard extends React.Component {
         <button onClick = {() => {this.setState({addCubeForm: !this.state.addCubeForm})}}>Add Cube</button>
         {this.state.addCubeForm ? 
         <div> 
-          <div>let's add a cube</div>
-          <button onClick = {() => {this.addCube()}}>Submit</button>
+          <div>Add Cube Form</div>
+          <form>
+            <input placeholder = 'Title'></input>
+            <input placeholder = 'User Message'></input>
+            <input placeholder = 'Password'></input>
+            <input placeholder = 'Amount'></input> 
+          </form>
+          <button onClick = {() => {this.addCube()}}>Add Cube</button>
+          <button onClick = {() => {this.addCube()}}>Buy Eth</button>
+          <button onClick = {() => {this.addCube()}}>Load Eth</button>
         </div> 
         : ''}
       </div>

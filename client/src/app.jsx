@@ -15,7 +15,6 @@ class App extends React.Component {
   }
 
   render() {
-
     return (
       <div> 
         <Route exact path = "/" render = {props => <Landing {...props} history = {this.props.history}></Landing>}></Route>
