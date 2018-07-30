@@ -17,7 +17,9 @@ class Dashboard extends React.Component {
       pass: 'testpass',
       solution: 'Li L Li L', 
       cubeState: 'Random State', 
-      etherContractId: 'W.H.O.K.N.O.W.S'
+      etherContractId: 'W.H.O.K.N.O.W.S',
+      title: 'fakeTitle',
+      userMessage: 'THIS IS A FAKE MESSAGE'
     }).then((data) => console.log(data));
   }
 

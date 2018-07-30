@@ -11,9 +11,9 @@ var modelsInterface = {
       cb(results);
     });
   },
-  post: (userId, pass, solution, cubeState, etherContractId, cb) => {
-    let queryString = `insert into cubes (userid, pass, solution, cube_state, ether_contract_id) values (?, ?, ?, ?, ?)`
-    let paramsArray = [userId, pass, solution, cubeState, etherContractId];
+  post: (userId, pass, solution, cubeState, etherContractId, title, userMessage, cb) => {
+    let queryString = `insert into cubes (userid, pass, solution, cube_state, ether_contract_id, title, user_message) values (?, ?, ?, ?, ?, ?, ?)`
+    let paramsArray = [userId, pass, solution, cubeState, etherContractId, title, userMessage];
     db.query(queryString, paramsArray, (err, results) => {
       if (err) {
         console.log(err);
