@@ -120,7 +120,8 @@ class App extends React.Component {
       spinDown: false,
       currMove: '',
       globalBestPath: '',
-      solved: false
+      solved: false,
+      party: false
     };
 
     // FUNCTION BINDINGS
@@ -284,6 +285,30 @@ class App extends React.Component {
     this.setState({
       rubiksArray: Array(6).fill(Array(9).fill('P')), 
     }, this.handleRenderCubeColorPositions);
+  }
+
+  handleToggleParty() {
+    this.setState({
+      party: !this.state.party
+    }, this.makeItParty);
+  }
+
+  makeItParty() {
+    if (this.state.party === true) {
+      let colors = ['O', 'B', 'W', 'R', 'Y', 'G', 'P'];
+      let newState = [];
+      for (let x = 0; x < 6; x ++) {
+        for (let x = 0; x < 9; x ++) {
+          newState.push(colors[Math.floor(Math.random()*colors.length)]);
+        }
+      }
+      this.setState({
+        rubiksArray: newState, 
+      }, () => {
+        this.handleRenderCubeColorPositions();
+        this.handleToggleParty();
+      });
+    }
   }
 
   handleReset() {
@@ -486,7 +511,10 @@ class App extends React.Component {
           handleSpinX = {this.handleSpinX} 
           handleMakeItPink = {this.handleMakeItPink} 
           handleMakeItBlue = {this.handleMakeItBlue} 
+          handleToggleParty = {this.handleToggleParty}
+          makeItParty = {this.makeItParty}
           handleReset = {this.handleReset} 
+          handleResetPosition = {this.handleResetPosition}
           handleMove = {this.handleMove} 
           handleGetScore = {this.handleGetScore}
           handlePrintState = {this.handlePrintState}

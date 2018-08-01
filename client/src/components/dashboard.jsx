@@ -11,16 +11,21 @@ class Dashboard extends React.Component {
     }
   }
 
-  addCube() {
+  addCube({pass, solution, cubeState, etherContractId, title, userMessage}) {
     Axios.post('/cubes', {
       userId: this.state.userId, 
-      pass: 'testpass',
-      solution: 'Li L Li L', 
-      cubeState: 'Random State', 
-      etherContractId: 'W.H.O.K.N.O.W.S',
-      title: 'fakeTitle',
-      userMessage: 'THIS IS A FAKE MESSAGE'
+      pass,
+      solution, 
+      cubeState, 
+      etherContractId,
+      title,
+      userMessage
     }).then((data) => console.log(data));
+  }
+
+  handleCubeSubmit(e) {
+    e.preventDefault();
+    console.log(e);
   }
 
   componentDidMount() {
@@ -50,13 +55,14 @@ class Dashboard extends React.Component {
         {this.state.addCubeForm ? 
         <div> 
           <div>Add Cube Form</div>
-          <form>
+          <form onSubmit = {(e) => {this.handleCubeSubmit(e)}}>
             <input placeholder = 'Title'></input>
             <input placeholder = 'User Message'></input>
-            <input placeholder = 'Password'></input>
+            <input type = 'password' placeholder = 'Password'></input>
+            <input type = 'password' placeholder = 'Retype Password'></input>
             <input placeholder = 'Amount'></input> 
+            <button>Add Cube</button>
           </form>
-          <button onClick = {() => {this.addCube()}}>Add Cube</button>
           <button onClick = {() => {this.addCube()}}>Buy Eth</button>
           <button onClick = {() => {this.addCube()}}>Load Eth</button>
         </div> 
