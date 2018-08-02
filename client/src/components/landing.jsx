@@ -26,7 +26,7 @@ class RubiksLanding extends React.Component {
               <span className="heading-primary--sub">Send ETH locked inside a puzzle.</span>
             </h1>
             <a href="/visualize" className="btn btn--grey btn--animated">Just Play</a>
-            <a href="/login" className="btn btn--grey btn--animated">Set Up a Cube</a>
+            <a href="/" className="btn btn--grey btn--animated">Set Up a Cube (Coming Soon)</a>
             <div>
               <a onClick = {() => {smoothScroll(this.learnMoreDestination)}} href="javascript:;" className="btn btn--white btn--animated below">Learn more</a>
             </div>
@@ -102,7 +102,7 @@ class RubiksLanding extends React.Component {
             
             <div className="u-center-text u-margin-top-big">
               <a href="/visualize" className="btn btn--white">Just Play</a>
-              <a href="/create" className="btn btn--white">Load Up a Cube</a>
+              <a href="/" className="btn btn--white">Load Up a Cube (Coming Soon)</a>
             </div>
 
           </section>
