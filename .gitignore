@@ -1,1 +1,12 @@
 node_modules
+client/dist/bundle.js
+client/dist/0.bundle.js
+client/dist/1.bundle.js
+client/dist/2.bundle.js
+client/dist/3.bundle.js
+client/dist/4.bundle.js
+client/dist/5.bundle.js
+client/dist/6.bundle.js
+client/dist/7.bundle.js
+client/dist/8.bundle.js
+client/dist/app.bundle.js
