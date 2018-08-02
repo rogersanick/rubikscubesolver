@@ -131,6 +131,7 @@ class App extends React.Component {
     this.animate = this.animate.bind(this)
     this.handleMakeItBlue = this.handleMakeItBlue.bind(this);
     this.handleMakeItPink = this.handleMakeItPink.bind(this);
+    this.handleToggleParty = this.handleToggleParty.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.handleResetPosition = this.handleResetPosition.bind(this);
     this.handleRenderCubeColorPositions = this.handleRenderCubeColorPositions.bind(this);
@@ -262,6 +263,9 @@ class App extends React.Component {
 
     scene.add(this.groupCubes);
 
+    this.groupCubes.rotation.x = 0.25;
+    this.groupCubes.rotation.y = 0.75;
+
     renderer.setSize(width, height)
 
     this.scene = scene;
@@ -290,30 +294,37 @@ class App extends React.Component {
   handleToggleParty() {
     this.setState({
       party: !this.state.party
-    }, this.makeItParty);
+    }, () => {
+      if (!this.state.party) {
+        this.handleReset();
+      } else {
+        this.makeItParty();
+      }
+    })
   }
 
   makeItParty() {
     if (this.state.party === true) {
-      let colors = ['O', 'B', 'W', 'R', 'Y', 'G', 'P'];
+      let colors = ['O', 'B', 'W', 'R', 'Y', 'G'];
       let newState = [];
       for (let x = 0; x < 6; x ++) {
+        let face = [];
         for (let x = 0; x < 9; x ++) {
-          newState.push(colors[Math.floor(Math.random()*colors.length)]);
+          face.push(colors[Math.floor(Math.random()*colors.length)]);
         }
+        newState.push(face);
       }
       this.setState({
         rubiksArray: newState, 
       }, () => {
         this.handleRenderCubeColorPositions();
-        this.handleToggleParty();
+        setTimeout(() => {this.makeItParty()}, 50);
       });
     }
   }
 
   handleReset() {
-    this.groupCubes.rotation.x = 0.25;
-    this.groupCubes.rotation.y = 0.75;
+    console.log('I should be called');
     this.setState({
       rubiksArray: [
         Array(9).fill('O'), 
@@ -323,7 +334,10 @@ class App extends React.Component {
         Array(9).fill('Y'),
         Array(9).fill('G'),
       ]
-    }, this.handleRenderCubeColorPositions);
+    }, () => {
+      this.handleResetPosition();
+      this.handleRenderCubeColorPositions();
+    });
   }
 
   handleResetPosition() {
@@ -476,6 +490,11 @@ class App extends React.Component {
 
     if (this.state.spinDown) {
       this.groupCubes.rotation.x += 0.05;
+    }
+
+    if (this.state.party) {
+      this.groupCubes.rotation.x += 0.06;
+      this.groupCubes.rotation.y += 0.05;
     }
     
   }
