@@ -2,7 +2,6 @@ const express = require('express');
 const parser = require('body-parser');
 const path = require('path');
 const app = express();
-const db = require('./db/index.js');
 const dbControllers = require('./db/controllers/etherCubeControllers.js');
 
 app.use(parser.json());
