@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run react-dev",
+    "start": "npm run react-dev && npm run server-dev",
     "react-dev": "webpack -d --watch",
     "server-dev": "nodemon server/index.js",
     "build-css": "sass --watch client/src/main.scss client/dist/main.css"
