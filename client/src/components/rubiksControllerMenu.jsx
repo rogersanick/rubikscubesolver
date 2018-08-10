@@ -10,9 +10,8 @@ class RubiksControllerMenu extends React.Component {
   }
 
   handleOpenSettings() {
-    console.log('I am happening');
     this.setState({
-      settingsOpen: !this.settingsOpen
+      settingsOpen: !this.state.settingsOpen
     });
   }
 

@@ -4,17 +4,17 @@
     to right bottom,  
     rgba($primary-light, .7),
     rgba($primary, .7)), 
-    url('/images/background-header.png'); /*first image is on top of second*/
-  background-size: cover; /*whatever the viewport width it will try to fit the element in that*/
-  background-position: bottom; /*ensures the top of the image always stays at the top of the conteiner*/
+    url('/images/background-header.png'); 
+  background-size: cover; 
+  background-position: bottom; 
   position: relative;
 
   -webkit-clip-path: polygon(0 0, 100% 0, 100% 70vh , 0 100%); 
-  clip-path: polygon(0 0, 100% 0, 100% 70vh , 0 100%); /*Goes clockwise cornes and (x y) coordinates determine what part of the picture can still be seen check out bennettfeely.com/clippy */
+  clip-path: polygon(0 0, 100% 0, 100% 70vh , 0 100%); 
 
   &__logo-box {
     position: absolute;
-    top: 1rem; /*counts from parents element that has position set to relative*/
+    top: 1rem; 
     left: 0.5rem;
   }
 
@@ -22,15 +22,36 @@
     position: absolute;
     top: 40%;
     left: 50%;
-    transform: translate(-50%, -50%); /* shifts the element by 50% of its own width to the left (-50% to the right) and 50% of its height to the top */
+    transform: translate(-50%, -50%); 
     text-align: center;
   }
   
   &__logo {
-    height: 7rem; /*width will automatically be figured out by browser*/
+    height: 7rem; 
   }
 }
 
 .nav-button {
   color: #d30015;
+}
+
+@media only screen 
+  and (min-device-width: 375px)
+  and (max-device-width: 812px)
+  and (-webkit-min-device-pixel-ratio: 3) { 
+  
+  .header {
+    height: 100vh;
+  }
+
+  .header {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 90vh , 0 100%); 
+    clip-path: polygon(0 0, 100% 0, 100% 90vh , 0 100%); 
+  
+    &__logo {
+      height: 70%;
+    }
+
+  }
+  
 }

@@ -1,7 +1,7 @@
 .section-about {
   background-color: $grey-light;
-  padding: 30rem 0; // moves down the content to not be behind the one above, since we are moving the about one up ;
-  margin-top: -40vh; // moves up the section as much to cover the white wedge
+  padding: 30rem 0;
+  margin-top: -40vh;
 }
 
 .section-UX {
@@ -17,4 +17,32 @@
   
   -webkit-clip-path: polygon(0 16vh, 100% 0, 100% 100% , 0 100%); 
   clip-path: polygon(0 16vh, 100% 0, 100% 100% , 0 100%); 
+}
+
+@media only screen 
+  and (min-device-width: 375px)
+  and (max-device-width: 812px)
+  and (-webkit-min-device-pixel-ratio: 3) { 
+  .section-about {
+    margin-top: -15vh;
+    padding: 35rem 0;
+    padding-right: 5rem;
+  }
+  .section-UX {
+    -webkit-clip-path: polygon(0 10vh, 100% 0, 100% 100% , 0 100%); 
+    clip-path: polygon(0 10vh, 100% 0, 100% 100% , 0 100%);
+  }
+  .heading-primary {
+    margin-bottom: 30rem;
+
+    &--main {
+      font-size: 8rem;
+    }
+
+    &--sub {
+      font-size: 4rem;
+      max-width: 70vw;
+    }
+
+  }
 }

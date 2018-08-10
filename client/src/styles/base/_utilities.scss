@@ -37,3 +37,12 @@
 .hr--solid--red{
   border: .5px solid $primary;
 }
+
+@media only screen 
+  and (min-device-width: 375px)
+  and (max-device-width: 812px)
+  and (-webkit-min-device-pixel-ratio: 3) { 
+    .u-margin-top-big {
+      margin-top: 13rem;
+    }
+}
