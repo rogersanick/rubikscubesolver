@@ -324,7 +324,6 @@ class App extends React.Component {
   }
 
   handleReset() {
-    console.log('I should be called');
     this.setState({
       rubiksArray: [
         Array(9).fill('O'), 
