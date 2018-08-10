@@ -4,8 +4,16 @@ class RubiksControllerMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      instructionImageCode: null
+      instructionImageCode: null,
+      settingsOpen: false
     }
+  }
+
+  handleOpenSettings() {
+    console.log('I am happening');
+    this.setState({
+      settingsOpen: !this.settingsOpen
+    });
   }
 
   handleImageChange(code) {
@@ -60,28 +68,30 @@ class RubiksControllerMenu extends React.Component {
         <button className = "draw meet" onMouseEnter = {() => {this.handleImageChange('D')}} onMouseLeave = {() => {this.handleImageChange()}} onClick = {() => this.props.handleMove('D', this.props.rubiksArray)}>Down (D)</button>
         <button className = "draw meet" onMouseEnter = {() => {this.handleImageChange('Di')}} onMouseLeave = {() => {this.handleImageChange()}} onClick = {() => this.props.handleMove('Di', this.props.rubiksArray)}>Down Inverse (Di)</button>
       </div>
-      <div className = "button-category">
-        <button className = "draw meet" onClick = {() => this.props.handlePrintState(this.props.rubiksArray)}>Print State</button>
-        <button className = "draw meet" onClick = {() => this.props.handleGetScore(this.props.rubiksArray)}>Get Score</button>
-      </div>
-      <div className = "button-category">
-        <button className = "draw meet" onMouseEnter = {() => {this.handleImageChange('shuffle')}} onMouseLeave = {() => {this.handleImageChange()}} onClick = {() => this.shuffle(this.props.rubiksArray)}>Shuffle</button>
-      </div>
-      <div className = "button-category">
-        <button className = "draw meet" onClick = {() => this.props.handleSolver()}>Solve</button>
-      </div>
       <div className = "button-category"> 
-        <button className = "draw meet" onClick = {() => this.props.handleReset()}>Reset</button>
-        <button className = "draw meet" onClick = {() => this.props.handleResetPosition()}>Reset Position</button>
+        <img onClick = {() => {this.handleOpenSettings()}} className = "button-settings" src={require(`../images/settings_grey.png`)} alt="settings"/>
       </div>
-      <div className = "button-category"> 
-        <button className = "draw meet" onClick = {() => this.props.handleMakeItPink()}>Make it Pink</button>
-        <button className = "draw meet" onClick = {() => this.props.handleMakeItBlue()}>Make it Blue</button>
-        <button className = "draw meet" onClick = {() => this.props.handleToggleParty()}>Party Cube</button>
-      </div>
-      <div className = "button-category"> 
-        <img className = "button-settings" src={require(`../images/settings_grey.png`)} alt="settings"/>
-      </div>
+      {this.state.settingsOpen ? <div> 
+        <div className = "button-category">
+          <button className = "draw meet" onClick = {() => this.props.handlePrintState(this.props.rubiksArray)}>Print State</button>
+          <button className = "draw meet" onClick = {() => this.props.handleGetScore(this.props.rubiksArray)}>Get Score</button>
+        </div>
+        <div className = "button-category">
+          <button className = "draw meet" onMouseEnter = {() => {this.handleImageChange('shuffle')}} onMouseLeave = {() => {this.handleImageChange()}} onClick = {() => this.shuffle(this.props.rubiksArray)}>Shuffle</button>
+        </div>
+        <div className = "button-category">
+          <button className = "draw meet" onClick = {() => this.props.handleSolver()}>Solve</button>
+        </div>
+        <div className = "button-category"> 
+          <button className = "draw meet" onClick = {() => this.props.handleReset()}>Reset</button>
+          <button className = "draw meet" onClick = {() => this.props.handleResetPosition()}>Reset Position</button>
+        </div>
+        <div className = "button-category"> 
+          <button className = "draw meet" onClick = {() => this.props.handleMakeItPink()}>Make it Pink</button>
+          <button className = "draw meet" onClick = {() => this.props.handleMakeItBlue()}>Make it Blue</button>
+          <button className = "draw meet" onClick = {() => this.props.handleToggleParty()}>Party Cube</button>
+        </div>
+      </div> : ''}
     </div>
     );
   }
