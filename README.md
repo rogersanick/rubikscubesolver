@@ -34,4 +34,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 * Thank you to Laurents Mohr for CSS inspiration and coaching - [laurentsmohr](https://github.com/laurentsmohr)
-* Thank you to Phil Gonzalez for input and perspective on solver - [laurentsmohr](https://github.com/laurentsmohr)
+* Thank you to Phil Gonzalez for input and perspective on solver - [p-gonzo](https://github.com/p-gonzo)
