@@ -175,34 +175,9 @@ class App extends React.Component {
 
     // CREATE A GROUP FOR ALL CUBES
     const groupCubes = new THREE.Group();
-    
-    // CREATE A GROUP FOR ALL VERTICAL SUBGROUPS OF CUBES
-    const allSubVerticals = {
-      groupVertical1: new THREE.Group(),
-      groupVertical2: new THREE.Group(),
-      groupVertical3: new THREE.Group(),
-    }
-
-    // CREATE A GROUP FOR ALL HORIZONTAL SUBGROUPS OF CUBES
-    const allSubHorizontals = {
-      groupHorizontal1: new THREE.Group(),
-      groupHorizontal2: new THREE.Group(),
-      groupHorizontal3: new THREE.Group(),
-    }
-
-    // ADD SUBGROUPS TO CUBE PARENT
-    for (let group in allSubVerticals) {
-      groupCubes.add(allSubVerticals[group]);
-    }
-    
-    for (let group in allSubHorizontals) {
-      groupCubes.add(allSubHorizontals[group]);
-    }
 
     // ATTACH TO SELF TO MAKE ACCESSIBLE ELSEWHERE IN COMPONENT
     this.groupCubes = groupCubes;
-    this.allSubHorizontals = allSubHorizontals;
-    this.allSubVerticals = allSubVerticals;
 
     const cubes = {};
     const cubeGeometries = {};
@@ -229,22 +204,7 @@ class App extends React.Component {
 
       cubes[cubeNum] = new THREE.Mesh(cubeGeometries[cubeNum], material);
 
-      if (cubeNum < 9) {
-        this.allSubVerticals.groupVertical1.add(cubes[cubeNum]);
-      } else if (cubeNum >= 9 && cubeNum < 18) {
-        this.allSubVerticals.groupVertical2.add(cubes[cubeNum]);
-      } else if (cubeNum >= 18 && cubeNum < 27) {
-        this.allSubVerticals.groupVertical3.add(cubes[cubeNum]);
-      }
-      
-      // // BUG* CUBES ARE BEING REMOVED FROM VERTICAL GROUPS WHEN INSERTED INTO HORIZONTAL GROUPS
-      if (cubeNum < 3 || (cubeNum >= 9 && cubeNum < 12) || (cubeNum >= 18 && cubeNum < 21)) {
-        this.allSubHorizontals.groupHorizontal1.add(cubes[cubeNum]);
-      } else if ((cubeNum >= 3 && cubeNum < 6) || (cubeNum >= 12 && cubeNum < 15) || (cubeNum >= 21 && cubeNum < 24)) {
-        this.allSubHorizontals.groupHorizontal2.add(cubes[cubeNum]);
-      } else if ((cubeNum >= 6 && cubeNum < 9) || (cubeNum >= 15 && cubeNum < 18) || (cubeNum >= 24 && cubeNum < 27)) {
-        this.allSubHorizontals.groupHorizontal3.add(cubes[cubeNum]);
-      }
+      this.groupCubes.add(cubes[cubeNum]);
 
     }
 
@@ -380,6 +340,30 @@ class App extends React.Component {
       rubiks.handleRotateCubeFaceCounterClockwise(5, rubiksArray);
     };
     return rubiksArray;
+  }
+
+  makeRotateGroup(face) {
+
+    this.groupRotate = new THREE.Group();
+
+    for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
+      if (cubeNum < 9 && (face === 'F' || face === 'Fi')) {
+        this.groupRotate.add(cubes[cubeNum]);
+      } else if (cubeNum >= 18 && cubeNum < 27  && (face === 'B' || face === 'Bi')) {
+        this.groupRotate.add(cubes[cubeNum]);
+      }
+      
+      if ((cubeNum < 3 || (cubeNum >= 9 && cubeNum < 12) || (cubeNum >= 18 && cubeNum < 21)) && (face === 'D' || face === 'Di')) {
+        this.groupRotate.add(cubes[cubeNum]);
+      } else if (((cubeNum >= 6 && cubeNum < 9) || (cubeNum >= 15 && cubeNum < 18) || (cubeNum >= 24 && cubeNum < 27)) && (face === 'U' || face === 'Ui') ) {
+        this.groupRotate.add(cubes[cubeNum]);
+      }
+    }
+
+  }
+
+  disolveRotateGroup() {
+    // remove all cubes from rotateGroup 
   }
 
   handleRenderMove(newRubiksArray) {
