@@ -177,15 +177,12 @@ class App extends React.Component {
     const groupCubes = new THREE.Group();
     
     // CREATE A GROUP FOR ALL VERTICAL SUBGROUPS OF CUBES
-    const subVerticalParentGroup = new THREE.Group();
-    const subHorizontalParentGroup = new THREE.Group();
-
     const allSubVerticals = {
       groupVertical1: new THREE.Group(),
       groupVertical2: new THREE.Group(),
       groupVertical3: new THREE.Group(),
     }
-    
+
     // CREATE A GROUP FOR ALL HORIZONTAL SUBGROUPS OF CUBES
     const allSubHorizontals = {
       groupHorizontal1: new THREE.Group(),
@@ -193,23 +190,17 @@ class App extends React.Component {
       groupHorizontal3: new THREE.Group(),
     }
 
-    // ADD ALL HORIZONTAL / VERTICAL SUBGROUPS TO PARENT
-    for (let cubeGroup in allSubVerticals) {
-      subVerticalParentGroup.add(allSubVerticals[cubeGroup]);
-    }
-    for (let cubeGroup in allSubHorizontals) {
-      subHorizontalParentGroup.add(allSubHorizontals[cubeGroup]);
-    }
-
     // ADD SUBGROUPS TO CUBE PARENT
-    groupCubes.add(subHorizontalParentGroup);
-    groupCubes.add(subVerticalParentGroup);
+    for (let group in allSubVerticals) {
+      groupCubes.add(allSubVerticals[group]);
+    }
+    
+    for (let group in allSubHorizontals) {
+      groupCubes.add(allSubHorizontals[group]);
+    }
 
     // ATTACH TO SELF TO MAKE ACCESSIBLE ELSEWHERE IN COMPONENT
-    // CONSIDER MANAGING WITH STATE
     this.groupCubes = groupCubes;
-    this.subHorizontalParentGroup = subHorizontalParentGroup;
-    this.subVerticalParentGroup = subVerticalParentGroup;
     this.allSubHorizontals = allSubHorizontals;
     this.allSubVerticals = allSubVerticals;
 
@@ -237,6 +228,7 @@ class App extends React.Component {
       }
 
       cubes[cubeNum] = new THREE.Mesh(cubeGeometries[cubeNum], material);
+
       if (cubeNum < 9) {
         this.allSubVerticals.groupVertical1.add(cubes[cubeNum]);
       } else if (cubeNum >= 9 && cubeNum < 18) {
@@ -245,7 +237,7 @@ class App extends React.Component {
         this.allSubVerticals.groupVertical3.add(cubes[cubeNum]);
       }
       
-      // BUG* CUBES ARE BEING REMOVED FROM VERTICAL GROUPS WHEN INSERTED INTO HORIZONTAL GROUPS
+      // // BUG* CUBES ARE BEING REMOVED FROM VERTICAL GROUPS WHEN INSERTED INTO HORIZONTAL GROUPS
       if (cubeNum < 3 || (cubeNum >= 9 && cubeNum < 12) || (cubeNum >= 18 && cubeNum < 21)) {
         this.allSubHorizontals.groupHorizontal1.add(cubes[cubeNum]);
       } else if ((cubeNum >= 3 && cubeNum < 6) || (cubeNum >= 12 && cubeNum < 15) || (cubeNum >= 21 && cubeNum < 24)) {
