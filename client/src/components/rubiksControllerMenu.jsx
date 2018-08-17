@@ -17,7 +17,6 @@ class RubiksControllerMenu extends React.Component {
   }
 
   handleImageChange(code) {
-    console.log(code);
     if (!code) {
       this.setState({
         instructionImageCode: null
@@ -87,8 +86,6 @@ class RubiksControllerMenu extends React.Component {
           <button className = "draw meet" onClick = {() => this.props.handleResetPosition()}>Reset Position</button>
         </div>
         <div className = "button-category"> 
-          <button className = "draw meet" onClick = {() => this.props.handleMakeItPink()}>Make it Pink</button>
-          <button className = "draw meet" onClick = {() => this.props.handleMakeItBlue()}>Make it Blue</button>
           <button className = "draw meet" onClick = {() => this.props.handleToggleParty()}>Party Cube</button>
         </div>
       </div> : ''}
