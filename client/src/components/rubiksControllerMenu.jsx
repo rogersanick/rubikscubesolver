@@ -5,7 +5,8 @@ class RubiksControllerMenu extends React.Component {
     super(props);
     this.state = {
       instructionImageCode: null,
-      settingsOpen: false
+      settingsOpen: false,
+      magicString:''
     }
   }
 
