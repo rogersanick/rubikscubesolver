@@ -224,6 +224,7 @@ class App extends React.Component {
 
     renderer.setSize(width, height)
 
+    this.currRotate = 0;
     this.scene = scene;
     this.camera = camera;
     this.renderer = renderer;
@@ -301,82 +302,92 @@ class App extends React.Component {
   }
 
   handleMove(magicString, rubiksArray) {
-    let newRubiksArray = rubiksArray.slice();
-    this.handleRenderMove(this.makeMove(magicString, newRubiksArray));
+    this.setState({
+      currMove: magicString
+    }, () => {
+      let newRubiksArray = rubiksArray.slice();
+      this.makeMove(magicString, newRubiksArray).then((newRubiksArray) => {this.handleRenderMove(newRubiksArray)});
+    })
   }
 
   makeMove(magicString, rubiksArray) {
-    this.makeRotateGroup(magicString);
-    if (magicString === 'F') {
-      rubiks.handleRotateEdgesFrontClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(0, rubiksArray);
-    } else if (magicString === 'Fi') {
-      rubiks.handleRotateEdgesFrontCounterClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(0, rubiksArray);
-    } else if (magicString === 'B') {
-      rubiks.handleRotateEdgesBackClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(3, rubiksArray);
-    } else if (magicString === 'Bi') {
-      rubiks.handleRotateEdgesBackCounterClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(3, rubiksArray);
-    } else if (magicString === 'L') {
-      rubiks.handleRotateEdgesLeftClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(4, rubiksArray);
-    } else if (magicString === 'Li') {
-      rubiks.handleRotateEdgesLeftCounterClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(4, rubiksArray);
-    } else if (magicString === 'R') {
-      rubiks.handleRotateEdgesRightClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(2, rubiksArray);
-    } else if (magicString === 'Ri') {
-      rubiks.handleRotateEdgesRightCounterClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(2, rubiksArray);
-    } else if (magicString === 'U') {
-      rubiks.handleRotateEdgesUpClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(1, rubiksArray);
-    } else if (magicString === 'Ui') {
-      rubiks.handleRotateEdgesUpCounterClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(1, rubiksArray);
-    } else if (magicString === 'D') {
-      rubiks.handleRotateEdgesDownClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceClockwise(5, rubiksArray);
-    } else if (magicString === 'Di') {
-      rubiks.handleRotateEdgesDownCounterClockwise(rubiksArray);
-      rubiks.handleRotateCubeFaceCounterClockwise(5, rubiksArray);
-    };
-    return rubiksArray;
+    return this.makeRotateGroup(magicString).then(() => {
+      if (magicString === 'F') {
+        rubiks.handleRotateEdgesFrontClockwise(rubiksArray);
+        rubiks.handleRotateCubeFaceClockwise(0, rubiksArray);
+      } else if (magicString === 'Fi') {
+        rubiks.handleRotateEdgesFrontCounterClockwise(rubiksArray);
+        rubiks.handleRotateCubeFaceCounterClockwise(0, rubiksArray);
+      } else if (magicString === 'B') {
+        rubiks.handleRotateEdgesBackClockwise(rubiksArray);
+        rubiks.handleRotateCubeFaceClockwise(3, rubiksArray);
+      } else if (magicString === 'Bi') {
+        rubiks.handleRotateEdgesBackCounterClockwise(rubiksArray);
+        rubiks.handleRotateCubeFaceCounterClockwise(3, rubiksArray);
+      } else if (magicString === 'L') {
+        rubiks.handleRotateEdgesLeftClockwise(rubiksArray);
+        rubiks.handleRotateCubeFaceClockwise(4, rubiksArray);
+      } else if (magicString === 'Li') {
+        rubiks.handleRotateEdgesLeftCounterClockwise(rubiksArray);
+        rubiks.handleRotateCubeFaceCounterClockwise(4, rubiksArray);
+      } else if (magicString === 'R') {
+        rubiks.handleRotateEdgesRightClockwise(rubiksArray);
+        rubiks.handleRotateCubeFaceClockwise(2, rubiksArray);
+      } else if (magicString === 'Ri') {
+        rubiks.handleRotateEdgesRightCounterClockwise(rubiksArray);
+        rubiks.handleRotateCubeFaceCounterClockwise(2, rubiksArray);
+      } else if (magicString === 'U') {
+        rubiks.handleRotateEdgesUpClockwise(rubiksArray);
+        rubiks.handleRotateCubeFaceClockwise(1, rubiksArray);
+      } else if (magicString === 'Ui') {
+        rubiks.handleRotateEdgesUpCounterClockwise(rubiksArray);
+        rubiks.handleRotateCubeFaceCounterClockwise(1, rubiksArray);
+      } else if (magicString === 'D') {
+        rubiks.handleRotateEdgesDownClockwise(rubiksArray);
+        rubiks.handleRotateCubeFaceClockwise(5, rubiksArray);
+      } else if (magicString === 'Di') {
+        rubiks.handleRotateEdgesDownCounterClockwise(rubiksArray);
+        rubiks.handleRotateCubeFaceCounterClockwise(5, rubiksArray);
+      };
+      return rubiksArray;
+    });
   }
 
   makeRotateGroup(face) {
 
-    this.disolveRotateGroup();
+    return new Promise((resolve, reject) => {
 
-    for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
+      this.disolveRotateGroup();
 
-      if (cubeNum < 9 && (face === 'F' || face === 'Fi')) {
-        this.groupRotate.add(this.cubes[cubeNum]);
-      } else if (cubeNum >= 18 && cubeNum < 27  && (face === 'B' || face === 'Bi')) {
-        this.groupRotate.add(this.cubes[cubeNum]);
+      for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
+  
+        if (cubeNum < 9 && (face === 'F' || face === 'Fi')) {
+          this.groupRotate.add(this.cubes[cubeNum]);
+        } else if (cubeNum >= 18 && cubeNum < 27  && (face === 'B' || face === 'Bi')) {
+          this.groupRotate.add(this.cubes[cubeNum]);
+        }
+  
+        if ((cubeNum < 3 || (cubeNum >= 9 && cubeNum < 12) || (cubeNum >= 18 && cubeNum < 21)) && (face === 'D' || face === 'Di')) {
+          this.groupRotate.add(this.cubes[cubeNum]);
+        } else if (((cubeNum >= 6 && cubeNum < 9) || (cubeNum >= 15 && cubeNum < 18) || (cubeNum >= 24 && cubeNum < 27)) && (face === 'U' || face === 'Ui') ) {
+          this.groupRotate.add(this.cubes[cubeNum]);
+        }
+  
+        if (cubeNum >= 20 && cubeNum <= 26) {
+          console.log((cubeNum-2) % 3);
+        }
+  
+        if ((cubeNum <= 6 && cubeNum % 3 === 0 || (cubeNum >= 9 && cubeNum < 16 && cubeNum % 3 === 0) || (cubeNum >= 18 && cubeNum <= 24 && cubeNum % 3 === 0)) && (face === 'R' || face === 'Ri')) {
+          this.groupRotate.add(this.cubes[cubeNum]);
+        } else if (((cubeNum >= 2 && cubeNum < 9 && (cubeNum-2) % 3 === 0) || (cubeNum >= 11 && cubeNum < 18 && (cubeNum-2) % 3 === 0) || (cubeNum >= 20 && cubeNum < 27 && (cubeNum-2) % 3 === 0)) && (face === 'L' || face === 'Li')) {
+          this.groupRotate.add(this.cubes[cubeNum]);
+        }
+
       }
 
-      if ((cubeNum < 3 || (cubeNum >= 9 && cubeNum < 12) || (cubeNum >= 18 && cubeNum < 21)) && (face === 'D' || face === 'Di')) {
-        this.groupRotate.add(this.cubes[cubeNum]);
-      } else if (((cubeNum >= 6 && cubeNum < 9) || (cubeNum >= 15 && cubeNum < 18) || (cubeNum >= 24 && cubeNum < 27)) && (face === 'U' || face === 'Ui') ) {
-        this.groupRotate.add(this.cubes[cubeNum]);
-      }
+      resolve();
 
-      if (cubeNum >= 20 && cubeNum <= 26) {
-        console.log((cubeNum-2) % 3);
-      }
-
-      if ((cubeNum <= 6 && cubeNum % 3 === 0 || (cubeNum >= 9 && cubeNum < 16 && cubeNum % 3 === 0) || (cubeNum >= 18 && cubeNum <= 24 && cubeNum % 3 === 0)) && (face === 'R' || face === 'Ri')) {
-        this.groupRotate.add(this.cubes[cubeNum]);
-      } else if (((cubeNum >= 2 && cubeNum < 9 && (cubeNum-2) % 3 === 0) || (cubeNum >= 11 && cubeNum < 18 && (cubeNum-2) % 3 === 0) || (cubeNum >= 20 && cubeNum < 27 && (cubeNum-2) % 3 === 0)) && (face === 'L' || face === 'Li')) {
-        this.groupRotate.add(this.cubes[cubeNum]);
-      }
-
-    }
-
+    });
   }
 
   disolveRotateGroup() {
@@ -469,8 +480,6 @@ class App extends React.Component {
     this.renderScene();
     this.frameId = window.requestAnimationFrame(this.animate);
 
-    this.groupRotate.rotation.y -= 0.05;
-
     // SIMPLE ROTATE FUNCTION
     if (this.state.spinLeft) {
       this.groupCubes.rotation.y -= 0.05;
@@ -492,7 +501,49 @@ class App extends React.Component {
       this.groupCubes.rotation.x += 0.06;
       this.groupCubes.rotation.y += 0.05;
     }
+
+    if (['F', 'Bi'].includes(this.state.currMove)) {
+      this.checkDone(this.groupRotate.rotation.z);
+      this.groupRotate.rotation.z -= 0.05;
+    }
+
+    else if (['Fi', 'B'].includes(this.state.currMove)) {
+      this.checkDone();
+      this.groupRotate.rotation.z += 0.05;
+    }
+
+    else if (['R', 'Li'].includes(this.state.currMove)) {
+      this.checkDone();
+      this.groupRotate.rotation.x -= 0.05;
+    }
     
+    else if (['Ri', 'L'].includes(this.state.currMove)) {
+      this.checkDone();
+      this.groupRotate.rotation.x += 0.05;
+    }
+
+    else if (['U', 'Di'].includes(this.state.currMove)) {
+      this.checkDone();
+      this.groupRotate.rotation.y += 0.05;
+    }
+
+    else if (['Ui', 'D'].includes(this.state.currMove)) {
+      this.checkDone();
+      this.groupRotate.rotation.y -= 0.05;
+    }
+
+  }
+
+  checkDone(currRotation) {
+    if (currRotation < 0) {
+      currRotation *= -1;
+    }
+    if (currRotation >= Math.PI / 2) {
+      this.setState({
+        currMove: ''
+      });
+      return true;
+    }
   }
 
   handleSolver() {

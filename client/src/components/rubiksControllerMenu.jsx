@@ -33,8 +33,8 @@ class RubiksControllerMenu extends React.Component {
     let newRubiksArray = rubiksArray.slice();
     const possibleMoves = ['F', 'B', 'L', 'R', 'D', 'U', 'Fi', 'Bi', 'Li', 'Ri', 'Di', 'Ui'];
     for (let x = 0; x < 20; x++) {
-      let newMove = possibleMoves[Math.floor(Math.random()*possibleMoves.length)];
-      this.props.handleRenderMove(this.props.makeMove(newMove, newRubiksArray))
+      let newMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+      this.props.makeMove(newMove, rubiksArray).then((newRubiksArray) => {this.props.handleRenderMove(rubiksArray)});
     }
   }
 
