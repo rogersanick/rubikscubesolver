@@ -306,6 +306,7 @@ class App extends React.Component {
   }
 
   makeMove(magicString, rubiksArray) {
+    this.makeRotateGroup(magicString);
     if (magicString === 'F') {
       rubiks.handleRotateEdgesFrontClockwise(rubiksArray);
       rubiks.handleRotateCubeFaceClockwise(0, rubiksArray);
