@@ -175,9 +175,13 @@ class App extends React.Component {
 
     // CREATE A GROUP FOR ALL CUBES
     const groupCubes = new THREE.Group();
+    const groupRotate = new THREE.Group();
 
     // ATTACH TO SELF TO MAKE ACCESSIBLE ELSEWHERE IN COMPONENT
     this.groupCubes = groupCubes;
+    this.groupRotate = groupRotate;
+
+    groupCubes.add(groupRotate);
 
     const cubes = {};
     const cubeGeometries = {};
@@ -344,18 +348,23 @@ class App extends React.Component {
 
   makeRotateGroup(face) {
 
-    this.groupRotate = new THREE.Group();
-
     for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
+
       if (cubeNum < 9 && (face === 'F' || face === 'Fi')) {
         this.groupRotate.add(cubes[cubeNum]);
       } else if (cubeNum >= 18 && cubeNum < 27  && (face === 'B' || face === 'Bi')) {
         this.groupRotate.add(cubes[cubeNum]);
       }
-      
+
       if ((cubeNum < 3 || (cubeNum >= 9 && cubeNum < 12) || (cubeNum >= 18 && cubeNum < 21)) && (face === 'D' || face === 'Di')) {
         this.groupRotate.add(cubes[cubeNum]);
       } else if (((cubeNum >= 6 && cubeNum < 9) || (cubeNum >= 15 && cubeNum < 18) || (cubeNum >= 24 && cubeNum < 27)) && (face === 'U' || face === 'Ui') ) {
+        this.groupRotate.add(cubes[cubeNum]);
+      }
+
+      if ((cubeNum < 6 && cubeNum % 3 === 0 || (cubeNum >= 9 && cubeNum < 16 && cubeNum % 3 === 0) || (cubeNum >= 18 && cubeNum < 24 && cubeNum % 3 === 0)) && (face === 'R' || face === 'Ri')) {
+        this.groupRotate.add(cubes[cubeNum]);
+      } else if ((cubeNum >= 2 && cubeNum < 9 && cubeNum-2 % 3 === 0 || (cubeNum >= 11 && cubeNum < 18 && cubeNum-2 % 3 === 0) || (cubeNum >= 20 && cubeNum >= 26 && cubeNum-2 % 3 === 0)) && (face === 'L' || face === 'Li')) {
         this.groupRotate.add(cubes[cubeNum]);
       }
     }
@@ -363,7 +372,9 @@ class App extends React.Component {
   }
 
   disolveRotateGroup() {
-    // remove all cubes from rotateGroup 
+    for (let componentCube of this.groupRotate.children) {
+      this.groupCubes.add(componentCube);
+    } 
   }
 
   handleRenderMove(newRubiksArray) {
@@ -449,6 +460,8 @@ class App extends React.Component {
     
     this.renderScene();
     this.frameId = window.requestAnimationFrame(this.animate);
+
+    this.groupRotate.rotation.y -= 0.05;
 
     // SIMPLE ROTATE FUNCTION
     if (this.state.spinLeft) {
