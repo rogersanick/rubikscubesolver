@@ -70,7 +70,7 @@ export const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
       return true;
     }
 
-    // Recurse with first move IF NOT DEEPER THAN 4 BRANCHES
+    // Recurse with first move IF NOT DEEPER THAN N BRANCHES
     if (depth < 5) {
       let resultPath = miniMaxSolver(rubiksArray, cb, depth+1, path);
       if (resultPath) {

@@ -250,16 +250,18 @@ class App extends React.Component {
   }
 
   handleMove(magicString, rubiksArray) {
-    this.setState({
-      currMove: magicString
-    }, () => {
-      this.makeRotateGroup(magicString).then(() => {
-        setTimeout(() => {
-          let newRubiksArray = rubiksArray.slice();
-          this.makeMove(magicString, newRubiksArray).then((newRubiksArray) => this.handleRenderMove(newRubiksArray));
-        }, 550);
+    return new Promise((resolve, reject) => {
+      this.setState({
+        currMove: magicString
+      }, () => {
+        this.makeRotateGroup(magicString).then(() => {
+          setTimeout(() => {
+            this.makeMove(magicString, rubiksArray).then((newRubiksArray) => this.handleRenderMove(newRubiksArray));
+          }, 255);
+        });
       });
-    })
+      resolve();
+    });
   }
 
   makeMove(magicString, rubiksArray) {
@@ -400,12 +402,21 @@ class App extends React.Component {
       this.setState({
         globalBestPath: e.data.globalBestPath,
         solved: e.data.solved
+      }, () => {
+        this.executeSolverPath();
       });
-      this.handleRenderMove(e.data.copyArray);
     });
 
     this.miniMaxSolverWorker = miniMaxSolverWorker;
 
+  }
+
+  executeSolverPath(count = 0) {
+    if (count <= this.state.globalBestPath.length) {
+      this.handleMove(this.state.globalBestPath[count], this.state.rubiksArray).then(() => {
+        this.executeSolverPath(count += 1);
+      });
+    }
   }
 
   handleSolver() {
@@ -456,23 +467,23 @@ class App extends React.Component {
     if (this.currRotate > Math.PI / 2) {
       this.disolveRotateGroup();
     } else if (['F', 'Bi'].includes(this.state.currMove)) {
-      this.groupRotate.rotation.z -= 0.05;
-      this.currRotate += 0.05;
+      this.groupRotate.rotation.z -= 0.12;
+      this.currRotate += 0.12;
     } else if (['Fi', 'B'].includes(this.state.currMove)) {
-      this.groupRotate.rotation.z += 0.05;
-      this.currRotate += 0.05;
+      this.groupRotate.rotation.z += 0.12;
+      this.currRotate += 0.12;
     } else if (['R', 'Li'].includes(this.state.currMove)) {
-      this.groupRotate.rotation.x -= 0.05;
-      this.currRotate += 0.05;
+      this.groupRotate.rotation.x -= 0.12;
+      this.currRotate += 0.12;
     } else if (['Ri', 'L'].includes(this.state.currMove)) {
-      this.groupRotate.rotation.x += 0.05;
-      this.currRotate += 0.05;
+      this.groupRotate.rotation.x += 0.12;
+      this.currRotate += 0.12;
     } else if (['Ui', 'D'].includes(this.state.currMove)) {
-      this.groupRotate.rotation.y += 0.05;
-      this.currRotate += 0.05;
+      this.groupRotate.rotation.y += 0.12;
+      this.currRotate += 0.12;
     } else if (['U', 'Di'].includes(this.state.currMove)) {
-      this.groupRotate.rotation.y -= 0.05;
-      this.currRotate += 0.05;
+      this.groupRotate.rotation.y -= 0.12;
+      this.currRotate += 0.12;
     }
   }
 
