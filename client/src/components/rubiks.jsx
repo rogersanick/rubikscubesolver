@@ -222,6 +222,20 @@ class App extends React.Component {
 
     renderer.setSize(width, height)
 
+    let moveQueue = function () {
+      this.storage = [];
+      this.enqueue = (move) => {
+        this.storage.push(move);
+      }
+      this.dequeue = () => {
+        return this.storage.shift();
+      }
+      this.getLength = () => {
+        return this.storage.length;
+      }
+    }
+
+    this.moveQueue = new moveQueue();
     this.currRotate = 0;
     this.scene = scene;
     this.camera = camera;
@@ -403,6 +417,7 @@ class App extends React.Component {
         globalBestPath: e.data.globalBestPath,
         solved: e.data.solved
       }, () => {
+        this.moveQueue.enqueue(e.data.globalBestPath);
         this.executeSolverPath();
       });
     });
@@ -414,7 +429,7 @@ class App extends React.Component {
   executeSolverPath(count = 0) {
     if (count <= this.state.globalBestPath.length) {
       this.handleMove(this.state.globalBestPath[count], this.state.rubiksArray).then(() => {
-        this.executeSolverPath(count += 1);
+        setTimeout(() => {this.executeSolverPath(count += 1)}, 400);
       });
     }
   }
