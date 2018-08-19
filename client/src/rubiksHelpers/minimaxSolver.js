@@ -107,7 +107,6 @@ self.addEventListener('message', function(e) {
         globalBestPath,
         solved,
         currBestPath,
-        check: 'hey'
       }
       self.postMessage(message);
       resolve(solved);

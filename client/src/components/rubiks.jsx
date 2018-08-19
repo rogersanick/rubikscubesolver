@@ -10,7 +10,8 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-    // BUILD AN ARRAY OF CUBE POSITIONS IN 3D SPACE
+
+    // BUILD AN ARRAY OF CUBE POSITIONS
     let cubePositions = [];
     for (let z = 1; z >= -1; z--) {
       for (let y = -1; y <= 1; y ++) {
@@ -20,7 +21,7 @@ class App extends React.Component {
       }
     }
 
-    // SET UP A KEY LISTENER TO MOVE CUBE
+    // SET UP KEY LISTENERS TO MOVE / INTERACT WITH CUBE
     document.onkeydown = (evt) => {
       evt = evt || window.event;
       let keyNum = parseInt(evt.keyCode);
@@ -79,6 +80,7 @@ class App extends React.Component {
       }
     }, false);
 
+    // DEFINE STATE FOR COMPONENT
     // BUILD AN ARRAY OF ARRAYS CORRESPONDING TO CUBE POSITIONS
     this.state = {
       width: window.innerWidth,
@@ -113,7 +115,7 @@ class App extends React.Component {
         inside: 0xFFFFFF
       },
       rerender: false,
-      // IF TRUE, WILL RENDER ANIMATION IN ANIMATION LOOP
+      // ANIMATION BOOLEANS - SEE ANIMATION LOOP
       spinLeft: false,
       spinUp: false,
       spinRight: false,
@@ -180,12 +182,12 @@ class App extends React.Component {
     this.groupRotate = groupRotate;
 
     const cubes = {};
-    const cubeGeometries = {};
-    
     this.cubes = cubes;
-    this.cubeGeometries = cubeGeometries;
 
-    // CONSTRUCT ALL CUBES, STORE REFERENCES IN MEMORY
+    const cubeGeometries = {};
+    this.cubeGeometries = cubeGeometries;
+    
+    // CONSTRUCT ALL CUBES USING CUBE COORDINATES IN STATE, STORE REFERENCES IN MEMORY
     for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
       let aCubeMap = stateToCubesMapping[cubeNum];
       cubeGeometries[cubeNum] = new THREE.BoxGeometry(0.95, 0.95, 0.95);
@@ -215,13 +217,16 @@ class App extends React.Component {
       cubes[cubeNum].position.set(...this.state.cubePositions[cubeNum]);
     }
 
+    // ADD THE CUBE GROUP TO THE SCENE
     scene.add(this.groupCubes);
 
+    // SET INITIAL ROTATION FOR AESTHETICS
     this.groupCubes.rotation.x = 0.25;
     this.groupCubes.rotation.y = 0.75;
 
     renderer.setSize(width, height)
 
+    // CONSTUCT MOVE QUEUE FOR MAKING MOVES
     const moveQueue = function () {
       this.maxLength = 0;
       this.storage = [];
@@ -265,7 +270,6 @@ class App extends React.Component {
   }
 
   // WINDOW RESIZING START
-
   componentWillUnmount() {
     this.stop()
     this.mount.removeChild(this.renderer.domElement)
@@ -279,6 +283,7 @@ class App extends React.Component {
     });
   }
 
+  // UPDATES CUBE STATE & RENDERS ANIMATION OF STATE CHANGE
   handleMove(magicString, rubiksArray) {
     return new Promise((resolve, reject) => {
       this.setState({
@@ -294,6 +299,26 @@ class App extends React.Component {
     });
   }
 
+  handleRenderMove(newRubiksArray) {
+    this.setState({ 
+      rubiksArray: newRubiksArray
+    }, () => {
+      this.handleRenderCubeColorPositions();
+    });
+  }
+
+  handleRenderMovePromise(newRubiksArray) {
+    return new Promise ((resolve, reject) => {
+      this.setState({ 
+        rubiksArray: newRubiksArray
+      }, () => {
+        this.handleRenderCubeColorPositions()
+        resolve();
+      });
+    })
+  }
+
+  // CALLS RUBIK'S HELPER FUNCTIONS TO TRANSFORM CURR RUBIKS ARRAY
   makeMove(magicString, rubiksArray) {
     return new Promise((resolve, reject) => {
       if (magicString === 'F') {
@@ -337,68 +362,7 @@ class App extends React.Component {
     });
   }
 
-  makeRotateGroup(face) {
-
-    this.disolveRotateGroup();
-
-    return new Promise((resolve, reject) => {
-
-      for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
-  
-        if (cubeNum < 9 && (face === 'F' || face === 'Fi')) {
-          this.groupRotate.add(this.cubes[cubeNum]);
-        } else if (cubeNum >= 18 && cubeNum < 27  && (face === 'B' || face === 'Bi')) {
-          this.groupRotate.add(this.cubes[cubeNum]);
-        }
-  
-        if ((cubeNum < 3 || (cubeNum >= 9 && cubeNum < 12) || (cubeNum >= 18 && cubeNum < 21)) && (face === 'D' || face === 'Di')) {
-          this.groupRotate.add(this.cubes[cubeNum]);
-        } else if (((cubeNum >= 6 && cubeNum < 9) || (cubeNum >= 15 && cubeNum < 18) || (cubeNum >= 24 && cubeNum < 27)) && (face === 'U' || face === 'Ui') ) {
-          this.groupRotate.add(this.cubes[cubeNum]);
-        }
-  
-        if ((cubeNum <= 6 && cubeNum % 3 === 0 || (cubeNum >= 9 && cubeNum < 16 && cubeNum % 3 === 0) || (cubeNum >= 18 && cubeNum <= 24 && cubeNum % 3 === 0)) && (face === 'R' || face === 'Ri')) {
-          this.groupRotate.add(this.cubes[cubeNum]);
-        } else if (((cubeNum >= 2 && cubeNum < 9 && (cubeNum-2) % 3 === 0) || (cubeNum >= 11 && cubeNum < 18 && (cubeNum-2) % 3 === 0) || (cubeNum >= 20 && cubeNum < 27 && (cubeNum-2) % 3 === 0)) && (face === 'L' || face === 'Li')) {
-          this.groupRotate.add(this.cubes[cubeNum]);
-        }
-
-      }
-
-      resolve();
-
-    });
-  }
-
-  disolveRotateGroup() {
-    for (let componentCube in this.cubes) {
-      this.groupCubes.add(this.cubes[componentCube]);
-    } 
-    this.groupRotate.rotation.x = 0;
-    this.groupRotate.rotation.y = 0;
-    this.groupRotate.rotation.z = 0;
-    this.currRotate = 0;
-  }
-
-  handleRenderMove(newRubiksArray) {
-    this.setState({ 
-      rubiksArray: newRubiksArray
-    }, () => {
-      this.handleRenderCubeColorPositions();
-    });
-  }
-
-  handleRenderMovePromise(newRubiksArray) {
-    return new Promise ((resolve, reject) => {
-      this.setState({ 
-        rubiksArray: newRubiksArray
-      }, () => {
-        this.handleRenderCubeColorPositions()
-        resolve();
-      });
-    })
-  }
-
+  // UPDATES COLOUR OF COMPONENT CUBES USING CUBE DATA IN STATE
   handleRenderCubeColorPositions() {
     for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
       let aCubeMap = stateToCubesMapping[cubeNum];
@@ -418,13 +382,45 @@ class App extends React.Component {
     this.renderScene();
   }
 
-  
+  // CREATES GROUP OF CUBES TO ROTATE DURING ANIMATION
+  makeRotateGroup(face) {
+    this.disolveRotateGroup();
+    return new Promise((resolve, reject) => {
+      for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
+        if (cubeNum < 9 && (face === 'F' || face === 'Fi')) {
+          this.groupRotate.add(this.cubes[cubeNum]);
+        } else if (cubeNum >= 18 && cubeNum < 27  && (face === 'B' || face === 'Bi')) {
+          this.groupRotate.add(this.cubes[cubeNum]);
+        }
+        if ((cubeNum < 3 || (cubeNum >= 9 && cubeNum < 12) || (cubeNum >= 18 && cubeNum < 21)) && (face === 'D' || face === 'Di')) {
+          this.groupRotate.add(this.cubes[cubeNum]);
+        } else if (((cubeNum >= 6 && cubeNum < 9) || (cubeNum >= 15 && cubeNum < 18) || (cubeNum >= 24 && cubeNum < 27)) && (face === 'U' || face === 'Ui') ) {
+          this.groupRotate.add(this.cubes[cubeNum]);
+        }
+        if ((cubeNum <= 6 && cubeNum % 3 === 0 || (cubeNum >= 9 && cubeNum < 16 && cubeNum % 3 === 0) || (cubeNum >= 18 && cubeNum <= 24 && cubeNum % 3 === 0)) && (face === 'R' || face === 'Ri')) {
+          this.groupRotate.add(this.cubes[cubeNum]);
+        } else if (((cubeNum >= 2 && cubeNum < 9 && (cubeNum-2) % 3 === 0) || (cubeNum >= 11 && cubeNum < 18 && (cubeNum-2) % 3 === 0) || (cubeNum >= 20 && cubeNum < 27 && (cubeNum-2) % 3 === 0)) && (face === 'L' || face === 'Li')) {
+          this.groupRotate.add(this.cubes[cubeNum]);
+        }
+      }
+      resolve();
+    });
+  }
+
+  // DISOLVES CUBE GROUP SO OTHER ANIMATIONS / ROTATIONS ARE UNAFFECTED
+  disolveRotateGroup() {
+    for (let componentCube in this.cubes) {
+      this.groupCubes.add(this.cubes[componentCube]);
+    } 
+    this.groupRotate.rotation.x = 0;
+    this.groupRotate.rotation.y = 0;
+    this.groupRotate.rotation.z = 0;
+    this.currRotate = 0;
+  }
 
   // SOLVER FUNCTIONS START
-
   componentWillMount() {
     let miniMaxSolverWorker = new Worker('minimaxSolver.bundle.js');
-
     miniMaxSolverWorker.addEventListener('message', (e) => {
       if (e.data.solved) {
         console.log('solved');
@@ -433,26 +429,19 @@ class App extends React.Component {
         globalBestPath: e.data.globalBestPath,
         solved: e.data.solved,
       }, () => {
-        
-        console.log(e.data.currBestPath);
-
         this.moveQueue.enqueue(e.data.currBestPath);
-
         if (!this.state.solving) {
           this.executeSolverPath();
         }
-
         this.setState({
           solving: true
         });
-
       });
     });
-
     this.miniMaxSolverWorker = miniMaxSolverWorker;
-
   }
 
+  // EXECUTES SOLVER PATH USING THE MOVE QUEUE
   executeSolverPath(count = 0) {
     if (count <= this.moveQueue.getMaxLength()) {
       this.handleMove(this.moveQueue.dequeue(), this.state.rubiksArray).then(() => {
@@ -465,6 +454,7 @@ class App extends React.Component {
     }
   }
 
+  // SENDS CURRENT STATE OF CUBE TO SOLVER
   handleSolver() {
     let rubiksWithCheck = this.state.rubiksArray.slice();
     rubiksWithCheck.check = true;
@@ -472,7 +462,6 @@ class App extends React.Component {
   }
 
   //ANIMATION FUNCTIONS START
-
   start() {
     if (!this.frameId) {
       this.frameId = requestAnimationFrame(this.animate)
@@ -535,6 +524,7 @@ class App extends React.Component {
 
   // USER FUNCTIONS START
 
+  // TOGGLE ANIMATION BOOLEANS TO MAKE IT PARTY
   handleToggleParty() {
     this.setState({
       party: !this.state.party
@@ -547,6 +537,7 @@ class App extends React.Component {
     })
   }
 
+  // RENDERS PARTY EFFECT WHEN PARTY IN STATE IS TRUE
   makeItParty() {
     if (this.state.party === true) {
       let colors = ['O', 'B', 'W', 'R', 'Y', 'G'];
@@ -567,6 +558,7 @@ class App extends React.Component {
     }
   }
 
+  // RESETS STATE AND CAUSES CUBE TO RERENDER
   handleReset() {
     this.setState({
       rubiksArray: [
@@ -583,6 +575,7 @@ class App extends React.Component {
     });
   }
 
+  // RESETS POSITION
   handleResetPosition() {
     this.groupCubes.rotation.x = 0.25;
     this.groupCubes.rotation.y = 0.75;
@@ -592,10 +585,12 @@ class App extends React.Component {
     this.renderer.render(this.scene, this.camera)
   }
 
+  // UTILITY FUNCTION - PRINTS CUBE STATE TO CONSOLE
   handlePrintState() {
     console.log(JSON.stringify(this.state.rubiksArray));
   }
 
+  // UTILITY FUNCTION - PRINTS SCORE OF CURRENT CUBE TO CONSOLE
   handleGetScore() {
     let score = getScore(this.state.rubiksArray);
     console.log(score)
