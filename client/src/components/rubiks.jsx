@@ -222,17 +222,33 @@ class App extends React.Component {
 
     renderer.setSize(width, height)
 
-    let moveQueue = function () {
+    const moveQueue = function () {
+      this.maxLength = 0;
       this.storage = [];
       this.enqueue = (move) => {
-        this.storage.push(move);
+        if (Array.isArray(move)) {
+          for (let singleMove of move) {
+            this.maxLength += 1;
+            this.storage.push(singleMove);
+          }
+        } else {
+          this.maxLength += 1;
+          this.storage.push(move);
+        }
       }
+
       this.dequeue = () => {
         return this.storage.shift();
       }
+
       this.getLength = () => {
         return this.storage.length;
       }
+
+      this.getMaxLength = () => {
+        return this.maxLength;
+      }
+
     }
 
     this.moveQueue = new moveQueue();
@@ -415,10 +431,21 @@ class App extends React.Component {
       }
       this.setState({
         globalBestPath: e.data.globalBestPath,
-        solved: e.data.solved
+        solved: e.data.solved,
       }, () => {
-        this.moveQueue.enqueue(e.data.globalBestPath);
-        this.executeSolverPath();
+        
+        console.log(e.data.currBestPath);
+
+        this.moveQueue.enqueue(e.data.currBestPath);
+
+        if (!this.state.solving) {
+          this.executeSolverPath();
+        }
+
+        this.setState({
+          solving: true
+        });
+
       });
     });
 
@@ -427,9 +454,13 @@ class App extends React.Component {
   }
 
   executeSolverPath(count = 0) {
-    if (count <= this.state.globalBestPath.length) {
-      this.handleMove(this.state.globalBestPath[count], this.state.rubiksArray).then(() => {
+    if (count <= this.moveQueue.getMaxLength()) {
+      this.handleMove(this.moveQueue.dequeue(), this.state.rubiksArray).then(() => {
         setTimeout(() => {this.executeSolverPath(count += 1)}, 400);
+      });
+    } else {
+      this.setState({
+        solving: false
       });
     }
   }

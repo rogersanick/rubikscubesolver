@@ -62,7 +62,7 @@ export const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
     if (newScore1 === 100) {
       solved = true;
       globalBestPath = globalBestPath.concat(currBestPath);
-      cb(rubiksArray, globalBestPath, solved);
+      cb(rubiksArray, globalBestPath, solved, currBestPath);
       globalBestPath = [];
       solved = false;
       bestScore.score = 0;
@@ -92,7 +92,7 @@ export const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
     for (let face of currBestRubiksArray) {
       copyArray.push(face.slice());
     }
-    cb(copyArray, globalBestPath.slice(), solved).then((checkSolved) => { if (!checkSolved) miniMaxSolver(copyArray, cb)});
+    cb(copyArray, globalBestPath.slice(), solved, currBestPath).then((checkSolved) => { if (!checkSolved) miniMaxSolver(copyArray, cb)});
   }
 }
 
@@ -100,12 +100,14 @@ self.addEventListener('message', function(e) {
   if (!e.data.check) {
     return;
   }
-  miniMaxSolver(e.data, (copyArray, globalBestPath, solved) => {
+  miniMaxSolver(e.data, (copyArray, globalBestPath, solved, currBestPath) => {
     return new Promise((resolve, reject) => {
       let message = {
         copyArray,
         globalBestPath,
-        solved
+        solved,
+        currBestPath,
+        check: 'hey'
       }
       self.postMessage(message);
       resolve(solved);
