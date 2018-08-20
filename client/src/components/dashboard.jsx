@@ -7,7 +7,12 @@ class Dashboard extends React.Component {
     this.state = {
       userId: '',
       addCubeForm: false,
-      cubes: []
+      cubes: [],
+      title:'',
+      userMessage: '',
+      password: '',
+      retypePass: '',
+      amount: '' 
     }
   }
 
@@ -25,7 +30,14 @@ class Dashboard extends React.Component {
 
   handleCubeSubmit(e) {
     e.preventDefault();
-    console.log(e);
+    console.log('submitted');
+  }
+
+  handleChange(e) {
+    console.log(e.target.id, e.target.value);
+    this.setState({
+      [e.target.id]: e.target.value
+    });
   }
 
   componentDidMount() {
@@ -56,11 +68,11 @@ class Dashboard extends React.Component {
         <div> 
           <div>Add Cube Form</div>
           <form onSubmit = {(e) => {this.handleCubeSubmit(e)}}>
-            <input placeholder = 'Title'></input>
-            <input placeholder = 'User Message'></input>
-            <input type = 'password' placeholder = 'Password'></input>
-            <input type = 'password' placeholder = 'Retype Password'></input>
-            <input placeholder = 'Amount'></input> 
+            <input value = {this.state.title} id = 'title' placeholder = 'Title' onChange = {(e) => this.handleChange(e)}></input>
+            <input value = {this.state.userMessage} id = 'userMessage' placeholder = 'User Message' onChange = {(e) => this.handleChange(e)}></input>
+            <input value = {this.state.password} id = 'password' type = 'password' placeholder = 'Password' onChange = {(e) => this.handleChange(e)}></input>
+            <input value = {this.state.retypePass} id = 'retypePass' type = 'password' placeholder = 'Retype Password' onChange = {(e) => this.handleChange(e)}></input>
+            <input value = {this.state.amount} id = 'amount' placeholder = 'Amount' onChange = {(e) => this.handleChange(e)}></input> 
             <button>Add Cube</button>
           </form>
           <button onClick = {() => {this.addCube()}}>Buy Eth</button>
