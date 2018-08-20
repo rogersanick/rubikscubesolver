@@ -227,7 +227,7 @@ class App extends React.Component {
     renderer.setSize(width, height)
 
     // CONSTUCT MOVE QUEUE FOR MAKING MOVES
-    const moveQueue = function () {
+    const MoveQueue = function () {
       this.maxLength = 0;
       this.storage = [];
       this.enqueue = (move) => {
@@ -256,7 +256,7 @@ class App extends React.Component {
 
     }
 
-    this.moveQueue = new moveQueue();
+    this.moveQueue = new MoveQueue();
     this.currRotate = 0;
     this.scene = scene;
     this.camera = camera;
@@ -422,14 +422,20 @@ class App extends React.Component {
   componentWillMount() {
     let miniMaxSolverWorker = new Worker('minimaxSolver.bundle.js');
     miniMaxSolverWorker.addEventListener('message', (e) => {
+      let checkString = this.state.currBestPath ? this.state.currBestPath.join('') : '';
       if (e.data.solved) {
         console.log('solved');
       }
       this.setState({
         globalBestPath: e.data.globalBestPath,
+        currBestPath: e.data.currBestPath,
         solved: e.data.solved,
       }, () => {
-        this.moveQueue.enqueue(e.data.currBestPath);
+        if (this.state.currBestPath.join('') !== checkString) {
+          this.moveQueue.enqueue(e.data.currBestPath);
+        } else {
+          return;
+        }
         if (!this.state.solving) {
           this.executeSolverPath();
         }

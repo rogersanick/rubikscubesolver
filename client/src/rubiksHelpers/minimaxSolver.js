@@ -8,7 +8,7 @@ let globalBestPath = [];
 let solved = false;
 const bestScore = {score: 0};
 let currBestPath = [];
-let currBestRubiksArray
+let currBestRubiksArray;
 
 export const miniMaxSolver = (rubiksArray, cb, depth = 0, path = []) => {
 
