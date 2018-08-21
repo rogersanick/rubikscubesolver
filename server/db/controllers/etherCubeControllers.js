@@ -7,7 +7,12 @@ const etherCubeController = {
     });
   },
   post: (req, res) => {
-    etherCubeModels.post(req.body.userId, req.body.pass, req.body.solution, req.body.cubeState, req.body.etherContractId, req.body.title, req.body.userMessage, (data) => {
+    etherCubeModels.post(req.body, (data) => {
+      res.status(200).send(data);
+    });
+  },
+  delete: (req,res) => {
+    etherCubeModels.delete(req.query.id, (data) => {
       res.status(200).send(data);
     });
   }

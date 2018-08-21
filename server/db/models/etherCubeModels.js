@@ -11,15 +11,29 @@ var modelsInterface = {
       cb(results);
     });
   },
-  post: (userId, pass, solution, cubeState, etherContractId, title, userMessage, cb) => {
-    let queryString = `insert into cubes (userid, pass, solution, cube_state, ether_contract_id, title, user_message) values (?, ?, ?, ?, ?, ?, ?)`
-    let paramsArray = [userId, pass, solution, cubeState, etherContractId, title, userMessage];
+  
+  post: ({userId, title, pass, solution, cubeState, userMessage}, cb) => {
+    let queryString = `insert into cubes (userid, title, pass, solution, cube_state, user_message) values (?, ?, ?, ?, ?, ?)`
+    let paramsArray = [userId, title, pass, solution, cubeState, userMessage];
+    console.log(paramsArray);
     db.query(queryString, paramsArray, (err, results) => {
       if (err) {
         console.log(err);
       }
       cb(results);
     });
+  },
+
+  delete: (id, cb) => {
+    console.log(id);
+    let queryString = `delete from cubes where id = ?`;
+    let paramsArray = [id];
+    db.query(queryString, paramsArray, (err, results) => {
+      if (err) {
+        console.log(err);
+      }
+      cb (results);
+    })
   }
 }
 

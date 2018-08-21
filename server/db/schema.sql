@@ -10,7 +10,6 @@ CREATE TABLE CUBES (
   pass VARCHAR(200) NOT null,
   solution VARCHAR(200) NOT null,
   cube_state VARCHAR(200) NOT NULL,
-  ether_contract_id VARCHAR(200) NOT NULL,
   title VARCHAR(200) NOT NULL,
   user_message VARCHAR(200) NOT NULL,
   primary key (id)

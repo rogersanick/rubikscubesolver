@@ -19,6 +19,10 @@ app.post('/cubes', (req, res) => {
   dbControllers.post(req, res);
 });
 
+app.delete('/cubes', (req, res) => {
+  dbControllers.delete(req, res);
+});
+
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'), (err) => {
     if (err) res.status(500).send(err);
