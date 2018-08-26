@@ -1,6 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
-import firebase from '../firebaseConfig.js';
+import firebase from '../firebaseconfig.js';
+import logo from'../images/Rubiks_Logo.png';
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -45,6 +46,14 @@ class Dashboard extends React.Component {
     e.preventDefault();
     this.addCube(this.state).then(() => {
       this.getCubesForUser(this.state.userId);
+    }, () => {
+      this.setState({
+        title: '',
+        userMessage: '',
+        password: '',
+        retypePass: '',
+        amount: '' 
+      });
     });
   }
 
@@ -56,22 +65,33 @@ class Dashboard extends React.Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
-      this.setState({
-        userId: user.uid
-      }, () => {
-        this.getCubesForUser(this.state.userId);
-      });
+      if (!user) {
+        this.props.history.push('/login');
+      } else {
+        this.setState({
+          userId: user.uid
+        }, () => {
+          this.getCubesForUser(this.state.userId);
+        });
+      }
     });
   }
 
   render() {
     return (
-      <div>
-        <h1>Ether Cube Dashboard</h1>
+      <div className = "dashboard-background">
+        <h1 className = "heading-primary">Ether Cube Dashboard</h1>
         <div>Your Cubes</div>
         <ul> 
           {this.state.cubes.map((cube) => {
-            return(<li onClick = {(e) => this.deleteCube(e)} id = {cube.id} key = {cube.id}>{cube.id}</li>);
+            return(
+              <li onClick = {(e) => this.deleteCube(e)} id = {cube.id} key = {cube.id}>
+                <div>{cube.title}</div>
+                <div>{cube.id}</div>
+                <div>{cube.cube_state}</div>
+                <div>{cube.solution}</div>
+              </li>
+              );
           })}
         </ul>
         <button onClick = {() => {this.setState({addCubeForm: !this.state.addCubeForm})}}>Add Cube</button>
@@ -89,7 +109,7 @@ class Dashboard extends React.Component {
           <button onClick = {() => {this.addCube()}}>Buy Eth</button>
           <button onClick = {() => {this.addCube()}}>Load Eth</button>
         </div> 
-        : ''}
+        : null}
       </div>
     );
   }

@@ -18,9 +18,9 @@ class App extends React.Component {
     return (
       <div> 
         <Route exact path = "/" render = {props => <Landing {...props} history = {this.props.history}></Landing>}></Route>
-        <Route exact path = "/visualize" render = {props => <Rubiks {...props}></Rubiks>}></Route>
+        <Route exact path = "/visualize" render = {props => <Rubiks {...props} history = {this.props.history}></Rubiks>}></Route>
         <Route exact path = "/login" render = {props => <Login {...props}></Login>}></Route>
-        <Route exact path = "/dashboard" render = {props => <Dashboard {...props}></Dashboard>}></Route>
+        <Route exact path = "/dashboard" render = {props => <Dashboard {...props} history = {this.props.history}></Dashboard>}></Route>
       </div> 
     );
   }

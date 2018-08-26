@@ -6,7 +6,6 @@ class RubiksCube extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props.width);
     return (
       this.props.rerender ? <div></div> :
         <div
