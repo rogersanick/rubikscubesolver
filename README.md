@@ -2,7 +2,9 @@
 
 Ether Cube is an interactive visualization of a Rubik's cube puzzle. Users can view and interact with a fully functioning model of a Rubik's cube. Next up on the project roadmap is to enable users to store ethereum in a Rubik's puzzle and send it to their friends. Their friends can then only access the ETH once they have solved the cube!
 
-The project was a fascinating exploration of 3D visualization, data modelling, interface design and algorithms. 
+The project was a fascinating exploration of 3D visualization, data modelling, interface design and algorithms.
+
+Check it out at http://rubiks-visualizer.herokuapp.com/
 
 ## Getting Started
 
