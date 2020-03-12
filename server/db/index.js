@@ -6,6 +6,6 @@ const connection = mysql.createConnection({
   database: 'ethercubes'
 });
 
-connection.connect();
+// connection.connect();
 
 module.exports = connection;
