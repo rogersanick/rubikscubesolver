@@ -1,8 +1,8 @@
-# Ether Cube
+# Distributed Ledger Cube (DLC)
 
-Ether Cube is an interactive visualization of a Rubik's cube puzzle. Users can view and interact with a fully functioning model of a Rubik's cube. Next up on the project roadmap is to enable users to store ethereum in a Rubik's puzzle and send it to their friends. Their friends can then only access the ETH once they have solved the cube!
+Distributed Ledger Cube is an interactive visualization of a Rubik's cube puzzle. Users can view and interact with a fully functioning model of a Rubik's cube. Next up on the project roadmap is to enable users to store value or data inside of a Rubik's puzzle and send it to their friends. 
 
-The project was a fascinating exploration of 3D visualization, data modelling, interface design and algorithms.
+Recipients can only unlock that data once they solved the puzzle! 
 
 Check it out at http://rubiks-visualizer.herokuapp.com/
 
@@ -13,8 +13,7 @@ These instructions will get you a copy of the project up and running on your loc
 1. Fork the github repo
 2. In the root directory, run the following scripts in node
   - 'npm install'
-  - 'npm run react-dev'
-  - 'npm run server-dev'
+  - 'npm run start'
 6. Navigate to https://localhost:8000/ on your browser to test and enjoy!
 
 ### Prerequisites

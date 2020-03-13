@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build-css && npm run build && npm run prod",
+    "start": "npm run build-css & npm run build && npm run prod",
     "build": "cross-env NODE_env=production webpack -p --progress --mode production",
     "prod": "cross-env NODE_ENV=production node server/index.js",
     "dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run server-dev\" \"npm run react-dev\"",
