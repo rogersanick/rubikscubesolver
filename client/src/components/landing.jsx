@@ -22,8 +22,8 @@ class RubiksLanding extends React.Component {
           </div>
           <div className="header__text-box">
             <h1 className="heading-primary">
-              <span className="heading-primary--main">Ether Cube</span>
-              <span className="heading-primary--sub">Send ETH locked inside a puzzle.</span>
+              <span className="heading-primary--main">Corda Cube</span>
+              <span className="heading-primary--sub">Send a reward locked inside a puzzle.</span>
             </h1>
             <a href="/visualize" className="btn btn--grey btn--animated">Just Play</a>
             <a href="/login" className="btn btn--grey btn--animated">Set Up a Cube (Coming Soon)</a>

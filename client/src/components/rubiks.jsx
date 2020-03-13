@@ -48,7 +48,8 @@ class App extends React.Component {
       } else if ([81, 87, 69, 82, 65, 83, 68, 70, 90, 88, 67, 86].indexOf(keyNum) !== -1) {
         let moveIndex = [81, 87, 69, 82, 65, 83, 68, 70, 90, 88, 67, 86].indexOf(keyNum);
         let move = ['U', 'Ui', 'D', 'Di', 'L', 'Li', 'R', 'Ri', 'F', 'Fi', 'B', 'Bi'][moveIndex];
-        this.handleMove(move, this.state.rubiksArray);
+        console.log("test")
+        this.moveQueue.enqueue(move)
       }
     };
 
@@ -266,6 +267,11 @@ class App extends React.Component {
     this.cubeGeometries = cubeGeometries;
     this.count = 0;
     this.mount.appendChild(this.renderer.domElement)
+    this.moveMaker = setInterval(() => {
+      if (this.moveQueue.getLength()) {
+        this.handleMove(this.moveQueue.dequeue(), this.state.rubiksArray)
+      }
+    }, 400)
     this.start()
   }
 
