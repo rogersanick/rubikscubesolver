@@ -442,28 +442,9 @@ class App extends React.Component {
         } else {
           return;
         }
-        if (!this.state.solving) {
-          this.executeSolverPath();
-        }
-        this.setState({
-          solving: true
-        });
       });
     });
     this.miniMaxSolverWorker = miniMaxSolverWorker;
-  }
-
-  // EXECUTES SOLVER PATH USING THE MOVE QUEUE
-  executeSolverPath(count = 0) {
-    if (count <= this.moveQueue.getMaxLength()) {
-      this.handleMove(this.moveQueue.dequeue(), this.state.rubiksArray).then(() => {
-        setTimeout(() => {this.executeSolverPath(count += 1)}, 400);
-      });
-    } else {
-      this.setState({
-        solving: false
-      });
-    }
   }
 
   // SENDS CURRENT STATE OF CUBE TO SOLVER
