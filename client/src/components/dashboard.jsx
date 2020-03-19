@@ -1,6 +1,5 @@
 import React from 'react';
 import Axios from 'axios';
-import firebase from '../firebaseconfig.js';
 import logo from'../images/Rubiks_Logo.png';
 class Dashboard extends React.Component {
   constructor(props) {

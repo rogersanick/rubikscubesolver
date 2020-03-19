@@ -19,7 +19,15 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['react', 'env', 'stage-2'],
+          presets: ['@babel/preset-react', '@babel/env'],
+          plugins: [
+            // Stage 2
+            ["@babel/plugin-proposal-decorators", { "legacy": true }],
+            "@babel/plugin-proposal-function-sent",
+            "@babel/plugin-proposal-export-namespace-from",
+            "@babel/plugin-proposal-numeric-separator",
+            "@babel/plugin-proposal-throw-expressions",
+          ]
         },
       }, 
       {
