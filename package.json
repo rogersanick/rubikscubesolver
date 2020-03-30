@@ -46,6 +46,7 @@
     "webpack": "^4.42.0"
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.8",
     "ajv": "^6.12.0",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
@@ -57,6 +58,7 @@
     "react": "^16.4.1",
     "react-code-splitting": "^1.2.1",
     "react-dom": "^16.4.1",
+    "react-hook-form": "^5.2.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "sass": "^1.9.0",

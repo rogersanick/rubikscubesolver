@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import CordaCubeTile from './CordaCubeTile.jsx';
+import CordaCubeFormContainer from './CordaCubeFormContainer.jsx';
 
 export default class CordaCubeMenu extends React.Component {
     constructor(props) {
@@ -48,6 +49,7 @@ export default class CordaCubeMenu extends React.Component {
                     />)
                 }) : "No cubes to display" }
                 </div>
+                <CordaCubeFormContainer/>
 
             </div>
         )

@@ -1,7 +1,7 @@
 import React from 'react';
 import RubiksCube from './RubiksCube.jsx';
-import RubiksControllerMenu from '../Menu/RubiksControllerMenu.jsx';
-import CordaCubeDashboard from '../Menu/CordaCubeMenu.jsx';
+import RubiksControllerMenu from '../RubiksMenu/RubiksControllerMenu.jsx';
+import CordaCubeDashboard from '../CordaMenu/CordaCubeMenu.jsx';
 import * as THREE from 'three';
 import stateToCubesMapping from '../../rubiksHelpers/cube-side-mapping.js';
 import {getScore} from '../../rubiksHelpers/minimaxSolver.js';

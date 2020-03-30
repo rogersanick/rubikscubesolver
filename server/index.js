@@ -6,7 +6,7 @@ const app = express();
 app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + '/../client/dist'));
 
