@@ -30,10 +30,21 @@ body {
   background: $light-grey;
 }
 
-.rubiks-controller-menu {
+.rubiks-side-nav {
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   width: 30vw;
   margin-top: -0.5rem;
+}
+
+.corda-side-nav-element {
+  margin: 1rem;
+  margin-left: 1.5rem;
+}
+
+.rubiks-side-nav-element {
+  flex-grow: 2;
 }
 
 .flex-container {
@@ -172,4 +183,19 @@ button.draw, .answer.draw {
       font-size: 2.6rem;
       width: 90%;
     }
+}
+
+.cube-tile-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.corda-cube-tile {
+  margin: 0.1rem;
+  padding: 0.5rem;
+  border: 2px solid #a1a1a1;
+}
+
+.fit {
+  max-width: 100%;
 }

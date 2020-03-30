@@ -1,10 +1,14 @@
 import React from 'react';
-import RubiksCube from './rubiksCube.jsx';
-import RubiksControllerMenu from './rubiksControllerMenu.jsx';
+import RubiksCube from './RubiksCube.jsx';
+import RubiksControllerMenu from '../Menu/RubiksControllerMenu.jsx';
+import CordaCubeDashboard from '../Menu/CordaCubeMenu.jsx';
 import * as THREE from 'three';
-import stateToCubesMapping from '../rubiksHelpers/cube-side-mapping.js';
-import {getScore} from '../rubiksHelpers/minimaxSolver.js';
-import rubiks from '../rubiksHelpers/cube-functions.js';
+import stateToCubesMapping from '../../rubiksHelpers/cube-side-mapping.js';
+import {getScore} from '../../rubiksHelpers/minimaxSolver.js';
+import rubiks from '../../rubiksHelpers/cube-functions.js';
+import setupKeyListeners from '../../utilities/keyListenUtils/keyListeners.js'
+import cubeUtilities from '../../utilities/cubeBuilderUtils/cubeBuilderUtilities.js'
+import MoveQueue from '../../utilities/moveMakingUtils/MoveQueue.js'
 
 class App extends React.Component {
 
@@ -12,88 +16,14 @@ class App extends React.Component {
     super(props);
 
     // BUILD AN ARRAY OF CUBE POSITIONS
-    let cubePositions = [];
-    for (let z = 1; z >= -1; z--) {
-      for (let y = -1; y <= 1; y ++) {
-        for (let x = 1; x >= -1; x --) {
-          cubePositions.push([x, y, z]);
-        }
-      }
-    }
-
-    // SET UP KEY LISTENERS TO MOVE / INTERACT WITH CUBE
-    document.onkeydown = (evt) => {
-      evt = evt || window.event;
-      let keyNum = parseInt(evt.keyCode);
-      if (evt.keyCode == 37) {
-        this.setState({
-          spinLeft: true
-        })
-      } else if (evt.keyCode == 38) {
-        this.setState({
-          spinUp: true
-        })
-      } else if (evt.keyCode == 39) {
-        this.setState({
-          spinRight: true
-        })
-      } else if (evt.keyCode == 40) {
-        this.setState({
-          spinDown: true
-        })
-      } else if (evt.keyCode == 85) {
-        this.handleReset();
-      } else if (evt.keyCode == 16) {
-        this.handleResetPosition();
-      } else if ([81, 87, 69, 82, 65, 83, 68, 70, 90, 88, 67, 86].indexOf(keyNum) !== -1) {
-        let moveIndex = [81, 87, 69, 82, 65, 83, 68, 70, 90, 88, 67, 86].indexOf(keyNum);
-        let move = ['U', 'Ui', 'D', 'Di', 'L', 'Li', 'R', 'Ri', 'F', 'Fi', 'B', 'Bi'][moveIndex];
-        console.log("test")
-        this.moveQueue.enqueue(move)
-      }
-    };
-
-    document.onkeyup = (evt) => {
-      evt = evt || window.event;
-      if (evt.keyCode == 37) {
-        this.setState({
-          spinLeft: false
-        })
-      } else if (evt.keyCode == 38) {
-        this.setState({
-          spinUp: false
-        })
-      } else if (evt.keyCode == 39) {
-        this.setState({
-          spinRight: false
-        })
-      } else if (evt.keyCode == 40) {
-        this.setState({
-          spinDown: false
-        })
-      }
-    };
-
-    document.addEventListener("keydown", function(e) {
-      // space and arrow keys
-      if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-          e.preventDefault();
-      }
-    }, false);
+    let cubePositions = cubeUtilities.cleanComponentCubeState()
 
     // DEFINE STATE FOR COMPONENT
-    // BUILD AN ARRAY OF ARRAYS CORRESPONDING TO CUBE POSITIONS
+    // BUILD AN ARRAY OF ARRAYS CORRESPONDING TO CUBE POSITIONSs
     this.state = {
       width: window.innerWidth,
       height: window.innerHeight,
-      rubiksArray: [
-                    Array(9).fill('O'), 
-                    Array(9).fill('B'), 
-                    Array(9).fill('W'),
-                    Array(9).fill('R'), 
-                    Array(9).fill('Y'),
-                    Array(9).fill('G'),
-                  ],
+      rubiksArray: cubeUtilities.cleanCubeFaceState(),
       cubePositions: cubePositions,
 
       // SET CAMERA POSITION
@@ -142,6 +72,7 @@ class App extends React.Component {
     this.handlePrintState = this.handlePrintState.bind(this);
     this.handleSolver = this.handleSolver.bind(this);
     this.makeMove = this.makeMove.bind(this);
+    this.handleRenderCordaCube = this.handleRenderCordaCube.bind(this);
   }
 
   componentDidMount() {
@@ -224,38 +155,7 @@ class App extends React.Component {
     // SET INITIAL ROTATION FOR AESTHETICS
     this.groupCubes.rotation.x = 0.25;
     this.groupCubes.rotation.y = 0.75;
-
     renderer.setSize(width, height)
-
-    // CONSTUCT MOVE QUEUE FOR MAKING MOVES
-    const MoveQueue = function () {
-      this.maxLength = 0;
-      this.storage = [];
-      this.enqueue = (move) => {
-        if (Array.isArray(move)) {
-          for (let singleMove of move) {
-            this.maxLength += 1;
-            this.storage.push(singleMove);
-          }
-        } else {
-          this.maxLength += 1;
-          this.storage.push(move);
-        }
-      }
-
-      this.dequeue = () => {
-        return this.storage.shift();
-      }
-
-      this.getLength = () => {
-        return this.storage.length;
-      }
-
-      this.getMaxLength = () => {
-        return this.maxLength;
-      }
-
-    }
 
     this.moveQueue = new MoveQueue();
     this.currRotate = 0;
@@ -273,6 +173,9 @@ class App extends React.Component {
       }
     }, 400)
     this.start()
+
+    // SETUP KEY LISTENERS
+    setupKeyListeners(document, (state) => this.setState(state), this.moveQueue)
   }
 
   // WINDOW RESIZING START
@@ -311,17 +214,6 @@ class App extends React.Component {
     }, () => {
       this.handleRenderCubeColorPositions();
     });
-  }
-
-  handleRenderMovePromise(newRubiksArray) {
-    return new Promise ((resolve, reject) => {
-      this.setState({ 
-        rubiksArray: newRubiksArray
-      }, () => {
-        this.handleRenderCubeColorPositions()
-        resolve();
-      });
-    })
   }
 
   // CALLS RUBIK'S HELPER FUNCTIONS TO TRANSFORM CURR RUBIKS ARRAY
@@ -589,27 +481,39 @@ class App extends React.Component {
     console.log(score)
   }
 
+  handleRenderCordaCube(state) {
+    this.setState({
+      rubiksArray: state
+    }, () => {
+      this.handleRenderCubeColorPositions()
+    })
+  }
+
   render() {
     return (
       <div className = "flex-container">
         <div className = "canvas" ref={(mount) => { this.mount = mount }}>
           <RubiksCube width = {this.state.width * 0.7} height = {this.state.height} rerender = {this.state.rerender}/>
         </div>
-        <RubiksControllerMenu 
-          rubiksArray = {this.state.rubiksArray} 
-          handleSpinY = {this.handleSpinY} 
-          handleSpinX = {this.handleSpinX} 
-          handleToggleParty = {this.handleToggleParty}
-          makeItParty = {this.makeItParty}
-          handleReset = {this.handleReset} 
-          handleResetPosition = {this.handleResetPosition}
-          handleMove = {this.handleMove} 
-          handleGetScore = {this.handleGetScore}
-          handlePrintState = {this.handlePrintState}
-          handleSolver = {this.handleSolver}
-          handleRenderMove = {this.handleRenderMove}
-          makeMove = {this.makeMove}
-        />
+        <div className = "rubiks-side-nav">
+          <CordaCubeDashboard handleRenderCordaCube = { this.handleRenderCordaCube }/>
+          <RubiksControllerMenu 
+            rubiksArray = {this.state.rubiksArray} 
+            handleSpinY = {this.handleSpinY} 
+            handleSpinX = {this.handleSpinX} 
+            handleToggleParty = {this.handleToggleParty}
+            makeItParty = {this.makeItParty}
+            handleReset = {this.handleReset} 
+            handleResetPosition = {this.handleResetPosition}
+            handleMove = {this.handleMove} 
+            handleGetScore = {this.handleGetScore}
+            handlePrintState = {this.handlePrintState}
+            handleSolver = {this.handleSolver}
+            handleRenderMove = {this.handleRenderMove}
+            makeMove = {this.makeMove}
+          />
+        </div>
+
       </div>
     );
   }

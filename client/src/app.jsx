@@ -3,10 +3,10 @@ import { withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
 import Async from 'react-code-splitting';
 
-const Rubiks = (props) => <Async load = {import('./components/rubiks.jsx')} componentProps = {props}/>
-const Landing = (props) => <Async load = {import('./components/landing.jsx')} componentProps = {props}/>
-const Login = (props) => <Async load = {import('./components/login.jsx')} componentProps = {props}/>
-const Dashboard = (props) => <Async load = {import('./components/dashboard.jsx')} componentProps = {props}/>
+const Rubiks = (props) => <Async load = {import('./components/Visualize/Rubiks.jsx')} componentProps = {props}/>
+const Landing = (props) => <Async load = {import('./components/Landing/Landing.jsx')} componentProps = {props}/>
+const Login = (props) => <Async load = {import('./components/Login.jsx')} componentProps = {props}/>
+const Dashboard = (props) => <Async load = {import('./components/Dashboard.jsx')} componentProps = {props}/>
 
 class App extends React.Component {
 

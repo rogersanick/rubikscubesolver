@@ -1,7 +1,7 @@
 import React from 'react';
-import logo from'../images/Rubiks_Logo.png';
-import photo1 from'../images/Rubiks_Insert.png';
-import photo2 from'../images/grey_brain.png';
+import logo from'../../images/Rubiks_Logo.png';
+import photo1 from'../../images/Rubiks_Insert.png';
+import photo2 from'../../images/grey_brain.png';
 import smoothScroll from 'smoothscroll'
 
 class RubiksLanding extends React.Component {
@@ -22,8 +22,8 @@ class RubiksLanding extends React.Component {
           </div>
           <div className="header__text-box">
             <h1 className="heading-primary">
-              <span className="heading-primary--main">Corda Cube</span>
-              <span className="heading-primary--sub">Send a reward locked inside a puzzle.</span>
+              <span className="heading-primary--main">DLC</span>
+              <span className="heading-primary--sub">Distributed Ledger Cube.</span>
             </h1>
             <a href="/visualize" className="btn btn--grey btn--animated">Just Play</a>
             <a href="/login" className="btn btn--grey btn--animated">Set Up a Cube (Coming Soon)</a>
@@ -39,7 +39,7 @@ class RubiksLanding extends React.Component {
           <section className="section-about">
             <div className="u-center-text u-margin-bottom-big" id = "learn-more">
               <h2 className="heading-secondary">
-                What is an Ether Cube?
+                What is a Distributed Ledger Cube?
               </h2>
             </div>
 
@@ -57,7 +57,7 @@ class RubiksLanding extends React.Component {
                     A challenging puzzle with a compelling reward.
                   </h3>
                   <p className="paragraph">
-                    This year, instead of sending a giftcard, cash or other ambigious gift to your family and friends; send a digital Rubik's Cube with real value inside! Load up a small amount of ethereum and it will be stored in a Rubik's cube accessible at a unique link. If they can't figure it out, send them a solve code to unlock their prize. Or don't! Up to you man.               
+                    This year, instead of sending a giftcard, cash or other ambigious gift to your family and friends; send a digital Rubik's Cube with real value inside! Load up a small amount of cryptocurrency and it will be stored in a Rubik's cube, accessible at a unique link. If they can't figure it out, send them a solve code to unlock their prize. Or don't! Up to you.               
                   </p>
                 </div>
               </div>

@@ -41,9 +41,9 @@ class RubiksControllerMenu extends React.Component {
 
   render() {
     return (
-    <div className = "rubiks-controller-menu">
+    <div className = "rubiks-side-nav-element">
       <div className = "direction-image"> 
-        {this.state.instructionImageCode ? <img src={require(`../images/rubiks_directions_${this.state.instructionImageCode}.png`)} alt="Logo" className="header__logo" /> : <div></div>}
+        {this.state.instructionImageCode ? <img src={require(`../../images/rubiks_directions_${this.state.instructionImageCode}.png`)} alt="Logo" className="header__logo" /> : <div></div>}
       </div>
       <div className = "button-category">
         <button className = "draw meet" onMouseEnter = {() => {this.handleImageChange('F')}} onMouseLeave = {() => {this.handleImageChange()}} onClick = {() => this.props.handleMove('F', this.props.rubiksArray)}>Front (F)</button>
@@ -70,7 +70,7 @@ class RubiksControllerMenu extends React.Component {
         <button className = "draw meet" onMouseEnter = {() => {this.handleImageChange('Di')}} onMouseLeave = {() => {this.handleImageChange()}} onClick = {() => this.props.handleMove('Di', this.props.rubiksArray)}>Down Inverse (Di)</button>
       </div>
       <div className = "button-category"> 
-        <img onClick = {() => {this.handleOpenSettings()}} className = "button-settings" src={require(`../images/settings_grey.png`)} alt="settings"/>
+        <img onClick = {() => {this.handleOpenSettings()}} className = "button-settings" src={require(`../../images/settings_grey.png`)} alt="settings"/>
       </div>
       {this.state.settingsOpen ? <div> 
         <div className = "button-category">

@@ -2,8 +2,6 @@ const express = require('express');
 const parser = require('body-parser');
 const path = require('path');
 const app = express();
-const opn = require('opn');
-const dbControllers = require('./db/controllers/etherCubeControllers.js');
 
 app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));
@@ -13,15 +11,15 @@ const port = process.env.PORT || 8000;
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.get('/cubes', (req, res) => {
-  dbControllers.get(req, res);
+  console.log("GET CUBES");
 });
 
 app.post('/cubes', (req, res) => {
-  dbControllers.post(req, res);
+  console.log("GET CUBES");
 });
 
 app.delete('/cubes', (req, res) => {
-  dbControllers.delete(req, res);
+  console.log("GET CUBES");
 });
 
 app.get('/*', (req, res) => {
@@ -32,6 +30,4 @@ app.get('/*', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
-  // comment out line below for deployment
-  opn(`http://localhost:${port}`);
 });
