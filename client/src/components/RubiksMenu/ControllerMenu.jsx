@@ -28,15 +28,10 @@ class ControllerMenu extends React.Component {
     }
   }
 
-  shuffle(rubiksArray, count = 0) {
-    let newRubiksArray = rubiksArray.slice();
+  shuffle() {
     const possibleMoves = ['F', 'B', 'L', 'R', 'D', 'U', 'Fi', 'Bi', 'Li', 'Ri', 'Di', 'Ui'];
-    if (count < 20) {
-      let newMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-      this.props.handleMove(newMove, rubiksArray).then(() => {
-        setTimeout(() => this.shuffle(rubiksArray, count += 1), 255);
-      });
-    }
+    const randomMoves = Array(20).fill(null).map(ele => possibleMoves[Math.floor(Math.random() * possibleMoves.length)])
+    this.props.moveQueue.enqueue(randomMoves)
   }
 
   render() {
@@ -78,7 +73,7 @@ class ControllerMenu extends React.Component {
           <button className = "draw meet" onClick = {() => this.props.handleGetScore(this.props.rubiksArray)}>Get Score</button>
         </div>
         <div className = "button-category">
-          <button className = "draw meet" onMouseEnter = {() => {this.handleImageChange('shuffle')}} onMouseLeave = {() => {this.handleImageChange()}} onClick = {() => this.shuffle(this.props.rubiksArray)}>Shuffle</button>
+          <button className = "draw meet" onMouseEnter = {() => {this.handleImageChange('shuffle')}} onMouseLeave = {() => {this.handleImageChange()}} onClick = {() => this.shuffle()}>Shuffle</button>
         </div>
         <div className = "button-category">
           <button className = "draw meet" onClick = {() => this.props.handleSolver()}>Solve</button>

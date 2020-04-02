@@ -56,7 +56,8 @@ class App extends React.Component {
       currMove: '',
       globalBestPath: '',
       solved: false,
-      party: false
+      party: false,
+      selectedCube: "just_for_fun"
     };
 
     // FUNCTION BINDINGS
@@ -81,17 +82,14 @@ class App extends React.Component {
     // Create a visualization of the Rubiks cube
     createRubiksCubeVisualization.bind(this)()
 
-    this.moveQueue = new MoveQueue((move) => {
-      // this.setState({
-      //   movesMade: this.state.movesMade.concat(move)
-      // })
-    });
-    this.moveMaker = setInterval(() => {
-      if (this.moveQueue.getLength()) {
-        this.handleMove(this.moveQueue.dequeue(), this.state.rubiksArray)
+    this.moveQueue = new MoveQueue(
+      this.state.selectedCube, 
+      move => { 
+        this.handleMove(move, this.state.rubiksArray) 
       }
-    }, 400)
+    );
     this.start()
+    this.moveQueue.start()
 
     // SETUP KEY LISTENERS
     setupKeyListeners.bind(this)(document, (state) => this.setState(state), this.moveQueue)
@@ -113,6 +111,7 @@ class App extends React.Component {
 
   // UPDATES CUBE STATE & RENDERS ANIMATION OF STATE CHANGE
   handleMove(magicString, rubiksArray) {
+
     return new Promise((resolve, reject) => {
       this.setState({
         currMove: magicString
@@ -413,6 +412,7 @@ class App extends React.Component {
             saveMoves = { () => console.log("test") } 
             rerender = { this.forceUpdate.bind(this) }/>
           <RubiksControllerMenu 
+            moveQueue = { this.moveQueue }
             rubiksArray = {this.state.rubiksArray} 
             handleSpinY = {this.handleSpinY} 
             handleSpinX = {this.handleSpinX} 

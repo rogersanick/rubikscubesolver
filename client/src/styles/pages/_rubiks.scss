@@ -39,6 +39,7 @@ body {
 }
 
 .side-nav-element {
+  width: 80%;
   padding: 1rem;
   border-left: 2px solid $grey;
   margin: 1rem;
@@ -46,7 +47,6 @@ body {
 }
 
 .corda-side-nav-element {
-  flex-grow: 1;
   margin: 1rem;
   margin-left: 1.5rem;
 }
@@ -204,13 +204,14 @@ button.draw, .answer.draw {
 
 .cube-tile-container {
   overflow: scroll;
-  height: 80%;
+  max-height: 80%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
 .corda-cube-tile {
+  max-height: 60%;
   width: 30%;
   margin: 0.1rem;
   padding: 0.5rem;

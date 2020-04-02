@@ -53,7 +53,7 @@ export default class CordaCubeDashboard extends React.Component {
     render() {
         const shouldRender = this.state.cordaCubes && this.state.cordaCubes.length > 0
         return (
-            shouldRender ? <div className = "corda-side-nav-element corda-cube-menu">
+            shouldRender ? <div className = "corda-side-nav-element">
                 <div>Distributed Ledger Cubes</div>
                 <div className = "cube-tile-container">
                     <CordaCubeTile 
