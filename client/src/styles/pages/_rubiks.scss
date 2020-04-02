@@ -24,27 +24,43 @@ body {
   align-items: center;
   justify-content: center;
   border: 2px solid $grey;
-  margin: 1rem;
-  margin-left: 1.5rem;
+  margin-bottom: 1rem;
   margin-top: 1rem;
   background: $light-grey;
 }
 
-.rubiks-side-nav {
+.side-nav {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   height: 100vh;
   width: 30vw;
   margin-top: -0.5rem;
 }
 
+.side-nav-element {
+  padding: 1rem;
+  border-left: 2px solid $grey;
+  margin: 1rem;
+  margin-left: 1rem;
+}
+
 .corda-side-nav-element {
+  flex-grow: 1;
   margin: 1rem;
   margin-left: 1.5rem;
 }
 
-.rubiks-side-nav-element {
-  flex-grow: 2;
+.move-queue-visualizer {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  max-width: 80%;
+  overflow: scroll;
+}
+
+.corda-side-nav-title {
+  margin: 1rem;
+  margin-left: 1.5rem;
 }
 
 .flex-container {
@@ -54,7 +70,8 @@ body {
 }
 
 .button-category {
-  margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .button-settings {
@@ -186,11 +203,15 @@ button.draw, .answer.draw {
 }
 
 .cube-tile-container {
+  overflow: scroll;
+  height: 80%;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .corda-cube-tile {
+  width: 30%;
   margin: 0.1rem;
   padding: 0.5rem;
   border: 2px solid #a1a1a1;
@@ -198,4 +219,8 @@ button.draw, .answer.draw {
 
 .fit {
   max-width: 100%;
+}
+
+.selected-cube {
+  border-color: #ec1d24;
 }

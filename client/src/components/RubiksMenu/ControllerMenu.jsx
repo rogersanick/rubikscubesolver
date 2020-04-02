@@ -1,6 +1,6 @@
 import React from 'react';
 
-class RubiksControllerMenu extends React.Component {
+class ControllerMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,7 +41,7 @@ class RubiksControllerMenu extends React.Component {
 
   render() {
     return (
-    <div className = "rubiks-side-nav-element">
+    <div className = "side-nav-element">
       <div className = "direction-image"> 
         {this.state.instructionImageCode ? <img src={require(`../../images/rubiks_directions_${this.state.instructionImageCode}.png`)} alt="Logo" className="header__logo" /> : <div></div>}
       </div>
@@ -96,4 +96,4 @@ class RubiksControllerMenu extends React.Component {
   }
 }
 
-export default RubiksControllerMenu;
+export default ControllerMenu;

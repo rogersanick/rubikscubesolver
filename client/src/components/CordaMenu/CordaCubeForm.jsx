@@ -8,6 +8,10 @@ export default function FancyForm(props) {
   let writeMembers = ""
   let owners = ""
 
+  function update(newVal) {
+    
+  }
+
   return (
     <form onSubmit={handleSubmit(props.onSubmit)}>
     {/* register your input into the hook by invoking the "register" function */}
