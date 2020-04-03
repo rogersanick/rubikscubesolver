@@ -1,18 +1,19 @@
 import React from 'react';
 import MoveQueueVisualizer from '../Visualize/MoveQueueVisualizer.jsx';
 
-function resetMoves(moveQueue, rerender) {
+function resetMoves(moveQueue, rerenderCube) {
+    moveQueue.stop()
     moveQueue.movesMade = []
     moveQueue.movesQueued = []
-    rerender()
+    rerenderCube()
+    moveQueue.start()
 }
 
-const SaveSubmitMenu = ({ moveQueue, saveMoves, rerender }) => { 
+const SaveSubmitMenu = ({ moveQueue, saveMoves, rerenderCube }) => { 
     return (
-        <div className="side-nav-element">
-            <MoveQueueVisualizer moveQueue = { moveQueue }/>
+        <div>
             <button className ="draw meet" onClick = { saveMoves }>Save Moves</button>
-            <button className ="draw meet" onClick = { () => { resetMoves(moveQueue, rerender) } }>Reset Moves</button>
+            <button className ="draw meet" onClick = { () => { resetMoves(moveQueue, rerenderCube) } }>Reset Moves</button>
         </div>
     )
 }

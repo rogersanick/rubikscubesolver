@@ -364,14 +364,7 @@ class App extends React.Component {
   // RESETS STATE AND CAUSES CUBE TO RERENDER
   handleReset() {
     this.setState({
-      rubiksArray: [
-        Array(9).fill('O'), 
-        Array(9).fill('B'), 
-        Array(9).fill('W'), 
-        Array(9).fill('R'), 
-        Array(9).fill('Y'),
-        Array(9).fill('G'),
-      ]
+      rubiksArray: cubeUtilities.cleanCubeFaceState()
     }, () => {
       this.handleResetPosition();
       this.handleRenderCubeColorPositions();
@@ -406,11 +399,12 @@ class App extends React.Component {
           <RubiksCube width = {this.state.width * 0.7} height = {this.state.height} rerender = {this.state.rerender}/>
         </div>
         <div className = "side-nav">
-          <CordaCubeDashboard handleRenderMove = { this.handleRenderMove }/>
-          <SaveSubmitMenu 
+          <CordaCubeDashboard 
+            handleRenderMove = { this.handleRenderMove }
             moveQueue = { this.moveQueue } 
-            saveMoves = { () => console.log("test") } 
-            rerender = { this.forceUpdate.bind(this) }/>
+            rerenderCube = { this.forceUpdate.bind(this) }
+          />
+          <MoveQueueVisualizer moveQueue = { this.moveQueue }/>
           <RubiksControllerMenu 
             moveQueue = { this.moveQueue }
             rubiksArray = {this.state.rubiksArray} 

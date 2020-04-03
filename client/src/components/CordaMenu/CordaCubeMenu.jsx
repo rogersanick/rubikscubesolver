@@ -3,6 +3,7 @@ import axios from 'axios';
 import CordaCubeTile from './CordaCubeTile.jsx';
 import CordaCubeFormContainer from './CordaCubeFormContainer.jsx';
 import MoveQueueVisualizer from '../Visualize/MoveQueueVisualizer.jsx';
+import SaveSubmitMenu from '../RubiksMenu/SaveSubmitMenu.jsx';
 
 export default class CordaCubeDashboard extends React.Component {
     constructor(props) {
@@ -26,7 +27,7 @@ export default class CordaCubeDashboard extends React.Component {
                 cube.state = this.renderCubeState(cube.state)
             })
             this.setState({ 
-                selectedCube: result.data[0] ? result.data[0]: null,
+                selectedCube: result.data[0] ? result.data[0].linearId : null,
                 cordaCubes: result.data 
             })
         }).catch(err => console.log(err))
@@ -56,7 +57,7 @@ export default class CordaCubeDashboard extends React.Component {
             shouldRender ? <div className = "corda-side-nav-element">
                 <div>Distributed Ledger Cubes</div>
                 <div className = "cube-tile-container">
-                    <CordaCubeTile 
+                    {/* <CordaCubeTile 
                         selected = { this.state.selectedCube == "just_for_fun" }
                         handleClick = { () => { 
                             this.selectCube("just_for_fun")
@@ -64,7 +65,7 @@ export default class CordaCubeDashboard extends React.Component {
                         } }
                         key = "just_for_fun"
                         issuer = "Elvis Presley"
-                        linearId = "just_for_fun"/>
+                        linearId = "just_for_fun"/> */}
                     { this.state.cordaCubes ? this.state.cordaCubes.map((cube) => {
                         return (<CordaCubeTile
                             selected = { this.state.selectedCube == cube.linearId }
@@ -79,6 +80,13 @@ export default class CordaCubeDashboard extends React.Component {
                 }) : "No cubes to display" }
                 </div>
                 <CordaCubeFormContainer cordaCube = { this.state.cordaCubes }/>
+                <SaveSubmitMenu 
+                    moveQueue = { this.props.moveQueue } 
+                    saveMoves = { () => console.log("test") } 
+                    rerenderCube = { () => { 
+                        const selectedCubeState = this.state.cordaCubes.filter(ele => ele.linearId === this.state.selectedCube)
+                        this.props.handleRenderMove(this.renderCubeState(selectedCubeState[0].state))
+                    }}/>
             </div> : <h3 className = "side-nav-element">No Corda Node Connected</h3>
         )
     }
