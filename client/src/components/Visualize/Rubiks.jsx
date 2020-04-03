@@ -84,7 +84,7 @@ class App extends React.Component {
 
     this.moveQueue = new MoveQueue(
       this.state.selectedCube, 
-      move => { 
+      move => {
         this.handleMove(move, this.state.rubiksArray) 
       }
     );
@@ -111,7 +111,6 @@ class App extends React.Component {
 
   // UPDATES CUBE STATE & RENDERS ANIMATION OF STATE CHANGE
   handleMove(magicString, rubiksArray) {
-
     return new Promise((resolve, reject) => {
       this.setState({
         currMove: magicString

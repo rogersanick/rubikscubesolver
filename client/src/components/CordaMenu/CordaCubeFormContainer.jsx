@@ -37,8 +37,8 @@ export default function TransitionsModal(props) {
 
   return (
     <div>
-      <button onClick={handleOpen}>
-        Submit Moves
+      <button className = "draw meet" onClick={handleOpen}>
+        Save
       </button>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -54,8 +54,8 @@ export default function TransitionsModal(props) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Create Cube</h2>
-            <CordaCubeForm onSubmit= { onSubmit }></CordaCubeForm>
+            <h2 id="transition-modal-title">Are you sure?</h2>
+            <CordaCubeForm onSubmit= { onSubmit } moveQueue= { props.moveQueue }></CordaCubeForm>
           </div>
         </Fade>
       </Modal>

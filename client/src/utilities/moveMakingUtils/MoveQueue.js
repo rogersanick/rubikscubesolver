@@ -10,10 +10,10 @@ export default class MoveQueue {
         this.speed = speed > 200 && speed ? speed : 400
 
         this.moveMaker = () => {
-            if (this.getLength()) {
-                this.dequeue()
-            }
             if (this.running) {
+                if (this.getLength()) {
+                    callback(this.dequeue())
+                }
                 setTimeout(() => { this.moveMaker() }, this.speed)
             }
         }
@@ -23,8 +23,9 @@ export default class MoveQueue {
             this.moveMaker()
         }
 
-        this.stop = () => {
+        this.stop = (callback) => {
             this.running = false
+            if (callback) { callback() }
         }
 
         this.enqueue = (move) => {
@@ -41,7 +42,6 @@ export default class MoveQueue {
 
         this.dequeue = () => {
             const returnedMove = this.movesQueued.shift()
-            callback(returnedMove)
             this.movesMade.unshift(returnedMove)
             return returnedMove
         }

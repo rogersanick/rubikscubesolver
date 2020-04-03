@@ -1,18 +1,19 @@
 import React from 'react';
-import MoveQueueVisualizer from '../Visualize/MoveQueueVisualizer.jsx';
+
+import CordaCubeFormContainer from '../CordaMenu/CordaCubeFormContainer.jsx';
 
 function resetMoves(moveQueue, rerenderCube) {
-    moveQueue.stop()
-    moveQueue.movesMade = []
-    moveQueue.movesQueued = []
-    rerenderCube()
-    moveQueue.start()
+    moveQueue.stop(() => {
+        moveQueue.movesMade = []
+        moveQueue.movesQueued = []
+        rerenderCube()
+    })
 }
 
-const SaveSubmitMenu = ({ moveQueue, saveMoves, rerenderCube }) => { 
+const SaveSubmitMenu = ({ moveQueue, rerenderCube }) => { 
     return (
         <div>
-            <button className ="draw meet" onClick = { saveMoves }>Save Moves</button>
+            <CordaCubeFormContainer moveQueue = { moveQueue }/>
             <button className ="draw meet" onClick = { () => { resetMoves(moveQueue, rerenderCube) } }>Reset Moves</button>
         </div>
     )

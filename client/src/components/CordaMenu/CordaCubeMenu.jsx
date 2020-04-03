@@ -79,10 +79,8 @@ export default class CordaCubeDashboard extends React.Component {
                     />)
                 }) : "No cubes to display" }
                 </div>
-                <CordaCubeFormContainer cordaCube = { this.state.cordaCubes }/>
                 <SaveSubmitMenu 
-                    moveQueue = { this.props.moveQueue } 
-                    saveMoves = { () => console.log("test") } 
+                    moveQueue = { this.props.moveQueue }  
                     rerenderCube = { () => { 
                         const selectedCubeState = this.state.cordaCubes.filter(ele => ele.linearId === this.state.selectedCube)
                         this.props.handleRenderMove(this.renderCubeState(selectedCubeState[0].state))
