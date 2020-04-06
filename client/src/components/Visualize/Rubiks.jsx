@@ -9,8 +9,7 @@ import setupKeyListeners from '../../utilities/keyListenUtils/keyListeners.js'
 import cubeUtilities from '../../utilities/cubeBuilderUtils/cubeBuilderUtilities.js'
 import MoveQueue from '../../utilities/moveMakingUtils/MoveQueue.js'
 import MoveQueueVisualizer from './MoveQueueVisualizer.jsx';
-import createRubiksCubeVisualization from './RubiksVisualization.js';
-import SaveSubmitMenu from '../RubiksMenu/SaveSubmitMenu.jsx';
+import rubiksCubeVisualizationFactory from './RubiksVisualization.js';
 
 class App extends React.Component {
 
@@ -78,9 +77,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-
     // Create a visualization of the Rubiks cube
-    createRubiksCubeVisualization.bind(this)()
+    this.rubiksCubeVisualizationFactory = rubiksCubeVisualizationFactory.bind(this)
+    this.rubiksCubeVisualizationFactory()
 
     this.moveQueue = new MoveQueue(
       this.state.selectedCube, 
@@ -102,10 +101,15 @@ class App extends React.Component {
     window.removeEventListener('resize', this.updateWindowDimensions);
   }
 
+  // TODO: This is broken. Visualization does not resize accordingly. Will likely have
+  // to refact rubiksVisualization factory
   updateWindowDimensions() {
     this.setState({ width: window.innerWidth, height: window.innerHeight, rerender: true }, () => {
-      setTimeout((() => {this.setState({rerender: false})}), 800);
-      setTimeout((() => {this.setState({rerender: true})}), 800);
+        this.setState({rerender: false}, () => {
+          setTimeout((() => {
+            this.setState({rerender: true})
+          }), 200)
+        })
     });
   }
 
@@ -405,7 +409,7 @@ class App extends React.Component {
           />
           <MoveQueueVisualizer moveQueue = { this.moveQueue }/>
           <RubiksControllerMenu 
-            moveQueue = { this.moveQueue }
+            moveQueue = { this.moveQueue } 
             rubiksArray = {this.state.rubiksArray} 
             handleSpinY = {this.handleSpinY} 
             handleSpinX = {this.handleSpinX} 
@@ -413,7 +417,6 @@ class App extends React.Component {
             makeItParty = {this.makeItParty}
             handleReset = {this.handleReset} 
             handleResetPosition = {this.handleResetPosition}
-            handleMove = {this.handleMove} 
             handleGetScore = {this.handleGetScore}
             handlePrintState = {this.handlePrintState}
             handleSolver = {this.handleSolver}

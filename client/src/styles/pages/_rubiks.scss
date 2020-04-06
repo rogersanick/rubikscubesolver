@@ -20,7 +20,7 @@ body {
 
 .direction-image {
   display: flex;
-  min-height: 15vh;
+  min-height: 80px;
   align-items: center;
   justify-content: center;
   border: 2px solid $grey;
@@ -58,7 +58,7 @@ body {
 }
 
 .move-queue-visualizer-queue {
-  max-width: 65%;
+  max-width: 90%;
   overflow: scroll;
 }
 

@@ -24,10 +24,12 @@ export default function TransitionsModal(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
+    props.moveQueue.stop()
     setOpen(true);
   };
 
   const handleClose = () => {
+    props.moveQueue.start()
     setOpen(false);
   };
 

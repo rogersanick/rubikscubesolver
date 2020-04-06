@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import stateToCubesMapping from '../../rubiksHelpers/cube-side-mapping.js';
 
-export default function createRubiksCubeVisualization() {
+export default function rubiksCubeVisualizationFactory() {
     // ENABLE THE CANVAS TO RERENDER WHEN ADJUSTING SCREEN SIZE
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
@@ -46,25 +46,24 @@ export default function createRubiksCubeVisualization() {
 
     // CONSTRUCT ALL CUBES USING CUBE COORDINATES IN STATE, STORE REFERENCES IN MEMORY
     for (let cubeNum = 0; cubeNum < 27; cubeNum++) {
-    let aCubeMap = stateToCubesMapping[cubeNum];
-    cubeGeometries[cubeNum] = new THREE.BoxGeometry(0.95, 0.95, 0.95);
-    for ( let i = 0, c = 0; i < cubeGeometries[cubeNum].faces.length; i += 2, c++ ) {
-        let hex;
-        if (!!aCubeMap[c]) {
-        let colorCode = this.state.rubiksArray[aCubeMap[c][0]][aCubeMap[c][1]];
-        hex = this.state.colorCodes[colorCode];
-        } else {
-        hex = '0x000000';
+        let aCubeMap = stateToCubesMapping[cubeNum];
+        cubeGeometries[cubeNum] = new THREE.BoxGeometry(0.95, 0.95, 0.95);
+        for ( let i = 0, c = 0; i < cubeGeometries[cubeNum].faces.length; i += 2, c++ ) {
+            let hex;
+            if (!!aCubeMap[c]) {
+            let colorCode = this.state.rubiksArray[aCubeMap[c][0]][aCubeMap[c][1]];
+            hex = this.state.colorCodes[colorCode];
+            } else {
+            hex = '0x000000';
+            }
+
+            cubeGeometries[cubeNum].faces[i].color.setHex( hex );
+            cubeGeometries[cubeNum].faces[ i + 1 ].color.setHex( hex );
         }
 
-        cubeGeometries[cubeNum].faces[i].color.setHex( hex );
-        cubeGeometries[cubeNum].faces[ i + 1 ].color.setHex( hex );
-    }
+        cubes[cubeNum] = new THREE.Mesh(cubeGeometries[cubeNum], material);
 
-    cubes[cubeNum] = new THREE.Mesh(cubeGeometries[cubeNum], material);
-
-    this.groupCubes.add(cubes[cubeNum]);
-
+        this.groupCubes.add(cubes[cubeNum]);
     }
 
     this.groupCubes.add(groupRotate);

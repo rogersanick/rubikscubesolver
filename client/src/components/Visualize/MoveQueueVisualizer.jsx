@@ -1,7 +1,7 @@
 import React from 'react';
 import Toggle from 'react-toggle';
 import "react-toggle/style.css" 
-import MoveQueue from '../../utilities/moveMakingUtils/MoveQueue';
+import MoveVisualAssist from '../RubiksMenu/MoveVisualAssist.jsx';
 
 export default class MoveQueueVisualizer extends React.Component { 
     constructor(props) {
@@ -23,11 +23,9 @@ export default class MoveQueueVisualizer extends React.Component {
     render() {
         const moveQueue = this.props.moveQueue
         return (
-            <div className="side-nav-element move-queue-visualizer flex-container spread">
-                <div className="move-queue-visualizer-queue">
-                    <div>{ JSON.stringify(moveQueue ? moveQueue.movesQueued : "Initializing...") }</div>
-                    <div>{ JSON.stringify(moveQueue ? moveQueue.movesMade : "Initializing...") }</div>
-                </div>
+        <div className="side-nav-element">
+            <div className ="move-queue-visualizer flex-container spread">
+                <MoveVisualAssist instructionImageCode={ moveQueue ? moveQueue.currMove() : "NONE" }/>
                 <div>
                     <Toggle 
                         checked = { this.state.running } 
@@ -35,6 +33,11 @@ export default class MoveQueueVisualizer extends React.Component {
                     />
                 </div>
             </div>
+            <div className="move-queue-visualizer-queue">
+                <div>{ JSON.stringify(moveQueue ? moveQueue.movesQueued : "Initializing...") }</div>
+                <div>{ JSON.stringify(moveQueue ? moveQueue.movesMade : "Initializing...") }</div>
+            </div>
+        </div>
         )
     }
 

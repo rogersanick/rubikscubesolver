@@ -9,6 +9,16 @@ export default class MoveQueue {
         this.running = true;
         this.speed = speed > 200 && speed ? speed : 400
 
+        this.currMove = () => {
+            if (this.running) {
+                if (this.getLength()) {
+                    return this.movesQueued[0]
+                }
+                return "NONE"
+            }
+            return "NONE"
+        }
+
         this.moveMaker = () => {
             if (this.running) {
                 if (this.getLength()) {
@@ -29,14 +39,16 @@ export default class MoveQueue {
         }
 
         this.enqueue = (move) => {
-            if (Array.isArray(move)) {
-                for (let singleMove of move) {
+            if (this.running) {
+                if (Array.isArray(move)) {
+                    for (let singleMove of move) {
+                        this.maxLength += 1;
+                        this.movesQueued.push(singleMove);
+                    }
+                } else {
                     this.maxLength += 1;
-                    this.movesQueued.push(singleMove);
+                    this.movesQueued.push(move);
                 }
-            } else {
-                this.maxLength += 1;
-                this.movesQueued.push(move);
             }
         }
 

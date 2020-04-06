@@ -54,18 +54,9 @@ export default class CordaCubeDashboard extends React.Component {
     render() {
         const shouldRender = this.state.cordaCubes && this.state.cordaCubes.length > 0
         return (
-            shouldRender ? <div className = "corda-side-nav-element">
+            shouldRender ? <div className = "side-nav-element">
                 <div>Distributed Ledger Cubes</div>
                 <div className = "cube-tile-container">
-                    {/* <CordaCubeTile 
-                        selected = { this.state.selectedCube == "just_for_fun" }
-                        handleClick = { () => { 
-                            this.selectCube("just_for_fun")
-                            this.props.handleRenderMove(this.renderCubeState(this.state.funCube)) 
-                        } }
-                        key = "just_for_fun"
-                        issuer = "Elvis Presley"
-                        linearId = "just_for_fun"/> */}
                     { this.state.cordaCubes ? this.state.cordaCubes.map((cube) => {
                         return (<CordaCubeTile
                             selected = { this.state.selectedCube == cube.linearId }
