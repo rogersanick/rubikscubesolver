@@ -56,7 +56,7 @@ class App extends React.Component {
       globalBestPath: '',
       solved: false,
       party: false,
-      selectedCube: "just_for_fun"
+      selectedCube: null
     };
 
     // FUNCTION BINDINGS
@@ -74,6 +74,7 @@ class App extends React.Component {
     this.handlePrintState = this.handlePrintState.bind(this);
     this.handleSolver = this.handleSolver.bind(this);
     this.makeMove = this.makeMove.bind(this);
+    this.handleSelectCube = this.handleSelectCube.bind(this)
   }
 
   componentDidMount() {
@@ -126,14 +127,6 @@ class App extends React.Component {
         });
       });
       resolve();
-    });
-  }
-
-  handleRenderMove(newRubiksArray) {
-    this.setState({ 
-      rubiksArray: newRubiksArray
-    }, () => {
-      this.handleRenderCubeColorPositions();
     });
   }
 
@@ -329,6 +322,22 @@ class App extends React.Component {
   }
 
   // USER FUNCTIONS START
+  handleSelectCube(cube) {
+    this.setState({
+      selectedCube: cube.linearId,
+    }, () => {
+      this.handleRenderMove(cube.state)
+      this.handleResetPosition();
+    })
+  }
+
+  handleRenderMove(newRubiksArray) {
+    this.setState({ 
+      rubiksArray: newRubiksArray
+    }, () => {
+      this.handleRenderCubeColorPositions();
+    });
+  }
 
   // TOGGLE ANIMATION BOOLEANS TO MAKE IT PARTY
   handleToggleParty() {
@@ -402,7 +411,9 @@ class App extends React.Component {
           <RubiksCube width = {this.state.width * 0.7} height = {this.state.height} rerender = {this.state.rerender}/>
         </div>
         <div className = "side-nav">
-          <CordaCubeDashboard 
+          <CordaCubeDashboard
+            handleSelectCube = { this.handleSelectCube }
+            selectedCube = { this.state.selectedCube } 
             handleRenderMove = { this.handleRenderMove }
             moveQueue = { this.moveQueue } 
             rerenderCube = { this.forceUpdate.bind(this) }

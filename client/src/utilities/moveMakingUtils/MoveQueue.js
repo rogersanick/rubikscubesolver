@@ -1,6 +1,6 @@
 // CONSTUCT MOVE QUEUE FOR MAKING MOVES
 export default class MoveQueue {
-    constructor(cubeId, callback, speed) {
+    constructor(cubeId, handleMoveCallback, speed) {
         this.cubeId = cubeId
         this.speed = speed
         this.maxLength = 0;
@@ -22,7 +22,7 @@ export default class MoveQueue {
         this.moveMaker = () => {
             if (this.running) {
                 if (this.getLength()) {
-                    callback(this.dequeue())
+                    handleMoveCallback(this.dequeue())
                 }
                 setTimeout(() => { this.moveMaker() }, this.speed)
             }
@@ -64,6 +64,14 @@ export default class MoveQueue {
 
         this.getMaxLength = () => {
             return this.maxLength;
+        }
+
+        this.reset = (callback) => {
+            this.stop(() => {
+                this.movesMade = []
+                this.movesQueued = []
+                if (callback) callback()
+            })
         }
     }
 }

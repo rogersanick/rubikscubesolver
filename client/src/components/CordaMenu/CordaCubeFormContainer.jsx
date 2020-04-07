@@ -4,6 +4,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import CordaCubeForm from './CordaCubeForm.jsx';
+import Axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -33,8 +34,16 @@ export default function TransitionsModal(props) {
     setOpen(false);
   };
 
-  const onSubmit = (data) => {
-    console.log(data)
+  const onSubmit = () => {
+    console.log(props.moveQueue.movesMade)
+    Axios.post("http://localhost:10050/api/cube", {
+      cubeId: props.selectedCube,
+      moves: props.moveQueue.movesMade
+    }).then(res => { 
+      console.log(res)
+      props.moveQueue.reset()
+      handleClose() 
+    }).catch(err => console.log(err))
   }
 
   return (
@@ -57,7 +66,10 @@ export default function TransitionsModal(props) {
         <Fade in={open}>
           <div className={classes.paper}>
             <h2 id="transition-modal-title">Are you sure?</h2>
-            <CordaCubeForm onSubmit= { onSubmit } moveQueue= { props.moveQueue }></CordaCubeForm>
+            <CordaCubeForm 
+              onSubmit= { onSubmit } 
+              moveQueue= { props.moveQueue }
+              selectedCube = { props.selectedCube }/>
           </div>
         </Fade>
       </Modal>
