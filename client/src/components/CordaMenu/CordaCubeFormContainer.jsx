@@ -38,7 +38,7 @@ export default function TransitionsModal(props) {
     console.log(props.moveQueue.movesMade)
     Axios.post("http://localhost:10050/api/cube", {
       cubeId: props.selectedCube,
-      moves: props.moveQueue.movesMade
+      moves: props.moveQueue.movesMade.reverse()
     }).then(res => { 
       console.log(res)
       props.moveQueue.reset()

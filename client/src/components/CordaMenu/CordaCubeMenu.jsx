@@ -12,6 +12,10 @@ export default class CordaCubeDashboard extends React.Component {
     }
 
     componentDidMount() {
+        this.retrieveCubes()
+    }
+
+    retrieveCubes() {
         axios.get("http://localhost:10050/api/cube").then((result) => {
             result.data.forEach((cube) => {
                 cube.state = this.renderCubeState(cube.state)
@@ -24,7 +28,14 @@ export default class CordaCubeDashboard extends React.Component {
         }).catch(err => console.log(err))
     }
 
+    handleDelete(cubeId) {
+        axios.delete("http://localhost:10050/api/cube" + "/" + cubeId).then((result) => {
+            this.retrieveCubes()
+        }).catch(err => console.log(err))
+    }
+
     renderCubeState(cubeState) {
+        console.log(cubeState)
         const translatedCubeState = []
         for (const face in cubeState) {
             const translatedFaceState = []
@@ -33,6 +44,7 @@ export default class CordaCubeDashboard extends React.Component {
             }
             translatedCubeState.push(translatedFaceState)
         }
+        console.log(translatedCubeState)
         return translatedCubeState
     }
 
@@ -45,6 +57,7 @@ export default class CordaCubeDashboard extends React.Component {
                 <div className = "cube-tile-container">
                     { this.state.cordaCubes ? this.state.cordaCubes.map((cube) => {
                         return (<CordaCubeTile
+                            handleDelete = { (cubeId) => this.handleDelete(cubeId) }
                             selected = { this.props.selectedCube == cube.linearId }
                             handleClick = { () => { 
                                 this.props.handleSelectCube(cube)
@@ -52,7 +65,7 @@ export default class CordaCubeDashboard extends React.Component {
                             } }
                             key = {cube.linearId}
                             issuer = {cube.issuer}
-                            linearId = {cube.linearId.slice(0, 6)}/>)}) : "No cubes to display" }
+                            linearId = {cube.linearId}/>)}) : "No cubes to display" }
                 </div>
                 <SaveSubmitMenu
                     selectedCube = { this.props.selectedCube }

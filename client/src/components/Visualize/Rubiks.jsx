@@ -323,12 +323,16 @@ class App extends React.Component {
 
   // USER FUNCTIONS START
   handleSelectCube(cube) {
-    this.setState({
-      selectedCube: cube.linearId,
-    }, () => {
-      this.handleRenderMove(cube.state)
-      this.handleResetPosition();
-    })
+    if (cube !== null) {
+      this.setState({
+        selectedCube: cube.linearId,
+      }, () => {
+        this.handleRenderMove(cube.state)
+        this.handleResetPosition();
+      })
+    } else {
+        this.handleReset()
+    }
   }
 
   handleRenderMove(newRubiksArray) {
