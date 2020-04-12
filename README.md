@@ -1,10 +1,6 @@
 # Distributed Ledger Cube (DLC)
 
-Distributed Ledger Cube is an interactive visualization of a Rubik's cube puzzle. Users can view and interact with a fully functioning model of a Rubik's cube. Next up on the project roadmap is to enable users to store value or data inside of a Rubik's puzzle and send it to their friends. 
-
-Recipients can only unlock that data once they solved the puzzle! 
-
-Check it out at http://rubiks-visualizer.herokuapp.com/
+Distributed Ledger Cube is an interactive visualization of a Rubik's cube puzzle and demonstration of the flexibility of Distributed Ledger Technology (DLT). Users can create, view and interact with fully functioning 3D models of a Rubik's cube. They may also persist the state of a given Rubik's Cube on-chain to collaborate in solving with any number of counterparties on the network.
 
 ## Getting Started
 
@@ -21,7 +17,6 @@ These instructions will get you a copy of the project up and running on your loc
 ```
 Node (>9.8.0)
 Web-browser (Chrome preferred, limited testing on alternative browsers)
-
 ```
 
 ## Authors
@@ -31,8 +26,3 @@ Web-browser (Chrome preferred, limited testing on alternative browsers)
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Thank you to Laurents Mohr for CSS inspiration and coaching - [laurentsmohr](https://github.com/laurentsmohr)
-* Thank you to Phil Gonzalez for input and perspective on solver - [p-gonzo](https://github.com/p-gonzo)

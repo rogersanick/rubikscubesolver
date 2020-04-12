@@ -36,8 +36,32 @@ class ControllerMenu extends React.Component {
   }
 
   render() {
-    return (
+    return this.state.settingsOpen ? 
+    <div className = "side-nav-element"> 
+      <h2 className = "menu-title">Setting + Extras</h2>
+      <div className = "button-category">
+        <button className = "draw meet" onClick = {() => this.props.handlePrintState(this.props.rubiksArray)}>Print State</button>
+        <button className = "draw meet" onClick = {() => this.props.handleGetScore(this.props.rubiksArray)}>Get Score</button>
+      </div>
+      <div className = "button-category">
+        <button className = "draw meet" onMouseEnter = {() => {this.handleImageChange('shuffle')}} onMouseLeave = {() => {this.handleImageChange()}} onClick = {() => this.shuffle()}>Shuffle</button>
+      </div>
+      <div className = "button-category">
+        <button className = "draw meet" onClick = {() => this.props.handleSolver()}>Solve</button>
+      </div>
+      <div className = "button-category"> 
+        <button className = "draw meet" onClick = {() => this.props.handleReset()}>Reset</button>
+        <button className = "draw meet" onClick = {() => this.props.handleResetPosition()}>Reset Position</button>
+      </div>
+      <div className = "button-category"> 
+        <button className = "draw meet" onClick = {() => this.props.handleToggleParty()}>Party Cube</button>
+      </div>
+      <div className = "button-category"> 
+        <img onClick = {() => {this.handleOpenSettings()}} className = "button-settings" src={require(`../../images/settings_grey.png`)} alt="settings"/>
+      </div>
+    </div> :
     <div className = "side-nav-element">
+      <h2 className = "menu-title">Cube Controller</h2>
       <MoveVisualAssist instructionImageCode = { this.state.instructionImageCode }/>
       <div className = "button-category">
         <button className = "draw meet" onMouseEnter = {() => {this.handleImageChange('F')}} onMouseLeave = {() => {this.handleImageChange()}} onClick = {() => this.props.moveQueue.enqueue('F')}>Front (F)</button>
@@ -66,27 +90,7 @@ class ControllerMenu extends React.Component {
       <div className = "button-category"> 
         <img onClick = {() => {this.handleOpenSettings()}} className = "button-settings" src={require(`../../images/settings_grey.png`)} alt="settings"/>
       </div>
-      {this.state.settingsOpen ? <div> 
-        <div className = "button-category">
-          <button className = "draw meet" onClick = {() => this.props.handlePrintState(this.props.rubiksArray)}>Print State</button>
-          <button className = "draw meet" onClick = {() => this.props.handleGetScore(this.props.rubiksArray)}>Get Score</button>
-        </div>
-        <div className = "button-category">
-          <button className = "draw meet" onMouseEnter = {() => {this.handleImageChange('shuffle')}} onMouseLeave = {() => {this.handleImageChange()}} onClick = {() => this.shuffle()}>Shuffle</button>
-        </div>
-        <div className = "button-category">
-          <button className = "draw meet" onClick = {() => this.props.handleSolver()}>Solve</button>
-        </div>
-        <div className = "button-category"> 
-          <button className = "draw meet" onClick = {() => this.props.handleReset()}>Reset</button>
-          <button className = "draw meet" onClick = {() => this.props.handleResetPosition()}>Reset Position</button>
-        </div>
-        <div className = "button-category"> 
-          <button className = "draw meet" onClick = {() => this.props.handleToggleParty()}>Party Cube</button>
-        </div>
-      </div> : ''}
     </div>
-    );
   }
 }
 

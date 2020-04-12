@@ -24,6 +24,7 @@ export default class MoveQueueVisualizer extends React.Component {
         const moveQueue = this.props.moveQueue
         return (
         <div className="side-nav-element">
+            <h2 className ="menu-title">Move Queue</h2>
             <div className ="move-queue-visualizer flex-container spread">
                 <MoveVisualAssist instructionImageCode={ moveQueue ? moveQueue.currMove() : "NONE" }/>
                 <div>

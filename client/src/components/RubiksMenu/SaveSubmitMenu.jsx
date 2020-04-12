@@ -2,14 +2,15 @@ import React from 'react';
 
 import CordaCubeFormContainer from '../CordaMenu/CordaCubeFormContainer.jsx';
 
-const SaveSubmitMenu = ({ moveQueue, rerenderCube, selectedCube }) => { 
+const SaveSubmitMenu = ({ moveQueue, rerenderCube, selectedCube, retrieveCubes }) => { 
     return (
-        <div>
+        <div className ="button-category">
+            <button className ="draw meet" onClick = { () => { retrieveCubes() } }>Refresh</button>
             <CordaCubeFormContainer 
                 resetMoveQueue = { () => moveQueue.reset() }
                 selectedCube = { selectedCube } 
                 moveQueue = { moveQueue }/>
-            <button className ="draw meet" onClick = { () => { moveQueue.reset(rerenderCube) } }>Reset Moves</button>
+            <button className ="draw meet" onClick = { () => { moveQueue.reset(rerenderCube) } }>Reset</button>
         </div>
     )
 }
