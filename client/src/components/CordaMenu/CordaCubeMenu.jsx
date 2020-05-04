@@ -3,7 +3,9 @@ import axios from 'axios';
 import CordaCubeTile from './CordaCubeTile.jsx';
 import SaveSubmitMenu from '../RubiksMenu/SaveSubmitMenu.jsx';
 import CordaInitializer from './CordaInitializer.jsx';
-import CordaNodeConnectionMessage from './CordaNodeConnectionMessage.jsx'
+import CordaNodeConnectionMessage from './CordaNodeConnectionMessage.jsx';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ErrorIcon from '@material-ui/icons/Error';
 
 export default class CordaCubeDashboard extends React.Component {
     constructor(props) {
@@ -36,7 +38,9 @@ export default class CordaCubeDashboard extends React.Component {
                         connected: true,
                         connectionMessageOpen: true
                     }, () => {
-                        this.props.handleSelectCube(result.data[0] ? result.data[0] : null)
+                        if (result.data.length !== 0) { 
+                            this.props.handleSelectCube(result.data[0])
+                        } 
                     })
                 }, 2000)
             }).catch(err => { 
@@ -79,7 +83,10 @@ export default class CordaCubeDashboard extends React.Component {
             this.state.connected ? 
                 // If successfully connected, return the full menu
                 <div className = "side-nav-element">
-                    <h2 className ="menu-title">Cube Menu</h2>
+                    <div className ="flex-container spread corda-underline">
+                        <h2 className ="menu-title">Cube Menu</h2>
+                        { this.state.loading ? null : <CheckCircleIcon color = "action"/> }
+                    </div>
                     <div className = "cube-tile-container">
                         { this.state.cordaCubes && !this.state.loading ? this.state.cordaCubes.map((cube) => {
                             return (<CordaCubeTile
@@ -102,7 +109,7 @@ export default class CordaCubeDashboard extends React.Component {
                             this.props.handleRenderMove(this.renderCubeState(selectedCubeState[0].state))
                             
                     }}/> : null }
-                    { this.state.cordaCubes.length == 0 ? <CordaInitializer 
+                    { this.state.cordaCubes.length == 0 || this.state.loading ? <CordaInitializer 
                             loading = {this.state.loading} 
                             buttonMessage = "Refresh" 
                             message = "No active corda cubes found." 
@@ -117,7 +124,10 @@ export default class CordaCubeDashboard extends React.Component {
                 </div> : 
                 // If not connect, display the error message to the user
                 <div className = "side-nav-element">
-                    <h2 className ="menu-title">Cube Menu</h2>
+                    <div className ="flex-container spread corda-underline">
+                        <h2 className ="menu-title">Cube Menu</h2>
+                        { this.state.loading ? null : <ErrorIcon color="error"/> }
+                    </div>
                     <CordaInitializer 
                         loading = { this.state.loading } 
                         message = "Unable to connect to Corda node"

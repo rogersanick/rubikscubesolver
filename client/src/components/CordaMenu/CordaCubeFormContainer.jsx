@@ -35,21 +35,19 @@ export default function TransitionsModal(props) {
   };
 
   const onSubmit = () => {
-    console.log(props.moveQueue.movesMade)
     Axios.post("http://localhost:10050/api/cube", {
       cubeId: props.selectedCube,
-      moves: props.moveQueue.movesMade.reverse()
+      moves: props.moveQueue.movesMade.map(ele => ele).reverse()
     }).then(res => { 
-      console.log(res)
-      props.moveQueue.reset()
       handleClose() 
+      props.moveQueue.reset()
     }).catch(err => console.log(err))
   }
 
   return (
     <div>
       <button className = "draw meet" onClick={handleOpen}>
-        Save
+        {props.buttonMessage}
       </button>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -65,7 +63,10 @@ export default function TransitionsModal(props) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Are you sure?</h2>
+            <div className ="flex-container spread corda-underline">
+              <h2 className ="menu-title">{props.formTitle}</h2>
+            </div>
+            {props.formToRender}
             <CordaCubeForm 
               onSubmit= { onSubmit } 
               moveQueue= { props.moveQueue }

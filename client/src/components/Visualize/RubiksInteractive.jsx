@@ -56,7 +56,7 @@ class App extends React.Component {
       globalBestPath: '',
       solved: false,
       party: false,
-      selectedCube: null
+      selectedCube: "JUST_FOR_FUN"
     };
 
     // FUNCTION BINDINGS
@@ -75,6 +75,7 @@ class App extends React.Component {
     this.handleSolver = this.handleSolver.bind(this);
     this.makeMove = this.makeMove.bind(this);
     this.handleSelectCube = this.handleSelectCube.bind(this)
+    this.setupKeyListeners = setupKeyListeners.bind(this)
   }
 
   componentDidMount() {
@@ -82,17 +83,19 @@ class App extends React.Component {
     this.rubiksCubeVisualizationFactory = rubiksCubeVisualizationFactory.bind(this)
     this.rubiksCubeVisualizationFactory()
 
-    this.moveQueue = new MoveQueue(
-      this.state.selectedCube, 
-      move => {
-        this.handleMove(move, this.state.rubiksArray) 
-      }
-    );
+    this.moveQueueStorage = {
+      [this.state.selectedCube] : new MoveQueue(
+        this.state.selectedCube, 
+        move => {
+          this.handleMove(move, this.state.rubiksArray) 
+        })
+    };
+    this.moveQueue = this.moveQueueStorage[this.state.selectedCube]
     this.start()
     this.moveQueue.start()
 
     // SETUP KEY LISTENERS
-    setupKeyListeners.bind(this)(document, (state) => this.setState(state), this.moveQueue)
+    this.setupKeyListeners(document, (state) => this.setState(state), this.moveQueue)
   }
 
   // WINDOW RESIZING START
@@ -272,7 +275,6 @@ class App extends React.Component {
   }
 
   animate() {
-    
     this.renderScene();
     this.frameId = window.requestAnimationFrame(this.animate);
 
@@ -323,10 +325,23 @@ class App extends React.Component {
 
   // USER FUNCTIONS START
   handleSelectCube(cube) {
+    // Create a move queue for the loaded cube if none exists
+    if (!this.moveQueueStorage[cube.linearId]) {
+      this.moveQueueStorage[cube.linearId] = new MoveQueue(
+        cube.linearId, 
+        move => {
+          this.handleMove(move, this.state.rubiksArray) 
+        })
+    }
+
+    // Select the new cube, stop of the old move queue, select the new move queue
     if (cube !== null) {
       this.setState({
         selectedCube: cube.linearId,
       }, () => {
+        this.moveQueue.stop()
+        this.moveQueue = this.moveQueueStorage[cube.linearId]
+        this.setupKeyListeners(document, (state) => this.setState(state), this.moveQueue)
         this.handleRenderMove(cube.state)
         this.handleResetPosition();
       })
@@ -422,7 +437,9 @@ class App extends React.Component {
             moveQueue = { this.moveQueue } 
             rerenderCube = { this.forceUpdate.bind(this) }
           />
-          <MoveQueueVisualizer moveQueue = { this.moveQueue }/>
+          <MoveQueueVisualizer 
+            selectedCube = { this.state.selectedCube }
+            moveQueueStorage = { this.moveQueueStorage }/>
           <RubiksControllerMenu 
             moveQueue = { this.moveQueue } 
             rubiksArray = {this.state.rubiksArray} 

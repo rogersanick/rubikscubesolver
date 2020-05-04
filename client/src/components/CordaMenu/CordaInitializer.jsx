@@ -1,13 +1,13 @@
 import React from 'react';
-import { css } from "@emotion/core";
-import { PacmanLoader } from 'react-spinners'
+import CordaCubeFormContainer from './CordaCubeFormContainer.jsx'
+import { BarLoader } from 'react-spinners'
 
 
 const CordaInitializer = ({ message, loading, attemptConnect, buttonMessage, enableAdd }) => { 
     return (
         loading ? 
         <div className ="cube-initialize">
-            <PacmanLoader color={"#ec1d24"} size={15}/> : 
+            <BarLoader color={"#ec1d24"} size={15}/> : 
         </div> :
         <div className ="cube-initialize">
             <div className="cube-initialize-loader">

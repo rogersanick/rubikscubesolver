@@ -31,10 +31,14 @@ export default class MoveQueue {
         this.start = () => {
             this.running = true
             this.moveMaker()
+            if (this.visualizer) { this.visualizer.forceUpdate() }
         }
 
         this.stop = (callback) => {
             this.running = false
+            if (this.visualizer) {
+                this.visualizer.forceUpdate() 
+            }
             if (callback) { callback() }
         }
 

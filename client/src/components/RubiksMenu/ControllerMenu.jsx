@@ -37,8 +37,10 @@ class ControllerMenu extends React.Component {
 
   render() {
     return this.state.settingsOpen ? 
-    <div className = "side-nav-element"> 
-      <h2 className = "menu-title">Setting + Extras</h2>
+    <div className = "side-nav-element">
+      <div className ="flex-container spread corda-underline">
+        <h2 className = "menu-title">Setting + Extras</h2>
+      </div>
       <div className = "button-category">
         <button className = "draw meet" onClick = {() => this.props.handlePrintState(this.props.rubiksArray)}>Print State</button>
         <button className = "draw meet" onClick = {() => this.props.handleGetScore(this.props.rubiksArray)}>Get Score</button>
@@ -61,7 +63,9 @@ class ControllerMenu extends React.Component {
       </div>
     </div> :
     <div className = "side-nav-element">
-      <h2 className = "menu-title">Cube Controller</h2>
+      <div className ="flex-container spread corda-underline">
+        <h2 className = "menu-title">Cube Controller</h2>
+      </div>
       <MoveVisualAssist instructionImageCode = { this.state.instructionImageCode }/>
       <div className = "button-category">
         <button className = "draw meet" onMouseEnter = {() => {this.handleImageChange('F')}} onMouseLeave = {() => {this.handleImageChange()}} onClick = {() => this.props.moveQueue.enqueue('F')}>Front (F)</button>

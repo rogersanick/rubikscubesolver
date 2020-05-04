@@ -6,38 +6,34 @@ import MoveVisualAssist from '../RubiksMenu/MoveVisualAssist.jsx';
 export default class MoveQueueVisualizer extends React.Component { 
     constructor(props) {
         super(props)
-        this.state = {
-            running: true
-        }
         this.handleToggle = this.handleToggle.bind(this)
     }
 
     handleToggle() {
-        console.log("test")
-        this.state.running ? this.props.moveQueue.stop() : this.props.moveQueue.start()
-        this.setState({
-            running: !this.state.running
-        })
+        const moveQueue = this.props.moveQueueStorage[this.props.selectedCube]
+        moveQueue.running ? moveQueue.stop() : moveQueue.start()
     }
 
     render() {
-        const moveQueue = this.props.moveQueue
+        const moveQueue = this.props.moveQueueStorage ? this.props.moveQueueStorage[this.props.selectedCube] : null
+        if (moveQueue) { moveQueue.visualizer = this }
         return (
         <div className="side-nav-element">
-            <h2 className ="menu-title">Move Queue</h2>
+            <div className ="move-queue-visualizer flex-container spread corda-underline">
+                <h2 className ="menu-title">Move Queue</h2>
+                <Toggle 
+                    checked = { moveQueue ? moveQueue.running : false } 
+                    onChange= { this.handleToggle }
+                />
+            </div>
             <div className ="move-queue-visualizer flex-container spread">
                 <MoveVisualAssist instructionImageCode={ moveQueue ? moveQueue.currMove() : "NONE" }/>
-                <div>
-                    <Toggle 
-                        checked = { this.state.running } 
-                        onChange= { this.handleToggle }
-                    />
+                <div className="move-queue-visualizer-queue">
+                    <div>{ JSON.stringify(moveQueue ? moveQueue.movesQueued : "Initializing...") }</div>
+                    <div>{ JSON.stringify(moveQueue ? moveQueue.movesMade : "Initializing...") }</div>
                 </div>
             </div>
-            <div className="move-queue-visualizer-queue">
-                <div>{ JSON.stringify(moveQueue ? moveQueue.movesQueued : "Initializing...") }</div>
-                <div>{ JSON.stringify(moveQueue ? moveQueue.movesMade : "Initializing...") }</div>
-            </div>
+
         </div>
         )
     }

@@ -1,13 +1,13 @@
 import * as THREE from 'three';
 import stateToCubesMapping from '../../rubiksHelpers/cube-side-mapping.js';
 
-export default function rubiksCubeVisualizationFactory() {
+export default function rubiksCubeVisualizationFactory(noInteract) {
     // ENABLE THE CANVAS TO RERENDER WHEN ADJUSTING SCREEN SIZE
-    this.updateWindowDimensions();
+    if (this.updateWindowDimensions) { this.updateWindowDimensions() };
     window.addEventListener('resize', this.updateWindowDimensions);
 
     const width = this.mount.clientWidth;
-    const height = this.mount.clientHeight;
+    const height = this.mount.clientHeight
 
     // CREATE A NEW 3D SCENE
     const scene = new THREE.Scene();
@@ -21,13 +21,17 @@ export default function rubiksCubeVisualizationFactory() {
     );
 
     // ADJUST CAMERA POSITION FOR BETTER VIEWING
-    camera.position.z = 10
-    camera.position.y = 3
+    camera.position.z = noInteract ? 15: 10
+    camera.position.y = noInteract ? 0 : 3
     var cameraRotation = new THREE.Quaternion(this.state.camX, this.state.camY, this.state.camZ, this.state.camW);
     camera.setRotationFromQuaternion(cameraRotation);
+    if (noInteract) { camera.fov = camera.fov * 0.3 };
+    camera.updateProjectionMatrix();
 
     // DEFINE CONSTRUCTOR MATERIAL FOR INDIVIDUAL CUBES
-    const renderer = new THREE.WebGLRenderer({ antialias: true })
+    const config = { antialias: true }
+    if (noInteract) { config.alpha = true }
+    const renderer = new THREE.WebGLRenderer(config)
     const material = new THREE.MeshBasicMaterial({ color:0xffffff, vertexColors: THREE.FaceColors})
 
     // CREATE A GROUP FOR ALL CUBES
@@ -77,7 +81,7 @@ export default function rubiksCubeVisualizationFactory() {
     scene.add(this.groupCubes);
 
     // SET INITIAL ROTATION FOR AESTHETICS
-    this.groupCubes.rotation.x = 0.25;
+    this.groupCubes.rotation.x = noInteract ? 0.4 : 0.25;
     this.groupCubes.rotation.y = 0.75;
     renderer.setSize(width, height)
 

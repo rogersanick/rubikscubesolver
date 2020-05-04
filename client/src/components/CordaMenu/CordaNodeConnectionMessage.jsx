@@ -21,7 +21,7 @@ export default function CordaNodeConnectionMessage(props) {
 
   return (
     <div className={classes.root}>
-      <Snackbar open={props.open} autoHideDuration={6000} onClose={props.handleClose}>
+      <Snackbar open={props.open} autoHideDuration={3500} onClose={props.handleClose}>
         <Alert onClose={props.handleClose} severity={ props.connected ? "success" : "error" }>
           { props.connected ? "Connected" : "Failed to connect" }
         </Alert>

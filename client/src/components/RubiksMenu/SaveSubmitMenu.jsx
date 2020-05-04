@@ -6,7 +6,9 @@ const SaveSubmitMenu = ({ moveQueue, rerenderCube, selectedCube, retrieveCubes }
     return (
         <div className ="button-category">
             <button className ="draw meet" onClick = { () => { retrieveCubes() } }>Refresh</button>
-            <CordaCubeFormContainer 
+            <CordaCubeFormContainer
+                buttonMessage = "Save"
+                formTitle = "Are you sure?"
                 resetMoveQueue = { () => moveQueue.reset() }
                 selectedCube = { selectedCube } 
                 moveQueue = { moveQueue }/>

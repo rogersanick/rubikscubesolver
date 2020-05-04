@@ -7,7 +7,7 @@
 }
 
 html {
-  font-size: 62.5%; /* Setting the root font size. Now we can use rem instead of px to relate to this and if we want to change font size, e.g. in media queries, we only need to change it at on place (10px is a great value because then 1rem equals 10px) */
+  font-size: 65%; /* Setting the root font size. Now we can use rem instead of px to relate to this and if we want to change font size, e.g. in media queries, we only need to change it at on place (10px is a great value because then 1rem equals 10px) */
   /* we changed the 10px to 62.5% which equals 10px in default cases, but scales if user has set default browser settings */
 }
 

@@ -24,7 +24,7 @@ body {
 
 .direction-image {
   display: flex;
-  min-height: 80px;
+  min-height: 85px;
   align-items: center;
   justify-content: center;
   border: 2px solid $grey;
@@ -49,11 +49,15 @@ body {
   padding: 0 1rem 0 1rem;
   border-left: 5px solid $grey;
   margin: 2rem 0.5rem 2.5rem 1rem;
-  overflow: scroll;
   transition: 0.5s ease-out;
 }
 
 .menu-title {
+  width: 85%;
+}
+
+.corda-underline {
+  padding-bottom: 2px;
   border-bottom: 2px solid $cordaRed;
 }
 
@@ -68,8 +72,12 @@ body {
 }
 
 .move-queue-visualizer-queue {
-  max-width: 90%;
+  width: 90%;
+  margin: 0.5rem;
+  margin-left: 1.5rem;
   overflow: scroll;
+  font-size: 120%;
+  line-height: 2.3;
 }
 
 .corda-side-nav-title {
@@ -84,6 +92,10 @@ body {
 
   &.spread {
     justify-content: space-between;
+  }
+
+  &.column {
+    flex-direction: column;
   }
 }
 
@@ -234,7 +246,7 @@ button.draw, .answer.draw {
 .corda-cube-tile {
   max-height: 60%;
   width: 30%;
-  margin: 0.1rem;
+  margin: 0.4rem;
   padding: 0.5rem;
   border: 2px solid #a1a1a1;
 }
@@ -254,4 +266,9 @@ button.draw, .answer.draw {
 
 .cube-initialize-loader {
   margin-right: 40px;
+}
+
+.MuiAlert-message {
+  display: flex;
+  align-items: center;
 }
